@@ -1,5 +1,6 @@
 import Head from "next/head";
 import ItemCard from "../../components/itemCard";
+import OwnerCard from "../../components/ownerCard";
 import MainLayout from "../../layout/mainLayout";
 
 export default function DaftarJual() {
@@ -15,14 +16,7 @@ export default function DaftarJual() {
         <div className="p-2">
           <h1 className="mx-auto">Daftar Jual Saya</h1>
 
-          <div className="card d-flex flex-row p-2">
-            <img src="pp.jpg" alt="pp" />
-            <div className="flex-fill">
-              <h3>Nama Penjual</h3>
-              <p>Kota</p>
-            </div>
-            <button>Edit</button>
-          </div>
+          <OwnerCard foto="foto" fotoalt="fotoalt" isOwner={true} nama="Lorem" kota="ipsum"/>
         </div>
 
         <div className="container-fluid">
