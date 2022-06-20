@@ -21,7 +21,7 @@ function OwnerCard({ foto, fotoalt, nama, kota, isOwner }) {
       </div>
       {isOwner && 
       <div className="d-flex align-items-center">
-      <MainButton text="Edit"/>
+      <MainButton className="d-flex align-items-center px-3 py-1 gap-2" text="Edit" rad="8"/>
       </div>}
     </div>
   );

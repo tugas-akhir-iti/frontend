@@ -1,14 +1,15 @@
 import React from "react";
 
-function MainButton({ text }) {
+function MainButton({ className,text, rad }) {
   return (
     <button
-      className="d-flex align-items-center rounded px-3 py-1 gap-2"
+      className={className}
       style={{
         color: "black",
         border: "1px",
         borderStyle: "solid",
         borderWidth: "2px",
+        borderRadius: `${rad}px`,
         borderColor: "var(--purple)",
       }}
     >

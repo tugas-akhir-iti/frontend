@@ -14,8 +14,8 @@ export default function DaftarJual() {
       </Head>
 
       <MainLayout>
-        <div className="p-2">
-          <h1 className="mx-auto">Daftar Jual Saya</h1>
+        <div className="p-2 d-flex flex-column gap-2">
+          <h1 className="">Daftar Jual Saya</h1>
 
           <OwnerCard
             foto="dummypp.jpg"
@@ -26,15 +26,15 @@ export default function DaftarJual() {
           />
         </div>
 
-        <div className="container-fluid p-0 ">
+        <div className="container-fluid px-0 py-2 ">
           <div className="container-fluid p-0">
             <div
-              className="overflow-auto d-flex gap-2"
+              className="overflow-auto d-flex gap-2 px-2"
               style={{ whiteSpace: "nowrap" }}
             >
-              <CategoryCard icon="box" text="Tambah" />
-              <CategoryCard icon="heart" text="Diminati" />
-              <CategoryCard icon="currency-dollar" text="Terjual" />
+              <CategoryCard icon="box" text="Tambah" rad="8"/>
+              <CategoryCard icon="heart" text="Diminati" rad="8"/>
+              <CategoryCard icon="currency-dollar" text="Terjual" rad="8"/>
             </div>
           </div>
 
