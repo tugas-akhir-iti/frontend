@@ -60,7 +60,10 @@ export default function Home() {
           </div>
 
         </div>
+
       </div>
+
+
 
       <div className="row">
         <div className="col-10 offset-1 mt-4">
@@ -209,9 +212,6 @@ export default function Home() {
                 </div>
               </div>
             </div>
-
-
-
           </div>
         </div>
       </div>

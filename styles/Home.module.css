@@ -125,6 +125,7 @@
   transition: 0.3s; 
 }
 
+
 .searchForm{
   width: 100%;
 }
@@ -164,7 +165,8 @@
 }
 
 .colorbtn a{
-  background-color:indigo;
+  background: #E2D4F0;
+  border-radius: 12px;
 }
 
 .btnMasuk{
@@ -184,10 +186,13 @@
   /* position: absolute; */
   width: 115px;
   height: 42px;
-  left: 670px;
+  left: 50%;
+  right: 50%;
   position: fixed;
   bottom: 15px;
 
 }
+
+
 
  
