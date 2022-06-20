@@ -1,3 +1,7 @@
+:root {
+  --purple: #7126B5;
+}
+
 html,
 body {
   padding: 0;
@@ -18,3 +22,4 @@ a {
 button {
   all:unset
 }
+

@@ -18,7 +18,7 @@ export default function DaftarJual() {
           <h1 className="mx-auto">Daftar Jual Saya</h1>
 
           <OwnerCard
-            foto="foto"
+            foto="dummypp.jpg"
             fotoalt="fotoalt"
             isOwner={true}
             nama="Lorem"
@@ -28,10 +28,13 @@ export default function DaftarJual() {
 
         <div className="container-fluid p-0 ">
           <div className="container-fluid p-0">
-            <div className="overflow-auto d-flex gap-2" style={{whiteSpace: "nowrap"}}>
-              <CategoryCard icon="box" text="Tambah"/>
-              <CategoryCard icon="heart" text="Diminati"/>
-              <CategoryCard icon="currency-dollar" text="Terjual"/>
+            <div
+              className="overflow-auto d-flex gap-2"
+              style={{ whiteSpace: "nowrap" }}
+            >
+              <CategoryCard icon="box" text="Tambah" />
+              <CategoryCard icon="heart" text="Diminati" />
+              <CategoryCard icon="currency-dollar" text="Terjual" />
             </div>
           </div>
 
