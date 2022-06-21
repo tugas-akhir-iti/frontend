@@ -1,9 +1,9 @@
 import React from "react";
 
-function CategoryCard({ text, icon, rad }) {
+function CategoryCard({className, text, icon, rad }) {
   return (
     <button
-      className="d-flex align-items-center px-3 py-1 gap-2"
+      className={className}
       style={{
         color: "white",
         backgroundColor: "var(--purple)",
@@ -11,7 +11,7 @@ function CategoryCard({ text, icon, rad }) {
       }}
     >
       <i className={`bi bi-${icon} mx-auto`} style={{ fontSize: "1.5rem" }}></i>
-      <p className="m-0">{text}</p>
+      <p className="m-0 text-center">{text}</p>
     </button>
   );
 }

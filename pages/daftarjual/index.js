@@ -83,6 +83,7 @@ export default function DaftarJual() {
                 >
                   {category.map((data, index) => (
                     <CategoryCard
+                    className={"d-flex align-items-center px-3 py-1 gap-2"}
                       key={index}
                       icon={data[0]}
                       text={data[1]}
