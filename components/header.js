@@ -1,21 +1,23 @@
+/* eslint-disable @next/next/no-html-link-for-pages */
 /* eslint-disable react/no-unknown-property */
 import React from 'react'
 import Link from 'next/link'
-import styles from "../styles/Home.module.css";
+import styles from "../styles/Home.module.css"
 
 function Header() {
     return (
         <div>
+
+
             <nav className="navbar navbar-expand-lg navbar-light bg-light">
                 <div className="container-fluid">
-                    <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                        <span className="navbar-toggler-icon"></span>
-                    </button>
+
+
                     <a className="navbar-brand px-5" href="#">
                         <img className={styles.logo} src="/logo.png" alt="banner" />
                     </a>
                     <div className={styles.searchBar}>
-                        <div className="nav-item d-flex align-items-center">
+                        <div className="nav-item d-flex align-items-center d-none d-sm-block">
                             <form className={styles.searchForm} method="POST" action="#">
                                 <input type="text" name="query" placeholder="Cari di sini..." title="Enter search keyword" />
                                 <button type="submit" title="Search"><i className="bi bi-search"></i></button>
@@ -28,7 +30,7 @@ function Header() {
                             <li className="nav-item">
                                 <div className={styles.btnMasuk}>
 
-                                    <a className="text-white btn btn-md" aria-current="page" href="#">
+                                    <a className="text-white btn btn-md" aria-current="page" href="/login">
                                         <i className="bi bi-box-arrow-in-right"></i>  Masuk</a>
                                 </div>
                             </li>
@@ -36,8 +38,12 @@ function Header() {
                         </ul>
 
                     </div>
+
+
                 </div>
             </nav>
+
+
         </div >
     )
 }

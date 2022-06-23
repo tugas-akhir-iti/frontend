@@ -153,7 +153,7 @@
   color: #888888;
 }
 
-@media (max-width: 600px) {
+@media screen and (max-width: 576px) {
   .searchBar{
   width: 100px;
  
@@ -161,38 +161,132 @@
   .logo{
     visibility: hidden;
   }
-
+  .Kategori{
+  margin-top: 200px;
+  }
+  
+  
 }
+  
+
 
 .colorbtn a{
-  background: #E2D4F0;
-  border-radius: 12px;
+    background: #E2D4F0;
+    border-radius: 12px;
 }
 
-.btnMasuk{
-  background: #7126B5;
-  border-radius: 12px;
+.btnMasuk{ 
+    background-color: #7126B5;  
+    border-radius: 12px;
+    font-size: 20px; 
+}
+
+ 
+.BannerMobile{
+    position:absolute;        
+    z-index: 1;
+    top:0;
+    right: 0;
+    left: 0;
+    background-blend-mode: screen;
+    background: linear-gradient(#FFE9C9, #FFE9CA);  
+
+}
+.HeaderMobile{
+    margin-top:30px;
+}
+
+.HeaderMobile input{
+  background: #FFFFFF;
+  border: none;
+  border-radius: 16px; 
+  display: flex;
+  flex-direction: row;
+  position: absolute;
+  width: 250px;
+  height: 38px;
+  left: 80px;
+  top: 38px;
+}
+
+.SearchIcons i {
+  position: absolute;
+  left: 290px;
+  top:40px;
+  z-index: 1;
+}
+.HeaderMobile p{
+  font-family:sans-serif;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 30px;
 }
 
 .btnJual a{
-  background-color:indigo;
-  color: white;  
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  padding: 16px 24px;
-  gap: 16px;
+ background-color: #7126B5;
+}     
 
-  /* position: absolute; */
-  width: 115px;
-  height: 42px;
-  left: 50%;
-  right: 50%;
-  position: fixed;
-  bottom: 15px;
+@media (min-width: 992px) {
+.login input{
+  border-radius: 16px;
+  width: 452px;
 
+   
 }
-
-
+.login{
+  margin-left: 80px;
+  margin-top: 90px;
+}
+.login button{
+  background-color: #7126B5;
+  border-radius: 16px;
+  width: 452px;
+  color: white;
+}
+  
+ }
 
  
+@media (min-width: 1200px) { 
+  .login input{
+  border-radius: 16px;
+  width: 452px;
+   
+}
+
+.login{
+  margin-left: 80px;
+  margin-top: 90px;
+}
+.login button{
+  background-color: #7126B5;
+  border-radius: 16px;
+  width: 452px;
+  color: white;
+}
+  
+}
+
+@media (max-width: 576px) { 
+  .login button{
+    width: 350px;
+    background-color:#7126B5;
+    border-radius: 16px;
+    color: white; 
+
+  }
+  
+}
+
+.login input{
+  border-radius: 16px;
+}
+
+.login a{
+color: #7126B5;
+text-decoration: none;
+font-weight: bold;
+} 
+
+
