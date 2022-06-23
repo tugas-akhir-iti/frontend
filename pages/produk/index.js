@@ -10,7 +10,7 @@ import ProdukDesktopLayout from "../../layout/produkDesktop";
 function Produk() {
   const screen = useResize();
 
-  let images = <img src="gbr" alt="carouselproduk" />;
+  let images = <img style={{borderRadius: "1rem"}} src="airpodsmax.jpg" alt="carouselproduk" />;
   let button = (
     <CategoryCard
       className="p-3 flex-grow-1"
