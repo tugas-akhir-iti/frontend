@@ -9,7 +9,7 @@ function ProdukMobileLayout(props) {
         {props.owner}
         {props.description}
       </div>
-      <div className="position-absolute bottom-0 start-0 end-0 p-2 d-flex">
+      <div className="position-fixed bottom-0 start-0 end-0 p-2 d-flex">
         {props.button}
       </div>
     </>
