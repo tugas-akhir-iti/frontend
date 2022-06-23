@@ -1,6 +1,5 @@
 import React from "react";
 import Head from "next/head";
-import { useEffect, useState } from "react";
 import CategoryCard from "../../components/categoryCard";
 import ItemCard from "../../components/itemCard";
 import OwnerCard from "../../components/ownerCard";
@@ -83,7 +82,7 @@ export default function DaftarJual() {
                 >
                   {category.map((data, index) => (
                     <CategoryCard
-                    className={"d-flex align-items-center px-3 py-1 gap-2"}
+                      className={"d-flex align-items-center px-3 py-1 gap-2"}
                       key={index}
                       icon={data[0]}
                       text={data[1]}
@@ -140,165 +139,241 @@ export default function DaftarJual() {
 
               <div className="col-6 col-md-4">
                 <ItemCard></ItemCard>
-              </div><div className="col-6 col-md-4">
+              </div>
+              <div className="col-6 col-md-4">
                 <ItemCard></ItemCard>
-              </div><div className="col-6 col-md-4">
+              </div>
+              <div className="col-6 col-md-4">
                 <ItemCard></ItemCard>
-              </div><div className="col-6 col-md-4">
+              </div>
+              <div className="col-6 col-md-4">
                 <ItemCard></ItemCard>
-              </div><div className="col-6 col-md-4">
+              </div>
+              <div className="col-6 col-md-4">
                 <ItemCard></ItemCard>
-              </div><div className="col-6 col-md-4">
+              </div>
+              <div className="col-6 col-md-4">
                 <ItemCard></ItemCard>
-              </div><div className="col-6 col-md-4">
+              </div>
+              <div className="col-6 col-md-4">
                 <ItemCard></ItemCard>
-              </div><div className="col-6 col-md-4">
+              </div>
+              <div className="col-6 col-md-4">
                 <ItemCard></ItemCard>
-              </div><div className="col-6 col-md-4">
+              </div>
+              <div className="col-6 col-md-4">
                 <ItemCard></ItemCard>
-              </div><div className="col-6 col-md-4">
+              </div>
+              <div className="col-6 col-md-4">
                 <ItemCard></ItemCard>
-              </div><div className="col-6 col-md-4">
+              </div>
+              <div className="col-6 col-md-4">
                 <ItemCard></ItemCard>
-              </div><div className="col-6 col-md-4">
+              </div>
+              <div className="col-6 col-md-4">
                 <ItemCard></ItemCard>
-              </div><div className="col-6 col-md-4">
+              </div>
+              <div className="col-6 col-md-4">
                 <ItemCard></ItemCard>
-              </div><div className="col-6 col-md-4">
+              </div>
+              <div className="col-6 col-md-4">
                 <ItemCard></ItemCard>
-              </div><div className="col-6 col-md-4">
+              </div>
+              <div className="col-6 col-md-4">
                 <ItemCard></ItemCard>
-              </div><div className="col-6 col-md-4">
+              </div>
+              <div className="col-6 col-md-4">
                 <ItemCard></ItemCard>
-              </div><div className="col-6 col-md-4">
+              </div>
+              <div className="col-6 col-md-4">
                 <ItemCard></ItemCard>
-              </div><div className="col-6 col-md-4">
+              </div>
+              <div className="col-6 col-md-4">
                 <ItemCard></ItemCard>
-              </div><div className="col-6 col-md-4">
+              </div>
+              <div className="col-6 col-md-4">
                 <ItemCard></ItemCard>
-              </div><div className="col-6 col-md-4">
+              </div>
+              <div className="col-6 col-md-4">
                 <ItemCard></ItemCard>
-              </div><div className="col-6 col-md-4">
+              </div>
+              <div className="col-6 col-md-4">
                 <ItemCard></ItemCard>
-              </div><div className="col-6 col-md-4">
+              </div>
+              <div className="col-6 col-md-4">
                 <ItemCard></ItemCard>
-              </div><div className="col-6 col-md-4">
+              </div>
+              <div className="col-6 col-md-4">
                 <ItemCard></ItemCard>
-              </div><div className="col-6 col-md-4">
+              </div>
+              <div className="col-6 col-md-4">
                 <ItemCard></ItemCard>
-              </div><div className="col-6 col-md-4">
+              </div>
+              <div className="col-6 col-md-4">
                 <ItemCard></ItemCard>
-              </div><div className="col-6 col-md-4">
+              </div>
+              <div className="col-6 col-md-4">
                 <ItemCard></ItemCard>
-              </div><div className="col-6 col-md-4">
+              </div>
+              <div className="col-6 col-md-4">
                 <ItemCard></ItemCard>
-              </div><div className="col-6 col-md-4">
+              </div>
+              <div className="col-6 col-md-4">
                 <ItemCard></ItemCard>
-              </div><div className="col-6 col-md-4">
+              </div>
+              <div className="col-6 col-md-4">
                 <ItemCard></ItemCard>
-              </div><div className="col-6 col-md-4">
+              </div>
+              <div className="col-6 col-md-4">
                 <ItemCard></ItemCard>
-              </div><div className="col-6 col-md-4">
+              </div>
+              <div className="col-6 col-md-4">
                 <ItemCard></ItemCard>
-              </div><div className="col-6 col-md-4">
+              </div>
+              <div className="col-6 col-md-4">
                 <ItemCard></ItemCard>
-              </div><div className="col-6 col-md-4">
+              </div>
+              <div className="col-6 col-md-4">
                 <ItemCard></ItemCard>
-              </div><div className="col-6 col-md-4">
+              </div>
+              <div className="col-6 col-md-4">
                 <ItemCard></ItemCard>
-              </div><div className="col-6 col-md-4">
+              </div>
+              <div className="col-6 col-md-4">
                 <ItemCard></ItemCard>
-              </div><div className="col-6 col-md-4">
+              </div>
+              <div className="col-6 col-md-4">
                 <ItemCard></ItemCard>
-              </div><div className="col-6 col-md-4">
+              </div>
+              <div className="col-6 col-md-4">
                 <ItemCard></ItemCard>
-              </div><div className="col-6 col-md-4">
+              </div>
+              <div className="col-6 col-md-4">
                 <ItemCard></ItemCard>
-              </div><div className="col-6 col-md-4">
+              </div>
+              <div className="col-6 col-md-4">
                 <ItemCard></ItemCard>
-              </div><div className="col-6 col-md-4">
+              </div>
+              <div className="col-6 col-md-4">
                 <ItemCard></ItemCard>
-              </div><div className="col-6 col-md-4">
+              </div>
+              <div className="col-6 col-md-4">
                 <ItemCard></ItemCard>
-              </div><div className="col-6 col-md-4">
+              </div>
+              <div className="col-6 col-md-4">
                 <ItemCard></ItemCard>
-              </div><div className="col-6 col-md-4">
+              </div>
+              <div className="col-6 col-md-4">
                 <ItemCard></ItemCard>
-              </div><div className="col-6 col-md-4">
+              </div>
+              <div className="col-6 col-md-4">
                 <ItemCard></ItemCard>
-              </div><div className="col-6 col-md-4">
+              </div>
+              <div className="col-6 col-md-4">
                 <ItemCard></ItemCard>
-              </div><div className="col-6 col-md-4">
+              </div>
+              <div className="col-6 col-md-4">
                 <ItemCard></ItemCard>
-              </div><div className="col-6 col-md-4">
+              </div>
+              <div className="col-6 col-md-4">
                 <ItemCard></ItemCard>
-              </div><div className="col-6 col-md-4">
+              </div>
+              <div className="col-6 col-md-4">
                 <ItemCard></ItemCard>
-              </div><div className="col-6 col-md-4">
+              </div>
+              <div className="col-6 col-md-4">
                 <ItemCard></ItemCard>
-              </div><div className="col-6 col-md-4">
+              </div>
+              <div className="col-6 col-md-4">
                 <ItemCard></ItemCard>
-              </div><div className="col-6 col-md-4">
+              </div>
+              <div className="col-6 col-md-4">
                 <ItemCard></ItemCard>
-              </div><div className="col-6 col-md-4">
+              </div>
+              <div className="col-6 col-md-4">
                 <ItemCard></ItemCard>
-              </div><div className="col-6 col-md-4">
+              </div>
+              <div className="col-6 col-md-4">
                 <ItemCard></ItemCard>
-              </div><div className="col-6 col-md-4">
+              </div>
+              <div className="col-6 col-md-4">
                 <ItemCard></ItemCard>
-              </div><div className="col-6 col-md-4">
+              </div>
+              <div className="col-6 col-md-4">
                 <ItemCard></ItemCard>
-              </div><div className="col-6 col-md-4">
+              </div>
+              <div className="col-6 col-md-4">
                 <ItemCard></ItemCard>
-              </div><div className="col-6 col-md-4">
+              </div>
+              <div className="col-6 col-md-4">
                 <ItemCard></ItemCard>
-              </div><div className="col-6 col-md-4">
+              </div>
+              <div className="col-6 col-md-4">
                 <ItemCard></ItemCard>
-              </div><div className="col-6 col-md-4">
+              </div>
+              <div className="col-6 col-md-4">
                 <ItemCard></ItemCard>
-              </div><div className="col-6 col-md-4">
+              </div>
+              <div className="col-6 col-md-4">
                 <ItemCard></ItemCard>
-              </div><div className="col-6 col-md-4">
+              </div>
+              <div className="col-6 col-md-4">
                 <ItemCard></ItemCard>
-              </div><div className="col-6 col-md-4">
+              </div>
+              <div className="col-6 col-md-4">
                 <ItemCard></ItemCard>
-              </div><div className="col-6 col-md-4">
+              </div>
+              <div className="col-6 col-md-4">
                 <ItemCard></ItemCard>
-              </div><div className="col-6 col-md-4">
+              </div>
+              <div className="col-6 col-md-4">
                 <ItemCard></ItemCard>
-              </div><div className="col-6 col-md-4">
+              </div>
+              <div className="col-6 col-md-4">
                 <ItemCard></ItemCard>
-              </div><div className="col-6 col-md-4">
+              </div>
+              <div className="col-6 col-md-4">
                 <ItemCard></ItemCard>
-              </div><div className="col-6 col-md-4">
+              </div>
+              <div className="col-6 col-md-4">
                 <ItemCard></ItemCard>
-              </div><div className="col-6 col-md-4">
+              </div>
+              <div className="col-6 col-md-4">
                 <ItemCard></ItemCard>
-              </div><div className="col-6 col-md-4">
+              </div>
+              <div className="col-6 col-md-4">
                 <ItemCard></ItemCard>
-              </div><div className="col-6 col-md-4">
+              </div>
+              <div className="col-6 col-md-4">
                 <ItemCard></ItemCard>
-              </div><div className="col-6 col-md-4">
+              </div>
+              <div className="col-6 col-md-4">
                 <ItemCard></ItemCard>
-              </div><div className="col-6 col-md-4">
+              </div>
+              <div className="col-6 col-md-4">
                 <ItemCard></ItemCard>
-              </div><div className="col-6 col-md-4">
+              </div>
+              <div className="col-6 col-md-4">
                 <ItemCard></ItemCard>
-              </div><div className="col-6 col-md-4">
+              </div>
+              <div className="col-6 col-md-4">
                 <ItemCard></ItemCard>
-              </div><div className="col-6 col-md-4">
+              </div>
+              <div className="col-6 col-md-4">
                 <ItemCard></ItemCard>
-              </div><div className="col-6 col-md-4">
+              </div>
+              <div className="col-6 col-md-4">
                 <ItemCard></ItemCard>
-              </div><div className="col-6 col-md-4">
+              </div>
+              <div className="col-6 col-md-4">
                 <ItemCard></ItemCard>
-              </div><div className="col-6 col-md-4">
+              </div>
+              <div className="col-6 col-md-4">
                 <ItemCard></ItemCard>
               </div>
             </div>
           </div>
         </div>
-        
       </MainLayout>
     </>
   );
