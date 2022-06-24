@@ -235,7 +235,7 @@
    
 }
 .login{
-  margin-left: 80px;
+  /* margin-left: 80px; */
   margin-top: 90px;
 }
 .login button{
@@ -276,6 +276,7 @@
     color: white; 
 
   }
+ 
   
 }
 
@@ -289,4 +290,40 @@ text-decoration: none;
 font-weight: bold;
 } 
 
+.InfoAkun input{
+border: 1px solid #D0D0D0;
+border-radius: 16px;
+height: 48px;
+}
+.InfoAkun textarea{
+border: 1px solid #D0D0D0;
+border-radius: 16px;
+ 
+}
 
+.InfoAkun select{
+border: 1px solid #D0D0D0;
+border-radius: 16px;
+height: 48px;
+}
+
+.InfoAkun button{
+background-color: #7126B5;
+border-radius: 16px;
+height: 48px;
+color: white;
+ 
+}
+
+.navLogo{
+  display: block;
+  z-index: 1;
+  padding: none;
+  margin-left: 50px;
+  top:0;
+ 
+}
+.PillTab active{
+background-color: red;
+
+}

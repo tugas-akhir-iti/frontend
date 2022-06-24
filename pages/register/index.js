@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-html-link-for-pages */
 /* eslint-disable react/no-unknown-property */
 /* eslint-disable @next/next/no-sync-scripts */
 import React from 'react'
@@ -6,7 +7,7 @@ import styles from "../../styles/Home.module.css"
 
 
 
-export default function Login() {
+export default function Register() {
     return (
         <>
             <Head>
@@ -37,7 +38,13 @@ export default function Login() {
                                     <form style={{ width: "23rem" }}>
 
 
-                                        <h3 className="fw-bold mb-3 pb-3" style={{ letterSpacing: "1px" }}>Masuk</h3>
+                                        <h3 className="fw-bold mb-3 pb-3" style={{ letterSpacing: "1px" }}>Daftar</h3>
+
+                                        <div className="form-outline mb-4">
+                                            <label className="form-label" htmlFor="name" >Nama</label>
+                                            <input type="text" id="name" placeholder="Nama Lengkap"
+                                                className="form-control form-control-lg" />
+                                        </div>
 
                                         <div className="form-outline mb-4">
                                             <label className="form-label" htmlFor="form2Example18" >Email</label>
@@ -53,9 +60,9 @@ export default function Login() {
                                         </div>
 
                                         <div className="pt-1 mb-4 text-center">
-                                            <button className="btn btn-lg btn-block text-center" type="submit">Masuk</button>
+                                            <button className="btn btn-lg btn-block text-center" type="submit">Daftar</button>
                                         </div>
-                                        <h5 className="text-center">Belum punya akun? <a href="#!">Daftar di sini</a></h5>
+                                        <h5 className="text-center">Sudah punya akun? <a href="/login">Masuk di sini</a></h5>
                                     </form>
                                 </div>
 

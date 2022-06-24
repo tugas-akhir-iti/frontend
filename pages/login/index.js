@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-html-link-for-pages */
 /* eslint-disable react/no-unknown-property */
 /* eslint-disable @next/next/no-sync-scripts */
 import React from 'react'
@@ -55,7 +56,7 @@ export default function Login() {
                                         <div className="pt-1 mb-4 text-center">
                                             <button className="btn btn-lg btn-block text-center" type="submit">Masuk</button>
                                         </div>
-                                        <h5 className="text-center">Belum punya akun? <a href="#!">Daftar di sini</a></h5>
+                                        <h5 className="text-center">Belum punya akun? <a href="/register">Daftar di sini</a></h5>
                                     </form>
                                 </div>
 

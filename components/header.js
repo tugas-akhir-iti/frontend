@@ -13,7 +13,7 @@ function Header() {
                 <div className="container-fluid">
 
 
-                    <a className="navbar-brand px-5" href="#">
+                    <a className="navbar-brand px-5 fs-2" href="#">
                         <img className={styles.logo} src="/logo.png" alt="banner" />
                     </a>
                     <div className={styles.searchBar}>
