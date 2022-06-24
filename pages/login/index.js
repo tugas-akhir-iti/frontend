@@ -4,6 +4,7 @@
 import React from "react";
 import Head from "next/head";
 import styles from "../../styles/Home.module.css";
+import LoginregisterLayout from "../../layout/loginregisterLayout";
 
 export default function Login() {
   return (
@@ -19,76 +20,52 @@ export default function Login() {
         ></script>
       </Head>
 
-      <section className="vh-100">
-        <div className="container-fluid">
-          <div className="row">
-            <div className="col-sm-6 px-0 d-none d-sm-block">
-              <img
-                src="/loginimg.png"
-                alt="Login image"
-                className="w-100 vh-100"
-                style={{ ObjectFit: "cover", ObjectPosition: "left" }}
+      <LoginregisterLayout>
+        <div className={styles.login}>
+          <form style={{ width: "23rem" }}>
+            <h3 className="fw-bold mb-3 pb-3" style={{ letterSpacing: "1px" }}>
+              Masuk
+            </h3>
+
+            <div className="form-outline mb-4">
+              <label className="form-label" htmlFor="form2Example18">
+                Email
+              </label>
+              <input
+                type="email"
+                id="form2Example18"
+                placeholder="Contoh: johndee@gmail.com"
+                className="form-control form-control-lg"
               />
             </div>
 
-            <div className="col-sm-6">
-              <div className="px-3 ms-xl-4 d-lg-none d-xl-none d-md-none mt-5">
-                <i class="bi bi-arrow-left fs-1"></i>
-              </div>
+            <div className="form-outline mb-4">
+              <label className="form-label" htmlFor="form2Example28">
+                Password
+              </label>
 
-              <div className="d-flex align-items-center px-5 ms-xl-4 mt-5 pt-5 pt-xl-0 mt-xl-n5">
-                <div className={styles.login}>
-                  <form style={{ width: "23rem" }}>
-                    <h3
-                      className="fw-bold mb-3 pb-3"
-                      style={{ letterSpacing: "1px" }}
-                    >
-                      Masuk
-                    </h3>
-
-                    <div className="form-outline mb-4">
-                      <label className="form-label" htmlFor="form2Example18">
-                        Email
-                      </label>
-                      <input
-                        type="email"
-                        id="form2Example18"
-                        placeholder="Contoh: johndee@gmail.com"
-                        className="form-control form-control-lg"
-                      />
-                    </div>
-
-                    <div className="form-outline mb-4">
-                      <label className="form-label" htmlFor="form2Example28">
-                        Password
-                      </label>
-
-                      <input
-                        type="password"
-                        id="form2Example28"
-                        placeholder="Masukkan password"
-                        className="form-control form-control-lg"
-                      />
-                    </div>
-
-                    <div className="pt-1 mb-4 text-center">
-                      <button
-                        className="btn btn-lg btn-block text-center"
-                        type="submit"
-                      >
-                        Masuk
-                      </button>
-                    </div>
-                    <h5 className="text-center">
-                      Belum punya akun? <a href="/register">Daftar di sini</a>
-                    </h5>
-                  </form>
-                </div>
-              </div>
+              <input
+                type="password"
+                id="form2Example28"
+                placeholder="Masukkan password"
+                className="form-control form-control-lg"
+              />
             </div>
-          </div>
+
+            <div className="pt-1 mb-4 text-center">
+              <button
+                className="btn btn-lg btn-block text-center"
+                type="submit"
+              >
+                Masuk
+              </button>
+            </div>
+            <h5 className="text-center">
+              Belum punya akun? <a href="/register">Daftar di sini</a>
+            </h5>
+          </form>
         </div>
-      </section>
+      </LoginregisterLayout>
     </>
   );
 }
