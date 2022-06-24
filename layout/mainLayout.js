@@ -2,8 +2,7 @@ import React from "react";
 import Footer from "../components/footer";
 import Header from "../components/header";
 
-
-function HomeLayout({ children }) {
+function MainLayout({children}) {
   return (
     <>
       <Header />
@@ -13,4 +12,4 @@ function HomeLayout({ children }) {
   );
 }
 
-export default HomeLayout;
+export default MainLayout;

@@ -115,32 +115,29 @@
   }
 }
 
-.searchBar{
-  
+.searchBar {
   left: 0;
   right: 0;
   width: 400px;
-  box-shadow: 0px 0px 15px 0px rgba(182, 193, 211, 0.1);  
+  box-shadow: 0px 0px 15px 0px rgba(182, 193, 211, 0.1);
   z-index: 9999;
-  transition: 0.3s; 
+  transition: 0.3s;
 }
 
-.searchForm{
+.searchForm {
   width: 100%;
 }
 
-.searchForm input{
+.searchForm input {
   border: 0;
-  font-size: 14px;   
+  font-size: 14px;
   border: 1px solid rgba(203, 206, 211, 0.2);
-  padding: 7px 38px 7px 8px;  
+  padding: 7px 38px 7px 8px;
   transition: 0.3s;
   width: 100%;
   border-radius: 10px;
-  background: #EEEEEE;
+  background: #eeeeee;
   border-radius: 16px;
-  
- 
 }
 .searchForm button {
   border: 0;
@@ -152,42 +149,157 @@
   color: #888888;
 }
 
-@media (max-width: 600px) {
-  .searchBar{
-  width: 100px;
- 
+@media screen and (max-width: 576px) {
+  .searchBar {
+    width: 100px;
   }
-  .logo{
+  .logo {
     visibility: hidden;
   }
-
+  .Kategori {
+    margin-top: 200px;
+  }
 }
 
-.colorbtn a{
-  background-color:indigo;
-}
-
-.btnMasuk{
-  background: #7126B5;
+.colorbtn a {
+  background: #e2d4f0;
   border-radius: 12px;
 }
 
-.btnJual a{
-  background-color:indigo;
-  color: white;  
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  padding: 16px 24px;
-  gap: 16px;
-
-  /* position: absolute; */
-  width: 115px;
-  height: 42px;
-  left: 670px;
-  position: fixed;
-  bottom: 15px;
-
+.btnMasuk {
+  background-color: #7126b5;
+  border-radius: 12px;
+  font-size: 20px;
 }
 
- 
+.BannerMobile {
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  right: 0;
+  left: 0;
+  background-blend-mode: screen;
+  background: linear-gradient(#ffe9c9, #ffe9ca);
+}
+.HeaderMobile {
+  margin-top: 30px;
+}
+
+.HeaderMobile input {
+  background: #ffffff;
+  border: none;
+  border-radius: 16px;
+  display: flex;
+  flex-direction: row;
+  position: absolute;
+  width: 250px;
+  height: 38px;
+  left: 80px;
+  top: 38px;
+}
+
+.SearchIcons i {
+  position: absolute;
+  left: 290px;
+  top: 40px;
+  z-index: 1;
+}
+.HeaderMobile p {
+  font-family: sans-serif;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 30px;
+}
+
+.btnJual a {
+  background-color: #7126b5;
+}
+
+@media (min-width: 992px) {
+  .login input {
+    border-radius: 16px;
+    width: 452px;
+  }
+  .login {
+    /* margin-left: 80px; */
+    margin-top: 90px;
+  }
+  .login button {
+    background-color: #7126b5;
+    border-radius: 16px;
+    width: 452px;
+    color: white;
+  }
+}
+
+@media (min-width: 1200px) {
+  .login input {
+    border-radius: 16px;
+    width: 452px;
+  }
+
+  .login {
+    margin-left: 80px;
+    margin-top: 90px;
+  }
+  .login button {
+    background-color: #7126b5;
+    border-radius: 16px;
+    width: 452px;
+    color: white;
+  }
+}
+
+@media (max-width: 576px) {
+  .login button {
+    width: 350px;
+    background-color: #7126b5;
+    border-radius: 16px;
+    color: white;
+  }
+}
+
+.login input {
+  border-radius: 16px;
+}
+
+.login a {
+  color: #7126b5;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.InfoAkun input {
+  border: 1px solid #d0d0d0;
+  border-radius: 16px;
+  height: 48px;
+}
+.InfoAkun textarea {
+  border: 1px solid #d0d0d0;
+  border-radius: 16px;
+}
+
+.InfoAkun select {
+  border: 1px solid #d0d0d0;
+  border-radius: 16px;
+  height: 48px;
+}
+
+.InfoAkun button {
+  background-color: #7126b5;
+  border-radius: 16px;
+  height: 48px;
+  color: white;
+}
+
+.navLogo {
+  display: block;
+  z-index: 1;
+  padding: none;
+  margin-left: 50px;
+  top: 0;
+}
+.PillTab active {
+  background-color: red;
+}
