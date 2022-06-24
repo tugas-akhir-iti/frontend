@@ -1,6 +1,6 @@
 :root {
-  --purple: #7126B5;
-  --purple2: #E2D4F0;
+  --purple: #7126b5;
+  --purple2: #e2d4f0;
 }
 
 html,
@@ -21,7 +21,7 @@ a {
 }
 
 button {
-  all:unset
+  all: unset;
 }
 
 .max-width {
