@@ -3,7 +3,6 @@
 /* eslint-disable @next/next/no-sync-scripts */
 import Head from "next/head";
 import MainLayout from "../layout/mainLayout";
-import Header from "../components/header";
 import styles from "../styles/Home.module.css";
 
 export default function Home() {
@@ -16,7 +15,7 @@ export default function Home() {
         <script
           src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
           integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
-          crossorigin="anonymous"
+          crossOrigin="anonymous"
         ></script>
         <link
           href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"

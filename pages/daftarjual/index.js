@@ -1,10 +1,11 @@
 import React from "react";
 import Head from "next/head";
 import CategoryCard from "../../components/categoryCard";
-import ItemCard from "../../components/itemCard";
 import OwnerCard from "../../components/ownerCard";
 import MainLayout from "../../layout/mainLayout";
 import useResize from "../../hooks/useResize";
+import GridSeller from "../../components/gridSeller";
+import ListSeller from "../../components/listSeller";
 
 export default function DaftarJual() {
   const category = [
@@ -97,44 +98,8 @@ export default function DaftarJual() {
                 "container-fluid m-0 row p-1 g-2" + (screen.md ? " col-8" : "")
               }
             >
-              <div className="col-6 col-md-4 d-flex">
-                <button
-                  className="flex-fill d-flex flex-column justify-content-center rounded"
-                  style={{
-                    borderStyle: "dashed",
-                    borderWidth: "2px",
-                    borderColor: "lightgray",
-                    color: "gray",
-                  }}
-                >
-                  <i
-                    className="bi bi-plus mx-auto"
-                    style={{ fontSize: "2rem" }}
-                  ></i>
-                  <p className="mx-auto">Tambah Produk</p>
-                </button>
-              </div>
-              <div className="col-6 col-md-4">
-                <ItemCard></ItemCard>
-              </div>
-              <div className="col-6 col-md-4">
-                <ItemCard></ItemCard>
-              </div>
-              <div className="col-6 col-md-4">
-                <ItemCard></ItemCard>
-              </div>
-              <div className="col-6 col-md-4">
-                <ItemCard></ItemCard>
-              </div>
-              <div className="col-6 col-md-4">
-                <ItemCard></ItemCard>
-              </div>
-              <div className="col-6 col-md-4">
-                <ItemCard></ItemCard>
-              </div>
-              <div className="col-6 col-md-4">
-                <ItemCard></ItemCard>
-              </div>
+              {/* <GridSeller /> */}
+              <ListSeller/>
             </div>
           </div>
         </div>
