@@ -99,7 +99,7 @@ export default function DaftarJual() {
               }
             >
               {/* <GridSeller /> */}
-              <ListSeller/>
+              <ListSeller listsize={0}/>
             </div>
           </div>
         </div>
