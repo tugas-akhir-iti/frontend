@@ -5,6 +5,7 @@ import Head from "next/head";
 import MainLayout from "../layout/mainLayout";
 import Header from "../components/header";
 import styles from "../styles/Home.module.css";
+import ItemCard from "../components/itemCard";
 
 export default function Home() {
   return (
@@ -58,7 +59,7 @@ export default function Home() {
                 >
                   <img className="navbar-toggler-icon fs-1" src="/toggle.png" />
                 </button>
-                <div className={styles.SearchIcons}>
+                <div className="">
                   <i className="bi bi-search icon fs-4"></i>
                   <input type="search" placeholder=" Cari di sini..." />
                 </div>
@@ -102,39 +103,6 @@ export default function Home() {
             </div>
           </div>
         </div>
-
-        {/* <div className="card">
-        <div className={styles.PillTab}>
-
-          <div className="card-body">
-            <h5 className="card-title">Pills Tabs</h5>
-
-            <ul className="nav nav-pills mb-3" id="pills-tab" role="tablist">
-              <li className="nav-item" role="presentation">
-                <button className="nav-link active" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true">Home</button>
-              </li>
-              <li className="nav-item" role="presentation">
-                <button className="nav-link" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false">Profile</button>
-              </li>
-              <li className="nav-item" role="presentation">
-                <button className="nav-link" id="pills-contact-tab" data-bs-toggle="pill" data-bs-target="#pills-contact" type="button" role="tab" aria-controls="pills-contact" aria-selected="false">Contact</button>
-              </li>
-            </ul>
-            <div className="tab-content pt-2" id="myTabContent">
-              <div className="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="home-tab">
-                Sunt est soluta temporibus accusantium neque nam maiores cumque temporibus. Tempora libero non est unde veniam est qui dolor. Ut sunt iure rerum quae quisquam autem eveniet perspiciatis odit. Fuga sequi sed ea saepe at unde.
-              </div>
-              <div className="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="profile-tab">
-                Nesciunt totam et. Consequuntur magnam aliquid eos nulla dolor iure eos quia. Accusantium distinctio omnis et atque fugiat. Itaque doloremque aliquid sint quasi quia distinctio similique. Voluptate nihil recusandae mollitia dolores. Ut laboriosam voluptatum dicta.
-              </div>
-              <div className="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="contact-tab">
-                Saepe animi et soluta ad odit soluta sunt. Nihil quos omnis animi debitis cumque. Accusantium quibusdam perspiciatis qui qui omnis magnam. Officiis accusamus impedit molestias nostrum veniam. Qui amet ipsum iure. Dignissimos fuga tempore dolor.
-              </div>
-            </div>
-
-          </div>
-        </div>
-      </div> */}
 
         <div className={styles.Kategori}>
           <div className="row">
@@ -198,50 +166,18 @@ export default function Home() {
             <div className="row pb-3">
               <div className="col-lg-2 mb-4">
                 <div className="card border-0 shadow-sm mb-2">
-                  <img
-                    className="card-img-top mb-2"
-                    src="/home.png"
-                    alt="jam"
-                  />
-                  <div className="card-body bg-light p-4">
-                    <h5 className="">Jam Tangan Clasico</h5>
-                    <div className="d-flex mb-1">
-                      <small>kategori</small>
-                    </div>
-                    <strong>Rp 250.0000</strong>
-                  </div>
+                  <ItemCard />
                 </div>
               </div>
               <div className="col-lg-2 mb-4">
                 <div className="card border-0 shadow-sm mb-2">
-                  <img
-                    className="card-img-top mb-2"
-                    src="/home.png"
-                    alt="jam"
-                  />
-                  <div className="card-body bg-light p-4">
-                    <h5 className="">Jam Tangan Clasico</h5>
-                    <div className="d-flex mb-1">
-                      <small>kategori</small>
-                    </div>
-                    <strong>Rp 250.0000</strong>
-                  </div>
+                  <ItemCard />
                 </div>
+
               </div>
               <div className="col-lg-2 mb-4">
                 <div className="card border-0 shadow-sm mb-2">
-                  <img
-                    className="card-img-top mb-2"
-                    src="/home.png"
-                    alt="jam"
-                  />
-                  <div className="card-body bg-light p-4">
-                    <h5 className="">Jam Tangan Clasico</h5>
-                    <div className="d-flex mb-1">
-                      <small>kategori</small>
-                    </div>
-                    <strong>Rp 250.0000</strong>
-                  </div>
+                  <ItemCard />
                 </div>
               </div>
               <div className="col-lg-2 mb-4">

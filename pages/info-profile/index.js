@@ -24,7 +24,10 @@ export default function InfoProfile() {
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
       </Head>
 
-      <Top />
+      <Top>
+        <h4 className="mx-auto">Lengkapi Info Akun</h4>
+
+      </Top>
 
       <div className="container">
         <div className="row">
@@ -48,7 +51,7 @@ export default function InfoProfile() {
                   <div className="col-12 mt-2">
                     <label>Kota*</label>
                     <select
-                      class="form-select"
+                      className="form-select"
                       aria-label="Default select example"
                     >
                       <option value="">Pilih Kota</option>
@@ -60,7 +63,7 @@ export default function InfoProfile() {
                   <div className="col-12 mt-2">
                     <label>Alamat*</label>
                     <textarea
-                      class="form-control"
+                      className="form-control"
                       id="exampleFormControlTextarea1"
                       rows="2"
                       placeholder="Contoh: Jalan Ikan Hiu 33"

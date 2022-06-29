@@ -4,7 +4,7 @@ import React from "react";
 import Link from "next/link";
 import styles from "../styles/Home.module.css";
 
-function Top() {
+function Top({ children }) {
   return (
     <div>
       <header>
@@ -19,7 +19,7 @@ function Top() {
 
               <div class="col-md-4">
                 <div class="d-flex w-auto my-auto mb-3 mb-md-0">
-                  <h4 className="mx-auto">Lengkapi Info Akun</h4>
+                  {children}
                 </div>
               </div>
             </div>

@@ -3,7 +3,9 @@
 import React from "react";
 import Link from "next/link";
 import styles from "../styles/Home.module.css";
-
+import Search from "./search";
+import CategoryCard from "./categoryCard";
+import ButtonMasuk from "./buttonMasuk";
 function Header() {
   return (
     <div>
@@ -14,30 +16,19 @@ function Header() {
           </a>
           <div className={styles.searchBar}>
             <div className="nav-item d-flex align-items-center d-none d-sm-block">
-              <form className={styles.searchForm} method="POST" action="#">
-                <input
-                  type="text"
-                  name="query"
-                  placeholder="Cari di sini..."
-                  title="Enter search keyword"
-                />
-                <button type="submit" title="Search">
-                  <i className="bi bi-search"></i>
-                </button>
-              </form>
+              <Search />
             </div>
           </div>
 
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
             <ul className="navbar-nav ms-auto mb-2 mb-lg-0 mx-5">
               <li className="nav-item">
-                <div className={styles.btnMasuk}>
-                  <a
-                    className="text-white btn btn-md"
+                <div className="">
+                  <a className="text-decoration-none"
                     aria-current="page"
                     href="/login"
                   >
-                    <i className="bi bi-box-arrow-in-right"></i> Masuk
+                    <ButtonMasuk />
                   </a>
                 </div>
               </li>
