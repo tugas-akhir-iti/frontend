@@ -4,8 +4,8 @@ import CategoryCard from "../../components/categoryCard";
 import OwnerCard from "../../components/ownerCard";
 import MainLayout from "../../layout/mainLayout";
 import useResize from "../../hooks/useResize";
-import GridSeller from "../../components/gridSeller";
-import ListSeller from "../../components/listSeller";
+import ListSeller from "../../components/sellerViewOption/listSeller";
+import GridSeller from "../../components/sellerViewOption/gridSeller";
 
 export default function DaftarJual() {
   const category = [

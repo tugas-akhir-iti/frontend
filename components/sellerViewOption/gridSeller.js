@@ -1,5 +1,5 @@
 import React from "react";
-import ItemCard from "./itemCard";
+import ItemCard from "../itemCard";
 
 function GridSeller() {
   return (
