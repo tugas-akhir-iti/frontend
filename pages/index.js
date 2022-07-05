@@ -3,10 +3,15 @@
 /* eslint-disable @next/next/no-sync-scripts */
 import Head from "next/head";
 import MainLayout from "../layout/mainLayout";
-import Header from "../components/header";
-import styles from "../styles/Home.module.css";
+import useResize from "../hooks/useResize";
+import ButtonMasuk from "../components/buttonMasuk";
+import CategoryLayout from "../layout/categoryLayout";
+import CategoryLayoutMobile from "../layout/categoryLayoutMobile";
+
 
 export default function Home() {
+  const screen = useResize();
+
   return (
     <>
       <Head>
@@ -16,7 +21,7 @@ export default function Home() {
         <script
           src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
           integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
-          crossorigin="anonymous"
+          crossOrigin="anonymous"
         ></script>
         <link
           href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
@@ -25,31 +30,49 @@ export default function Home() {
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
       </Head>
 
-      <MainLayout>
-        <div className="row">
-          <div className="col-10 offset-1 mt-3 d-none d-sm-block">
-            <div
-              id="carouselExampleControls"
-              className="carousel slide"
-              data-bs-ride="carousel"
-            >
-              <div className="carousel-inner">
-                <div className="carousel-item active">
-                  <img src="/banner.png" className="d-flex w-100" alt="..." />
-                </div>
-                <div className="carousel-item">
-                  <img src="/banner.png" className="d-flex w-100" alt="..." />
-                </div>
-                <div className="carousel-item">
-                  <img src="/banner.png" className="d-flex w-100" alt="..." />
+      {screen.md ? (
+        <MainLayout>
+          <div className="row">
+            <div className="col-10 offset-1 mt-5 d-none d-sm-block">
+              <div
+                id="carouselExampleControls"
+                className="carousel slide"
+                data-bs-ride="carousel">
+                <div className="carousel-inner">
+                  <div className="carousel-item active">
+                    <img src="/banner.png" className="d-flex w-100" alt="..." />
+                  </div>
+                  <div className="carousel-item">
+                    <img src="/banner.png" className="d-flex w-100" alt="..." />
+                  </div>
+                  <div className="carousel-item">
+                    <img src="/banner.png" className="d-flex w-100" alt="..." />
+                  </div>
                 </div>
               </div>
             </div>
           </div>
 
-          <section className={styles.BannerMobile}>
-            <div className="container-fluid px-0 mb-0 d-lg-none d-md-none mt-0">
-              <div className={styles.HeaderMobile}>
+          <div className="row">
+            <div className="col-10 offset-1 mt-5 fs-5">
+              <CategoryLayout />
+            </div>
+          </div>
+
+          <div className="">
+            <div className="text-center fixed-bottom">
+              <a href="" className="btn text-white m-5" style={{ backgroundColor: "var(--purple)" }}>
+                +Jual
+              </a>
+            </div>
+          </div>
+        </MainLayout>
+      ) : (
+
+        <div className="d-flex flex-column">
+          <div className="banner">
+            <div className="container-fluid px-0 mb-0 mt-0">
+              <div className="d-flex flex-row gap-2">
                 <button
                   className="navbar-toggler"
                   type="button"
@@ -58,348 +81,65 @@ export default function Home() {
                 >
                   <img className="navbar-toggler-icon fs-1" src="/toggle.png" />
                 </button>
-                <div className={styles.SearchIcons}>
-                  <i className="bi bi-search icon fs-4"></i>
-                  <input type="search" placeholder=" Cari di sini..." />
-                </div>
-                <div className="row px-5 mt-3">
-                  <div className="col-7">
-                    <p>
-                      Bulan Ramadhan <br />
-                      Banyak Diskon!
-                    </p>
+                <div className="input-group mt-2 me-2" style={{
+                  background: "#ffffff",
+                  borderRadius: "16px",
+                }}>
+                  <input type="text" className="form-control border-0" placeholder="Cari di sini..."
+                    style={{
+                      borderRadius: "16px",
+                      height: "48px",
+                    }} />
+                  <span className="input-group-text bg-transparent border-0 fs-4 px-4"><i className="bi bi-search"></i></span>
 
-                    <h6>Diskon Hingga</h6>
-                    <p className="fs-2 text-danger p-3">60%</p>
-                  </div>
-                  <div className="col-5">
-                    <img src="/kado.png" />
-                  </div>
                 </div>
               </div>
-            </div>
-          </section>
+              <div className="row px-5 mt-3">
+                <div className="col-7">
+                  <p className="fs-2 fw-bold">
+                    Bulan Ramadhan <br />
+                    Banyak Diskon!
+                  </p>
 
-          <div className="offcanvas offcanvas-start" id="demo">
-            <div className="offcanvas-header">
-              <strong className="offcanvas-title fs-4">Second Hand</strong>
-              <button
-                type="button"
-                className="btn-close"
-                data-bs-dismiss="offcanvas"
-              ></button>
+                  <h6>Diskon Hingga</h6>
+                  <p className="fs-2 text-danger p-3">60%</p>
+                </div>
+                <div className="col-5">
+                  <img src="/kado.png" />
+                </div>
+              </div>
+
+              <div className="offcanvas offcanvas-start" id="demo">
+                <div className="offcanvas-header">
+                  <strong className="offcanvas-title fs-4">Second Hand</strong>
+                  <button
+                    type="button"
+                    className="btn-close"
+                    data-bs-dismiss="offcanvas"
+                  ></button>
+                </div>
+                <div className="offcanvas-body">
+                  <a href="/login" className="text-decoration-none">
+                    <ButtonMasuk />
+                  </a>
+                </div>
+              </div>
+
             </div>
-            <div className="offcanvas-body">
-              <button className={styles.btnMasuk}>
-                <a
-                  className="text-white text-decoration-none"
-                  aria-current="page"
-                  href="/login"
-                >
-                  <i className="bi bi-box-arrow-in-right"></i> Masuk &nbsp;{" "}
-                </a>
-              </button>
+
+          </div>
+          <CategoryLayoutMobile />
+
+          <div className="">
+            <div className="text-center fixed-bottom">
+              <a href="" className="btn text-white m-5" style={{ backgroundColor: "var(--purple)" }}>
+                +Jual
+              </a>
             </div>
           </div>
         </div>
+      )}
 
-        {/* <div className="card">
-        <div className={styles.PillTab}>
-
-          <div className="card-body">
-            <h5 className="card-title">Pills Tabs</h5>
-
-            <ul className="nav nav-pills mb-3" id="pills-tab" role="tablist">
-              <li className="nav-item" role="presentation">
-                <button className="nav-link active" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true">Home</button>
-              </li>
-              <li className="nav-item" role="presentation">
-                <button className="nav-link" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false">Profile</button>
-              </li>
-              <li className="nav-item" role="presentation">
-                <button className="nav-link" id="pills-contact-tab" data-bs-toggle="pill" data-bs-target="#pills-contact" type="button" role="tab" aria-controls="pills-contact" aria-selected="false">Contact</button>
-              </li>
-            </ul>
-            <div className="tab-content pt-2" id="myTabContent">
-              <div className="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="home-tab">
-                Sunt est soluta temporibus accusantium neque nam maiores cumque temporibus. Tempora libero non est unde veniam est qui dolor. Ut sunt iure rerum quae quisquam autem eveniet perspiciatis odit. Fuga sequi sed ea saepe at unde.
-              </div>
-              <div className="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="profile-tab">
-                Nesciunt totam et. Consequuntur magnam aliquid eos nulla dolor iure eos quia. Accusantium distinctio omnis et atque fugiat. Itaque doloremque aliquid sint quasi quia distinctio similique. Voluptate nihil recusandae mollitia dolores. Ut laboriosam voluptatum dicta.
-              </div>
-              <div className="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="contact-tab">
-                Saepe animi et soluta ad odit soluta sunt. Nihil quos omnis animi debitis cumque. Accusantium quibusdam perspiciatis qui qui omnis magnam. Officiis accusamus impedit molestias nostrum veniam. Qui amet ipsum iure. Dignissimos fuga tempore dolor.
-              </div>
-            </div>
-
-          </div>
-        </div>
-      </div> */}
-
-        <div className={styles.Kategori}>
-          <div className="row">
-            <div className="col-10 offset-1 mt-5 fs-5">
-              <strong>Telusuri Kategori</strong>
-            </div>
-          </div>
-
-          <div className="row">
-            <div className="col-10 offset-1 mt-2">
-              <div className={styles.colorbtn}>
-                <a
-                  className="text-white btn btn-md rounded-pill m-2 active"
-                  aria-current="page"
-                  href="#"
-                >
-                  <i className="bi bi-search"></i> Semua{" "}
-                </a>
-                <a
-                  className="text-white btn btn-md rounded-pill m-2"
-                  aria-current="page"
-                  href="#"
-                >
-                  <i className="bi bi-search"></i> Hobi{" "}
-                </a>
-                <a
-                  className="text-white btn btn-md rounded-pill m-2"
-                  aria-current="page"
-                  href="#"
-                >
-                  <i className="bi bi-search"></i> Kendaraan{" "}
-                </a>
-                <a
-                  className="text-white btn btn-md rounded-pill m-2"
-                  aria-current="page"
-                  href="#"
-                >
-                  <i className="bi bi-search"></i> Baju{" "}
-                </a>
-                <a
-                  className="text-white btn btn-md rounded-pill m-2"
-                  aria-current="page"
-                  href="#"
-                >
-                  <i className="bi bi-search"></i> Elektronik{" "}
-                </a>
-                <a
-                  className="text-white btn btn-md rounded-pill m-2"
-                  aria-current="page"
-                  href="#"
-                >
-                  <i className="bi bi-search"></i> Kesehatan{" "}
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div className="row">
-          <div className="col-10 offset-1 mt-4">
-            <div className="row pb-3">
-              <div className="col-lg-2 mb-4">
-                <div className="card border-0 shadow-sm mb-2">
-                  <img
-                    className="card-img-top mb-2"
-                    src="/home.png"
-                    alt="jam"
-                  />
-                  <div className="card-body bg-light p-4">
-                    <h5 className="">Jam Tangan Clasico</h5>
-                    <div className="d-flex mb-1">
-                      <small>kategori</small>
-                    </div>
-                    <strong>Rp 250.0000</strong>
-                  </div>
-                </div>
-              </div>
-              <div className="col-lg-2 mb-4">
-                <div className="card border-0 shadow-sm mb-2">
-                  <img
-                    className="card-img-top mb-2"
-                    src="/home.png"
-                    alt="jam"
-                  />
-                  <div className="card-body bg-light p-4">
-                    <h5 className="">Jam Tangan Clasico</h5>
-                    <div className="d-flex mb-1">
-                      <small>kategori</small>
-                    </div>
-                    <strong>Rp 250.0000</strong>
-                  </div>
-                </div>
-              </div>
-              <div className="col-lg-2 mb-4">
-                <div className="card border-0 shadow-sm mb-2">
-                  <img
-                    className="card-img-top mb-2"
-                    src="/home.png"
-                    alt="jam"
-                  />
-                  <div className="card-body bg-light p-4">
-                    <h5 className="">Jam Tangan Clasico</h5>
-                    <div className="d-flex mb-1">
-                      <small>kategori</small>
-                    </div>
-                    <strong>Rp 250.0000</strong>
-                  </div>
-                </div>
-              </div>
-              <div className="col-lg-2 mb-4">
-                <div className="card border-0 shadow-sm mb-2">
-                  <img
-                    className="card-img-top mb-2"
-                    src="/home.png"
-                    alt="jam"
-                  />
-                  <div className="card-body bg-light p-4">
-                    <h5 className="">Jam Tangan Clasico</h5>
-                    <div className="d-flex mb-1">
-                      <small>kategori</small>
-                    </div>
-                    <strong>Rp 250.0000</strong>
-                  </div>
-                </div>
-              </div>
-              <div className="col-lg-2 mb-4">
-                <div className="card border-0 shadow-sm mb-2">
-                  <img
-                    className="card-img-top mb-2"
-                    src="/home.png"
-                    alt="jam"
-                  />
-                  <div className="card-body bg-light p-4">
-                    <h5 className="">Jam Tangan Clasico</h5>
-                    <div className="d-flex mb-1">
-                      <small>kategori</small>
-                    </div>
-                    <strong>Rp 250.0000</strong>
-                  </div>
-                </div>
-              </div>
-              <div className="col-lg-2 mb-4">
-                <div className="card border-0 shadow-sm mb-2">
-                  <img
-                    className="card-img-top mb-2"
-                    src="/home.png"
-                    alt="jam"
-                  />
-                  <div className="card-body bg-light p-4">
-                    <h5 className="">Jam Tangan Clasico</h5>
-                    <div className="d-flex mb-1">
-                      <small>kategori</small>
-                    </div>
-                    <strong>Rp 250.0000</strong>
-                  </div>
-                </div>
-              </div>
-              <div className="col-lg-2 mb-4">
-                <div className="card border-0 shadow-sm mb-2">
-                  <img
-                    className="card-img-top mb-2"
-                    src="/home.png"
-                    alt="jam"
-                  />
-                  <div className="card-body bg-light p-4">
-                    <h5 className="">Jam Tangan Clasico</h5>
-                    <div className="d-flex mb-1">
-                      <small>kategori</small>
-                    </div>
-                    <strong>Rp 250.0000</strong>
-                  </div>
-                </div>
-              </div>
-              <div className="col-lg-2 mb-4">
-                <div className="card border-0 shadow-sm mb-2">
-                  <img
-                    className="card-img-top mb-2"
-                    src="/home.png"
-                    alt="jam"
-                  />
-                  <div className="card-body bg-light p-4">
-                    <h5 className="">Jam Tangan Clasico</h5>
-                    <div className="d-flex mb-1">
-                      <small>kategori</small>
-                    </div>
-                    <strong>Rp 250.0000</strong>
-                  </div>
-                </div>
-              </div>
-              <div className="col-lg-2 mb-4">
-                <div className="card border-0 shadow-sm mb-2">
-                  <img
-                    className="card-img-top mb-2"
-                    src="/home.png"
-                    alt="jam"
-                  />
-                  <div className="card-body bg-light p-4">
-                    <h5 className="">Jam Tangan Clasico</h5>
-                    <div className="d-flex mb-1">
-                      <small>kategori</small>
-                    </div>
-                    <strong>Rp 250.0000</strong>
-                  </div>
-                </div>
-              </div>
-              <div className="col-lg-2 mb-4">
-                <div className="card border-0 shadow-sm mb-2">
-                  <img
-                    className="card-img-top mb-2"
-                    src="/home.png"
-                    alt="jam"
-                  />
-                  <div className="card-body bg-light p-4">
-                    <h5 className="">Jam Tangan Clasico</h5>
-                    <div className="d-flex mb-1">
-                      <small>kategori</small>
-                    </div>
-                    <strong>Rp 250.0000</strong>
-                  </div>
-                </div>
-              </div>
-              <div className="col-lg-2 mb-4">
-                <div className="card border-0 shadow-sm mb-2">
-                  <img
-                    className="card-img-top mb-2"
-                    src="/home.png"
-                    alt="jam"
-                  />
-                  <div className="card-body bg-light p-4">
-                    <h5 className="">Jam Tangan Clasico</h5>
-                    <div className="d-flex mb-1">
-                      <small>kategori</small>
-                    </div>
-                    <strong>Rp 250.0000</strong>
-                  </div>
-                </div>
-              </div>
-              <div className="col-lg-2 mb-4">
-                <div className="card border-0 shadow-sm mb-2">
-                  <img
-                    className="card-img-top mb-2"
-                    src="/home.png"
-                    alt="jam"
-                  />
-                  <div className="card-body bg-light p-4">
-                    <h5 className="">Jam Tangan Clasico</h5>
-                    <div className="d-flex mb-1">
-                      <small>kategori</small>
-                    </div>
-                    <strong>Rp 250.0000</strong>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div className={styles.btnJual}>
-          <div className="text-center fixed-bottom">
-            <a href="" className="btn  text-white m-5">
-              +Jual
-            </a>
-          </div>
-        </div>
-      </MainLayout>
     </>
   );
 }
