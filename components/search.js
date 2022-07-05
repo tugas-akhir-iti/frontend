@@ -3,32 +3,22 @@ import React from "react";
 function Search() {
     return (
         <div>
-
-            <input type="search" name="search" placeholder="Cari di sini..."
-                style={{/* Auto layout */
-                    display: "flex",
-                    flexDirection: "row",
-                    alignItems: "center",
-                    padding: "12px 24px",
-                    position: "absolute",
-                    width: "444px",
-                    height: "48px",
-                    left: "260px",
-                    top: "18px",
-                    border: "none",
+            <div className="input-group"
+                style={{
                     background: "#EEEEEE",
                     borderRadius: "16px",
+
                 }}
+            >
+                <input type="text" className="form-control border-0" placeholder="Cari di sini..."
+                    style={{
+                        background: "#EEEEEE",
+                        borderRadius: "16px",
+                        height: "48px",
+                    }} />
+                <span className="input-group-text bg-transparent border-0 fs-4 px-4"><i className="bi bi-search"></i></span>
 
-            />
-            <i className="bi bi-search" style={{
-                position: "absolute",
-                width: "24px",
-                height: "24px",
-                left: "659px",
-                top: "30px",
-            }}></i>
-
+            </div>
         </div >
     );
 }

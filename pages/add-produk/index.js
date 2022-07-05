@@ -3,10 +3,13 @@
 /* eslint-disable @next/next/no-sync-scripts */
 import React from "react";
 import Head from "next/head";
-import AddProdukLayout from "../../layout/addProduk";
+import AddProdukLayout from "../../layout/addprodukForm";
 import Top from "../../components/top";
+import useResize from "../../hooks/useResize";
+
 
 export default function AddProduk() {
+    const screen = useResize();
     return (
         <>
             <Head>
@@ -20,18 +23,31 @@ export default function AddProduk() {
                 ></script>
             </Head>
 
-            <Top />
+            {screen.md ? (
+                <Top />
+            ) : (
+                <div className="d-flex d-row gap-2 m-3 fw-bold fs-4 justify-content-center">
+                    <i className="bi bi-arrow-left pe-3"></i>
+                    <p className="">Lengkapi Detail Produk</p>
+                </div>
+            )}
 
-            <div className="max-width mt-3 p-2 d-flex flex-column gap-2 align-items-center">
+            {screen.md ? (
+                <div className="col-6 offset-3 mt-3 d-flex flex-column justify-content-center">
 
+                    <i className="bi bi-arrow-left fs-3 mt-2"></i>
 
-                <AddProdukLayout />
+                    <AddProdukLayout />
 
+                </div>
 
-            </div>
+            ) : (
+                <div className="px-3">
+                    <AddProdukLayout />
+                </div>
 
-
-
+            )
+            }
 
 
 

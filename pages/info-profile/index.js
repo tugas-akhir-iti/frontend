@@ -3,9 +3,11 @@
 /* eslint-disable @next/next/no-sync-scripts */
 import Head from "next/head";
 import Top from "../../components/top";
-import styles from "../../styles/Home.module.css";
+import InfoProfileLayout from "../../layout/infoprofileLayout";
+import useResize from "../../hooks/useResize";
 
 export default function InfoProfile() {
+  const screen = useResize();
   return (
     <>
       <Head>
@@ -24,75 +26,29 @@ export default function InfoProfile() {
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
       </Head>
 
-      <Top>
-        <h4 className="mx-auto">Lengkapi Info Akun</h4>
-
-      </Top>
-
-      <div className="container">
-        <div className="row">
-          <i className="bi bi-arrow-left fs-2 mt-2"></i>
-          <div className="col-md-4 offset-md-4">
-            <div className="mt-4 d-flex justify-content-center">
-              <img src="/kamera.png" />
-            </div>
-            <div className="login-form mt-4 ">
-              <form action="" method="" className="row g-3">
-                <div className={styles.InfoAkun}>
-                  <div className="col-12 mt-2">
-                    <label>Nama*</label>
-                    <input
-                      type="text"
-                      name="username"
-                      className="form-control"
-                      placeholder="Nama"
-                    />
-                  </div>
-                  <div className="col-12 mt-2">
-                    <label>Kota*</label>
-                    <select
-                      className="form-select"
-                      aria-label="Default select example"
-                    >
-                      <option value="">Pilih Kota</option>
-                      <option value="1">One</option>
-                      <option value="2">Two</option>
-                      <option value="3">Three</option>
-                    </select>
-                  </div>
-                  <div className="col-12 mt-2">
-                    <label>Alamat*</label>
-                    <textarea
-                      className="form-control"
-                      id="exampleFormControlTextarea1"
-                      rows="2"
-                      placeholder="Contoh: Jalan Ikan Hiu 33"
-                    ></textarea>
-                  </div>
-                  <div className="col-12 mt-2">
-                    <label>No Handphone*</label>
-                    <input
-                      type="text"
-                      name="username"
-                      className="form-control"
-                      placeholder="contoh: +628123456789"
-                    />
-                  </div>
-                  <div className="col-12 mt-3 mb-3">
-                    <button
-                      type="submit"
-                      name="username"
-                      className="form-control"
-                    >
-                      Simpan
-                    </button>
-                  </div>
-                </div>
-              </form>
-            </div>
-          </div>
+      {screen.md ? (
+        <Top>
+          <p className="fs-4">Lengkapi Info Akun</p>
+        </Top>
+      ) : (
+        <div className="d-flex d-row gap-2 m-3 fw-bold fs-4 justify-content-center">
+          <i className="bi bi-arrow-left pe-3"></i>
+          <p className="">Lengkapi Info Akun</p>
         </div>
-      </div>
+      )}
+
+
+      {screen.md ? (
+        <div className="col-4 offset-4 mt-3 d-flex flex-column justify-content-center">
+          <i className="bi bi-arrow-left fs-3 pe-5"></i>
+          <InfoProfileLayout />
+        </div>) :
+        (
+          <div className="px-3">
+            <InfoProfileLayout />
+          </div>
+
+        )}
     </>
   );
 }
