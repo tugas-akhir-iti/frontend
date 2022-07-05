@@ -25,6 +25,26 @@ function InfoProfileLayout() {
                             placeholder="Nama"
                         />
                     </div>
+
+                    <div className="col-12 mt-2">
+                        <label>Provinsi</label>
+                        <select
+                            className="form-select mt-2"
+                            aria-label="Default select example"
+                            style={{
+                                padding: "12px 16px",
+                                border: "1px solid #D0D0D0",
+                                borderRadius: "16px",
+                                display: "flex"
+                            }}
+                        >
+                            <option value="">Pilih Provinsi</option>
+                            <option value="1">One</option>
+                            <option value="2">Two</option>
+                            <option value="3">Three</option>
+                        </select>
+                    </div>
+
                     <div className="col-12 mt-2">
                         <label>Kota</label>
                         <select
@@ -43,6 +63,8 @@ function InfoProfileLayout() {
                             <option value="3">Three</option>
                         </select>
                     </div>
+
+
                     <div className="col-12 mt-2">
                         <label>Alamat</label>
                         <textarea
