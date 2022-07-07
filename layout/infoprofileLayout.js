@@ -17,7 +17,7 @@ function InfoProfileLayout() {
                     </div>
 
                     <div className="col-12 mt-2">
-                        <label>Nama*</label>
+                        <label>Nama</label>
                         <InputBox
                             type="text"
                             name="nama"
@@ -63,8 +63,6 @@ function InfoProfileLayout() {
                             <option value="3">Three</option>
                         </select>
                     </div>
-
-
                     <div className="col-12 mt-2">
                         <label>Alamat</label>
                         <textarea
