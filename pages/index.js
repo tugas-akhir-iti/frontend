@@ -5,8 +5,9 @@ import useResize from "../hooks/useResize";
 import ButtonMasuk from "../components/buttonMasuk";
 import CategoryLayout from "../layout/categoryLayout";
 import CategoryLayoutMobile from "../layout/categoryLayoutMobile";
+import ItemCard from "../components/itemCard";
 
-export default function Home({ products }) {
+export default function Home({ products, products_hobi }) {
   const screen = useResize();
 
   return (
@@ -49,7 +50,7 @@ export default function Home({ products }) {
 
           <div className="row">
             <div className="col-10 offset-1 mt-5 fs-5">
-              <CategoryLayout />
+              <CategoryLayout products={products} products_hobi={products_hobi}/>
             </div>
           </div>
 
@@ -146,17 +147,6 @@ export default function Home({ products }) {
           </div>
         </div>
       )}
-
-      {/* {products.map((product) => (
-        <div className="col-lg-2 mb-4">
-          <ItemCard
-            name={product.product_name}
-            price={product.product_price}
-            category={product.Category.category_name}
-            image={product.product_image}
-          />
-        </div>
-      ))} */}
     </>
   );
 }
@@ -164,15 +154,20 @@ export default function Home({ products }) {
 export async function getStaticProps(context) {
   const API = process.env.NEXT_PUBLIC_API_ENDPOINT;
   let products = [];
+  let products_hobi = [];
 
   try {
     const res_products = await axios.get(API + "/products");
     products = res_products.data.data;
+
+    const res_products_hobi = await axios.get(API + "/products/categories/1");
+    products_hobi = res_products_hobi.data.data;
+
   } catch (error) {
     console.log(error.response);
   }
 
   return {
-    props: { products },
+    props: { products, products_hobi },
   };
 }
