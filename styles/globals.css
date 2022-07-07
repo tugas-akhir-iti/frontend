@@ -29,3 +29,24 @@ button,li {
   margin-left: auto;
   margin-right: auto;
 }
+
+.pill{
+background: #d3a6f8;
+color: white;
+padding: 10px;
+         
+}
+.pill.active{
+  background:#7126b5;
+
+}
+.pill:focus{
+  background:#7126b5;
+
+}
+
+.banner {
+  background-blend-mode: screen;
+  background: linear-gradient(#ffe9c9, #ffe9ca);
+}
+ 

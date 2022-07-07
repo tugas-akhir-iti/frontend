@@ -1,11 +1,14 @@
 import axios from "axios";
 import Head from "next/head";
 import MainLayout from "../layout/mainLayout";
-import ItemCard from "../components/itemCard";
-import styles from "../styles/Home.module.css";
+import useResize from "../hooks/useResize";
+import ButtonMasuk from "../components/buttonMasuk";
+import CategoryLayout from "../layout/categoryLayout";
+import CategoryLayoutMobile from "../layout/categoryLayoutMobile";
 
 export default function Home({ products }) {
-  console.log(products);
+  const screen = useResize();
+
   return (
     <>
       <Head>
@@ -20,31 +23,53 @@ export default function Home({ products }) {
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
       </Head>
 
-      <MainLayout>
-        <div className="row">
-          <div className="col-10 offset-1 mt-3 d-none d-sm-block">
-            <div
-              id="carouselExampleControls"
-              className="carousel slide"
-              data-bs-ride="carousel"
-            >
-              <div className="carousel-inner">
-                <div className="carousel-item active">
-                  <img src="/banner.png" className="d-flex w-100" alt="..." />
-                </div>
-                <div className="carousel-item">
-                  <img src="/banner.png" className="d-flex w-100" alt="..." />
-                </div>
-                <div className="carousel-item">
-                  <img src="/banner.png" className="d-flex w-100" alt="..." />
+      {screen.md ? (
+        <MainLayout>
+          <div className="row">
+            <div className="col-10 offset-1 mt-5 d-none d-sm-block">
+              <div
+                id="carouselExampleControls"
+                className="carousel slide"
+                data-bs-ride="carousel"
+              >
+                <div className="carousel-inner">
+                  <div className="carousel-item active">
+                    <img src="/banner.png" className="d-flex w-100" alt="..." />
+                  </div>
+                  <div className="carousel-item">
+                    <img src="/banner.png" className="d-flex w-100" alt="..." />
+                  </div>
+                  <div className="carousel-item">
+                    <img src="/banner.png" className="d-flex w-100" alt="..." />
+                  </div>
                 </div>
               </div>
             </div>
           </div>
 
-          <section className={styles.BannerMobile}>
-            <div className="container-fluid px-0 mb-0 d-lg-none d-md-none mt-0">
-              <div className={styles.HeaderMobile}>
+          <div className="row">
+            <div className="col-10 offset-1 mt-5 fs-5">
+              <CategoryLayout />
+            </div>
+          </div>
+
+          <div className="">
+            <div className="text-center fixed-bottom">
+              <a
+                href=""
+                className="btn text-white m-5"
+                style={{ backgroundColor: "var(--purple)" }}
+              >
+                +Jual
+              </a>
+            </div>
+          </div>
+        </MainLayout>
+      ) : (
+        <div className="d-flex flex-column">
+          <div className="banner">
+            <div className="container-fluid px-0 mb-0 mt-0">
+              <div className="d-flex flex-row gap-2">
                 <button
                   className="navbar-toggler"
                   type="button"
@@ -53,133 +78,85 @@ export default function Home({ products }) {
                 >
                   <img className="navbar-toggler-icon fs-1" src="/toggle.png" />
                 </button>
-                <div className={styles.SearchIcons}>
-                  <i className="bi bi-search icon fs-4"></i>
-                  <input type="search" placeholder=" Cari di sini..." />
-                </div>
-                <div className="row px-5 mt-3">
-                  <div className="col-7">
-                    <p>
-                      Bulan Ramadhan <br />
-                      Banyak Diskon!
-                    </p>
-
-                    <h6>Diskon Hingga</h6>
-                    <p className="fs-2 text-danger p-3">60%</p>
-                  </div>
-                  <div className="col-5">
-                    <img src="/kado.png" />
-                  </div>
-                </div>
-              </div>
-            </div>
-          </section>
-
-          <div className="offcanvas offcanvas-start" id="demo">
-            <div className="offcanvas-header">
-              <strong className="offcanvas-title fs-4">Second Hand</strong>
-              <button
-                type="button"
-                className="btn-close"
-                data-bs-dismiss="offcanvas"
-              ></button>
-            </div>
-            <div className="offcanvas-body">
-              <button className={styles.btnMasuk}>
-                <a
-                  className="text-white text-decoration-none"
-                  aria-current="page"
-                  href="/login"
+                <div
+                  className="input-group mt-2 me-2"
+                  style={{
+                    background: "#ffffff",
+                    borderRadius: "16px",
+                  }}
                 >
-                  <i className="bi bi-box-arrow-in-right"></i> Masuk &nbsp;{" "}
-                </a>
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <div className={styles.Kategori}>
-          <div className="row">
-            <div className="col-10 offset-1 mt-5 fs-5">
-              <strong>Telusuri Kategori</strong>
-            </div>
-          </div>
-
-          <div className="row">
-            <div className="col-10 offset-1 mt-2">
-              <div className={styles.colorbtn}>
-                <a
-                  className="text-white btn btn-md rounded-pill m-2 active"
-                  aria-current="page"
-                  href="#"
-                >
-                  <i className="bi bi-search"></i> Semua{" "}
-                </a>
-                <a
-                  className="text-white btn btn-md rounded-pill m-2"
-                  aria-current="page"
-                  href="#"
-                >
-                  <i className="bi bi-search"></i> Hobi{" "}
-                </a>
-                <a
-                  className="text-white btn btn-md rounded-pill m-2"
-                  aria-current="page"
-                  href="#"
-                >
-                  <i className="bi bi-search"></i> Kendaraan{" "}
-                </a>
-                <a
-                  className="text-white btn btn-md rounded-pill m-2"
-                  aria-current="page"
-                  href="#"
-                >
-                  <i className="bi bi-search"></i> Baju{" "}
-                </a>
-                <a
-                  className="text-white btn btn-md rounded-pill m-2"
-                  aria-current="page"
-                  href="#"
-                >
-                  <i className="bi bi-search"></i> Elektronik{" "}
-                </a>
-                <a
-                  className="text-white btn btn-md rounded-pill m-2"
-                  aria-current="page"
-                  href="#"
-                >
-                  <i className="bi bi-search"></i> Kesehatan{" "}
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div className="row">
-          <div className="col-10 offset-1 mt-4">
-            <div className="row pb-3">
-              {products.map((product) => (
-                <div className="col-lg-2 mb-4">
-                  <ItemCard
-                    name={product.product_name}
-                    price={product.product_price}
-                    category={product.Category.category_name}
-                    image={product.product_image}
+                  <input
+                    type="text"
+                    className="form-control border-0"
+                    placeholder="Cari di sini..."
+                    style={{
+                      borderRadius: "16px",
+                      height: "48px",
+                    }}
                   />
+                  <span className="input-group-text bg-transparent border-0 fs-4 px-4">
+                    <i className="bi bi-search"></i>
+                  </span>
                 </div>
-              ))}
+              </div>
+              <div className="row px-5 mt-3">
+                <div className="col-7">
+                  <p className="fs-2 fw-bold">
+                    Bulan Ramadhan <br />
+                    Banyak Diskon!
+                  </p>
+
+                  <h6>Diskon Hingga</h6>
+                  <p className="fs-2 text-danger p-3">60%</p>
+                </div>
+                <div className="col-5">
+                  <img src="/kado.png" />
+                </div>
+              </div>
+
+              <div className="offcanvas offcanvas-start" id="demo">
+                <div className="offcanvas-header">
+                  <strong className="offcanvas-title fs-4">Second Hand</strong>
+                  <button
+                    type="button"
+                    className="btn-close"
+                    data-bs-dismiss="offcanvas"
+                  ></button>
+                </div>
+                <div className="offcanvas-body">
+                  <a href="/login" className="text-decoration-none">
+                    <ButtonMasuk />
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <CategoryLayoutMobile />
+
+          <div className="">
+            <div className="text-center fixed-bottom">
+              <a
+                href=""
+                className="btn text-white m-5"
+                style={{ backgroundColor: "var(--purple)" }}
+              >
+                +Jual
+              </a>
             </div>
           </div>
         </div>
+      )}
 
-        <div className={styles.btnJual}>
-          <div className="text-center fixed-bottom">
-            <a href="" className="btn  text-white m-5">
-              +Jual
-            </a>
-          </div>
+      {/* {products.map((product) => (
+        <div className="col-lg-2 mb-4">
+          <ItemCard
+            name={product.product_name}
+            price={product.product_price}
+            category={product.Category.category_name}
+            image={product.product_image}
+          />
         </div>
-      </MainLayout>
+      ))} */}
     </>
   );
 }
