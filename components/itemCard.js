@@ -1,12 +1,12 @@
 import React from "react";
 
-function ItemCard() {
+function ItemCard({name, price, category, image}) {
   return (
     <div className="card p-2" style={{ height: "100%" }}>
-      <img className="rounded" src="airpodsmax.jpg" alt="barang" />
-      <h4 className="mt-2">Airpods Max</h4>
-      <p className="mb-1">Elektronik</p>
-      <h5>Rp. 8.799.000</h5>
+      <img className="rounded" src={image} alt={name} />
+      <h4 className="mt-2">{name}</h4>
+      <p className="mb-1">{category}</p>
+      <h5>{price}</h5>
     </div>
   );
 }

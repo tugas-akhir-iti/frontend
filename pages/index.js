@@ -1,15 +1,13 @@
-/* eslint-disable @next/next/no-html-link-for-pages */
-/* eslint-disable react/no-unknown-property */
-/* eslint-disable @next/next/no-sync-scripts */
+import axios from "axios";
 import Head from "next/head";
 import MainLayout from "../layout/mainLayout";
 import useResize from "../hooks/useResize";
 import ButtonMasuk from "../components/buttonMasuk";
 import CategoryLayout from "../layout/categoryLayout";
 import CategoryLayoutMobile from "../layout/categoryLayoutMobile";
+import ItemCard from "../components/itemCard";
 
-
-export default function Home() {
+export default function Home({ products, products_hobi }) {
   const screen = useResize();
 
   return (
@@ -23,10 +21,6 @@ export default function Home() {
           integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
           crossOrigin="anonymous"
         ></script>
-        <link
-          href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
-          rel="stylesheet"
-        />
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
       </Head>
 
@@ -37,7 +31,8 @@ export default function Home() {
               <div
                 id="carouselExampleControls"
                 className="carousel slide"
-                data-bs-ride="carousel">
+                data-bs-ride="carousel"
+              >
                 <div className="carousel-inner">
                   <div className="carousel-item active">
                     <img src="/banner.png" className="d-flex w-100" alt="..." />
@@ -55,20 +50,23 @@ export default function Home() {
 
           <div className="row">
             <div className="col-10 offset-1 mt-5 fs-5">
-              <CategoryLayout />
+              <CategoryLayout products={products} products_hobi={products_hobi}/>
             </div>
           </div>
 
           <div className="">
             <div className="text-center fixed-bottom">
-              <a href="" className="btn text-white m-5" style={{ backgroundColor: "var(--purple)" }}>
+              <a
+                href=""
+                className="btn text-white m-5"
+                style={{ backgroundColor: "var(--purple)" }}
+              >
                 +Jual
               </a>
             </div>
           </div>
         </MainLayout>
       ) : (
-
         <div className="d-flex flex-column">
           <div className="banner">
             <div className="container-fluid px-0 mb-0 mt-0">
@@ -81,17 +79,25 @@ export default function Home() {
                 >
                   <img className="navbar-toggler-icon fs-1" src="/toggle.png" />
                 </button>
-                <div className="input-group mt-2 me-2" style={{
-                  background: "#ffffff",
-                  borderRadius: "16px",
-                }}>
-                  <input type="text" className="form-control border-0" placeholder="Cari di sini..."
+                <div
+                  className="input-group mt-2 me-2"
+                  style={{
+                    background: "#ffffff",
+                    borderRadius: "16px",
+                  }}
+                >
+                  <input
+                    type="text"
+                    className="form-control border-0"
+                    placeholder="Cari di sini..."
                     style={{
                       borderRadius: "16px",
                       height: "48px",
-                    }} />
-                  <span className="input-group-text bg-transparent border-0 fs-4 px-4"><i className="bi bi-search"></i></span>
-
+                    }}
+                  />
+                  <span className="input-group-text bg-transparent border-0 fs-4 px-4">
+                    <i className="bi bi-search"></i>
+                  </span>
                 </div>
               </div>
               <div className="row px-5 mt-3">
@@ -124,22 +130,44 @@ export default function Home() {
                   </a>
                 </div>
               </div>
-
             </div>
-
           </div>
           <CategoryLayoutMobile />
 
           <div className="">
             <div className="text-center fixed-bottom">
-              <a href="" className="btn text-white m-5" style={{ backgroundColor: "var(--purple)" }}>
+              <a
+                href=""
+                className="btn text-white m-5"
+                style={{ backgroundColor: "var(--purple)" }}
+              >
                 +Jual
               </a>
             </div>
           </div>
         </div>
       )}
-
     </>
   );
+}
+
+export async function getStaticProps(context) {
+  const API = process.env.NEXT_PUBLIC_API_ENDPOINT;
+  let products = [];
+  let products_hobi = [];
+
+  try {
+    const res_products = await axios.get(API + "/products");
+    products = res_products.data.data;
+
+    const res_products_hobi = await axios.get(API + "/products/categories/1");
+    products_hobi = res_products_hobi.data.data;
+
+  } catch (error) {
+    console.log(error.response);
+  }
+
+  return {
+    props: { products, products_hobi },
+  };
 }
