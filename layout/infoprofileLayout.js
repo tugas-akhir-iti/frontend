@@ -8,28 +8,34 @@ import axios from "axios";
 function InfoProfileLayout() {
   const [provinces, setProvinces]=useState([]);
   const [regencies, setRegencies]=useState([]);
-  // const [provinceCode, setProvinceCode]=useState("");
+  const [valueProvince, setValueProvince]=useState("");
 
-  // useEffect(()=>{
-  //   getProvince();
-  // })
+  
 
   const getProvince = async(e)=>{
     const res_province = await axios.get("https://svc-eterno-rails.herokuapp.com/api/v1/provinces")
     setProvinces(res_province.data.data);
   }
 
-  async function getRegency(provinceCode){
+  async function getRegency(e){
+    // console.log(`TARGET ID : ${e.target.value}`)
+    //get value
+    const val=e.target.value;
+    //slice
+    const provinceCode = val.slice(0, 2);
+    const provinceName = val.slice(2);
+    // console.log(provinceName);
+
+    //set state province
+    setValueProvince(provinceName)
+
     const res_regency = await axios.get(`https://svc-eterno-rails.herokuapp.com/api/v1/regencies?province_code=${provinceCode}`)
     setRegencies(res_regency.data.data);
   }
 
-  //run get province
-  getProvince()
-
-  // if(provinceCode!=""){
-  //   console.log("not null regency")
-  // }
+  useEffect(()=>{
+    getProvince();
+  }, [provinces])   
 
   return (
     <div>
@@ -62,11 +68,11 @@ function InfoProfileLayout() {
                 borderRadius: "16px",
                 display: "flex",
               }}
+              onClick={e => getRegency(e)}
             >
-              {/* <option value="">Pilih Provinsi</option> */}
+              <option value="">Pilih Provinsi</option>
               {provinces.map((province)=>(
-                // <option value={province.name} key={province.id} onClick={getRegency(province.province_code)}>{province.name}</option>
-                <option value={province.name} key={province.id}>{province.name}</option>
+                <option value={`${province.province_code}${province.name}`} key={province.id}>{province.name}</option>
               ))}
             </select>
           </div>
