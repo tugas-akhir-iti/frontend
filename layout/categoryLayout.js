@@ -1,9 +1,10 @@
+/* eslint-disable react/jsx-key */
 import React from "react";
 import CategoryCard from "../components/categoryCard";
 import ItemCard from "../components/itemCard";
 import UlCategoryLayout from "./ulcategorylayout";
 
-function CategoryLayout({ products, products_hobi }) {
+function CategoryLayout({ products, products_hobi, products_kesehatan, products_elektronik, products_baju, products_kendaraan }) {
   return (
     <>
       <div className="card border-0">
@@ -110,7 +111,7 @@ function CategoryLayout({ products, products_hobi }) {
             >
               <div className="row d-flex px-3 mt-2">
                 {products.map((product) => (
-                  <div className="col-2">
+                  <div className="col-2 mt-2">
                     <ItemCard
                       name={product.product_name}
                       price={product.product_price}
@@ -127,14 +128,12 @@ function CategoryLayout({ products, products_hobi }) {
               role="tabpanel"
               aria-labelledby="hobi-tab"
             >
-              Hobi
               <div className="row d-flex px-3 mt-2">
                 {products_hobi.map((product) => (
                   <div className="col-2">
                     <ItemCard
                       name={product.product_name}
                       price={product.product_price}
-                      // category={product.Category.category_name}
                       image={product.product_image}
                     />
                   </div>
@@ -148,18 +147,15 @@ function CategoryLayout({ products, products_hobi }) {
               aria-labelledby="kendaraan-tab"
             >
               <div className="row d-flex px-3 mt-2">
-                <div className="col-2">
-                  <ItemCard />
-                </div>
-                <div className="col-2">
-                  <ItemCard />
-                </div>
-                <div className="col-2">
-                  <ItemCard />
-                </div>
-                <div className="col-2">
-                  <ItemCard />
-                </div>
+                {products_kendaraan.map((product) => (
+                  <div className="col-2">
+                    <ItemCard
+                      name={product.product_name}
+                      price={product.product_price}
+                      image={product.product_image}
+                    />
+                  </div>
+                ))}
               </div>
             </div>
 
@@ -170,18 +166,15 @@ function CategoryLayout({ products, products_hobi }) {
               aria-labelledby="baju-tab"
             >
               <div className="row d-flex px-3 mt-2">
-                <div className="col-2">
-                  <ItemCard />
-                </div>
-                <div className="col-2">
-                  <ItemCard />
-                </div>
-                <div className="col-2">
-                  <ItemCard />
-                </div>
-                <div className="col-2">
-                  <ItemCard />
-                </div>
+                {products_baju.map((product) => (
+                  <div className="col-2">
+                    <ItemCard
+                      name={product.product_name}
+                      price={product.product_price}
+                      image={product.product_image}
+                    />
+                  </div>
+                ))}
               </div>
             </div>
 
@@ -191,20 +184,16 @@ function CategoryLayout({ products, products_hobi }) {
               role="tabpanel"
               aria-labelledby="elektronik-tab"
             >
-              Elektronik
               <div className="row d-flex px-3 mt-2">
-                <div className="col-2">
-                  <ItemCard />
-                </div>
-                <div className="col-2">
-                  <ItemCard />
-                </div>
-                <div className="col-2">
-                  <ItemCard />
-                </div>
-                <div className="col-2">
-                  <ItemCard />
-                </div>
+                {products_elektronik.map((product) => (
+                  <div className="col-2">
+                    <ItemCard
+                      name={product.product_name}
+                      price={product.product_price}
+                      image={product.product_image}
+                    />
+                  </div>
+                ))}
               </div>
             </div>
 
@@ -214,20 +203,17 @@ function CategoryLayout({ products, products_hobi }) {
               role="tabpanel"
               aria-labelledby="kesehatan-tab"
             >
-              Kesehatan
+
               <div className="row d-flex px-3 mt-2">
-                <div className="col-2">
-                  <ItemCard />
-                </div>
-                <div className="col-2">
-                  <ItemCard />
-                </div>
-                <div className="col-2">
-                  <ItemCard />
-                </div>
-                <div className="col-2">
-                  <ItemCard />
-                </div>
+                {products_kesehatan.map((product) => (
+                  <div className="col-2">
+                    <ItemCard
+                      name={product.product_name}
+                      price={product.product_price}
+                      image={product.product_image}
+                    />
+                  </div>
+                ))}
               </div>
             </div>
           </div>
