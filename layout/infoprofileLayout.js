@@ -1,9 +1,36 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import InputBox from "../components/inputBox";
 import CategoryCard from "../components/categoryCard";
 import MainButton from "../components/mainButton";
+import axios from "axios";
+
 
 function InfoProfileLayout() {
+  const [provinces, setProvinces]=useState([]);
+  const [regencies, setRegencies]=useState([]);
+  // const [provinceCode, setProvinceCode]=useState("");
+
+  // useEffect(()=>{
+  //   getProvince();
+  // })
+
+  const getProvince = async(e)=>{
+    const res_province = await axios.get("https://svc-eterno-rails.herokuapp.com/api/v1/provinces")
+    setProvinces(res_province.data.data);
+  }
+
+  async function getRegency(provinceCode){
+    const res_regency = await axios.get(`https://svc-eterno-rails.herokuapp.com/api/v1/regencies?province_code=${provinceCode}`)
+    setRegencies(res_regency.data.data);
+  }
+
+  //run get province
+  getProvince()
+
+  // if(provinceCode!=""){
+  //   console.log("not null regency")
+  // }
+
   return (
     <div>
       <form>
@@ -36,10 +63,11 @@ function InfoProfileLayout() {
                 display: "flex",
               }}
             >
-              <option value="">Pilih Provinsi</option>
-              <option value="1">One</option>
-              <option value="2">Two</option>
-              <option value="3">Three</option>
+              {/* <option value="">Pilih Provinsi</option> */}
+              {provinces.map((province)=>(
+                // <option value={province.name} key={province.id} onClick={getRegency(province.province_code)}>{province.name}</option>
+                <option value={province.name} key={province.id}>{province.name}</option>
+              ))}
             </select>
           </div>
 
@@ -56,9 +84,9 @@ function InfoProfileLayout() {
               }}
             >
               <option value="">Pilih Kota</option>
-              <option value="1">One</option>
-              <option value="2">Two</option>
-              <option value="3">Three</option>
+              {regencies.map((regency)=>(
+                <option value={regency.name} key={regency.id} >{regency.name}</option>
+              ))}
             </select>
           </div>
 
