@@ -55,8 +55,8 @@ function FormRegister() {
             }}
           >
             <option value="">Pilih Role</option>
-            <option value="1">Seller</option>
-            <option value="2">Buyer</option>
+            <option value="1">Buyer</option>
+            <option value="2">Seller</option>
           </select>
         </div>
 

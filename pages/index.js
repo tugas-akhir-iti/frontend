@@ -1,3 +1,5 @@
+/* eslint-disable @next/next/no-html-link-for-pages */
+/* eslint-disable @next/next/no-sync-scripts */
 import axios from "axios";
 import Head from "next/head";
 import MainLayout from "../layout/mainLayout";
@@ -7,7 +9,7 @@ import CategoryLayout from "../layout/categoryLayout";
 import CategoryLayoutMobile from "../layout/categoryLayoutMobile";
 import ItemCard from "../components/itemCard";
 
-export default function Home({ products, products_hobi }) {
+export default function Home({ products, products_hobi, products_kesehatan, products_elektronik, products_baju, products_kendaraan }) {
   const screen = useResize();
 
   return (
@@ -50,7 +52,11 @@ export default function Home({ products, products_hobi }) {
 
           <div className="row">
             <div className="col-10 offset-1 mt-5 fs-5">
-              <CategoryLayout products={products} products_hobi={products_hobi}/>
+              <CategoryLayout products={products} products_hobi={products_hobi}
+                products_kesehatan={products_kesehatan} products_elektronik={products_elektronik} products_baju={products_baju}
+                products_kendaraan={products_kendaraan}
+
+              />
             </div>
           </div>
 
@@ -132,7 +138,11 @@ export default function Home({ products, products_hobi }) {
               </div>
             </div>
           </div>
-          <CategoryLayoutMobile />
+          <CategoryLayoutMobile products={products} products_hobi={products_hobi}
+            products_kesehatan={products_kesehatan} products_elektronik={products_elektronik} products_baju={products_baju}
+            products_kendaraan={products_kendaraan}
+
+          />
 
           <div className="">
             <div className="text-center fixed-bottom">
@@ -155,6 +165,11 @@ export async function getStaticProps(context) {
   const API = process.env.NEXT_PUBLIC_API_ENDPOINT;
   let products = [];
   let products_hobi = [];
+  let products_elektronik = [];
+  let products_kesehatan = [];
+  let products_baju = [];
+  let products_kendaraan = [];
+
 
   try {
     const res_products = await axios.get(API + "/products");
@@ -163,11 +178,23 @@ export async function getStaticProps(context) {
     const res_products_hobi = await axios.get(API + "/products/categories/1");
     products_hobi = res_products_hobi.data.data;
 
+    const res_products_kendaraan = await axios.get(API + "/products/categories/2");
+    products_kendaraan = res_products_kendaraan.data.data;
+
+    const res_products_baju = await axios.get(API + "/products/categories/3");
+    products_baju = res_products_baju.data.data;
+
+    const res_products_elektronik = await axios.get(API + "/products/categories/4");
+    products_elektronik = res_products_elektronik.data.data;
+
+    const res_products_kesehatan = await axios.get(API + "/products/categories/5");
+    products_kesehatan = res_products_kesehatan.data.data;
+
   } catch (error) {
     console.log(error.response);
   }
 
   return {
-    props: { products, products_hobi },
+    props: { products, products_hobi, products_kesehatan, products_elektronik, products_baju, products_kendaraan },
   };
 }
