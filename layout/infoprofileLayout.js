@@ -1,9 +1,43 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import InputBox from "../components/inputBox";
 import CategoryCard from "../components/categoryCard";
 import MainButton from "../components/mainButton";
+import axios from "axios";
+
 
 function InfoProfileLayout() {
+  const [provinces, setProvinces]=useState([]);
+  const [regencies, setRegencies]=useState([]);
+  const [valueProvince, setValueProvince]=useState("");
+  const [valueRegency, setValueRegency]=useState("");
+
+  
+
+  const getProvince = async(e)=>{
+    const res_province = await axios.get("https://svc-eterno-rails.herokuapp.com/api/v1/provinces")
+    setProvinces(res_province.data.data);
+  }
+
+  async function getRegency(e){
+    // console.log(`TARGET ID : ${e.target.value}`)
+    //get value
+    const val=e.target.value;
+    //slice
+    const provinceCode = val.slice(0, 2);
+    const provinceName = val.slice(2);
+    // console.log(provinceName);
+
+    //set state province
+    setValueProvince(provinceName)
+
+    const res_regency = await axios.get(`https://svc-eterno-rails.herokuapp.com/api/v1/regencies?province_code=${provinceCode}`)
+    setRegencies(res_regency.data.data);
+  }
+
+  useEffect(()=>{
+    getProvince();
+  }, [provinces])   
+
   return (
     <div>
       <form>
@@ -36,11 +70,12 @@ function InfoProfileLayout() {
                 borderRadius: "16px",
                 display: "flex"
               }}
+              onClick={e => getRegency(e)}              
             >
               <option value="">Pilih Provinsi</option>
-              <option value="1">One</option>
-              <option value="2">Two</option>
-              <option value="3">Three</option>
+              {provinces.map((province)=>(
+                <option value={`${province.province_code}${province.name}`} key={province.id}>{province.name}</option>
+              ))}
             </select>
           </div>
 
@@ -55,11 +90,12 @@ function InfoProfileLayout() {
                 borderRadius: "16px",
                 display: "flex"
               }}
+              onClick={e => setValueRegency(e.target.value)}
             >
               <option value="">Pilih Kota</option>
-              <option value="1">One</option>
-              <option value="2">Two</option>
-              <option value="3">Three</option>
+              {regencies.map((regency)=>(
+                <option value={regency.name} key={regency.id} >{regency.name}</option>
+              ))}
             </select>
           </div>
           <div className="col-12 mt-2">
