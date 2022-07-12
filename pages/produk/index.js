@@ -7,14 +7,14 @@ import ProdukMobileLayout from "../../layout/produkMobile";
 import useResize from "../../hooks/useResize";
 import ProdukDesktopLayout from "../../layout/produkDesktop";
 
-function Produk() {
+function Produk({product_name, product_description, product_price, product_image}) {
   const screen = useResize();
 
   let images = (
     <img
       className="w-100"
       style={{ borderRadius: "1rem" }}
-      src="airpodsmax.jpg"
+      src={product_image}
       alt="carouselproduk"
     />
   );
@@ -42,9 +42,9 @@ function Produk() {
         borderRadius: "1rem",
       }}
     >
-      <h4>Headphone</h4>
+      <h4>{product_name}</h4>
       <p className="p-0 mb-2">Mekanik</p>
-      <h5>Rp. 250.000</h5>
+      <h5>{product_price}</h5>
       {screen.md && (
         <div className="start-0 end-0 d-flex">
           <CategoryCard
@@ -66,10 +66,7 @@ function Produk() {
     >
       <b>Deskripsi</b>
       <p className="mb-0 mt-2">
-        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ipsa quas
-        repudiandae, enim harum aspernatur consequuntur hic maxime qui natus
-        voluptas! Illo quos non atque obcaecati impedit excepturi esse expedita
-        deserunt.
+        {product_description}
       </p>
     </div>
   );

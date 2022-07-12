@@ -113,10 +113,8 @@ function CategoryLayout({ products, products_hobi, products_kesehatan, products_
               <div className="row d-flex px-3 mt-2">
                 {products.map((product) => (
                   <Link
-                    href={{
-                      pathname: '/produk/[id]',
-                      query: { id: product.id },
-                    }}
+                    href={'/produk/'+product.id}
+                    key={product.id}
                   >
                     <div className="col-2 mt-2">
                       <ItemCard

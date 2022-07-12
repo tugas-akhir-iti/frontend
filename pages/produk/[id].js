@@ -1,12 +1,38 @@
-import { useRouter } from 'next/router'
+import Produk from "./index.js";
 
+export const getStaticPaths = async () => {
+  const res = await fetch('https://kelompok4-yateam.herokuapp.com/products');
+  const response = await res.json();
 
-const Product = () => {
-    const router = useRouter()
-    const { id } = router.query
+  // map data to an array of path objects with params (id)
+  const paths = response.data.map(product => {
+    return {
+      params: { id: product.id.toString() }
+    }
+  })
 
-    return <p>Produk: {id}</p>
+  return {
+    paths,
+    fallback: false
+  }
 }
 
+export const getStaticProps = async (context) => {
+  const id = context.params.id;
+  const res = await fetch('https://kelompok4-yateam.herokuapp.com/products/' + id);
+  const response = await res.json();
 
-export default Product
+  return {
+    props: { product: response.data }
+  }
+}
+
+const Details = ({ product }) => {
+  return (
+    <>
+      <Produk product_name={product.product_name} product_description={product.product_description}  product_price={product.product_price} product_image={product.product_image}/>
+    </>
+  );
+}
+
+export default Details;
