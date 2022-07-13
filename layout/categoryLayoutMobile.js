@@ -1,9 +1,10 @@
+/* eslint-disable react/jsx-key */
 import React from "react";
 import CategoryCard from "../components/categoryCard";
 import ItemCard from "../components/itemCard";
 import UlCategoryLayout from "./ulcategorylayout";
 
-function CategoryLayoutMobile() {
+function CategoryLayoutMobile({ products, products_hobi, products_kesehatan, products_elektronik, products_baju, products_kendaraan }) {
   const category = [
     ["box", "Semua Produk"],
     ["heart", "Diminati"],
@@ -113,6 +114,7 @@ function CategoryLayoutMobile() {
           </div>
         </div>
 
+
         <div className="tab-content pt-2" id="myTabContent">
           <div
             className="tab-pane fade show active"
@@ -120,19 +122,19 @@ function CategoryLayoutMobile() {
             role="tabpanel"
             aria-labelledby="semua-tab"
           >
+
             <div className="row d-flex px-3">
-              <div className="col-6 col-md-4 mt-2">
-                <ItemCard />
-              </div>
-              <div className="col-6 col-md-4 mt-2">
-                <ItemCard />
-              </div>
-              <div className="col-6 col-md-4 mt-2">
-                <ItemCard />
-              </div>
-              <div className="col-6 col-md-4 mt-2">
-                <ItemCard />
-              </div>
+              {products.map((product) => (
+                <div className="col-6 col-md-4 mt-2">
+                  <ItemCard
+                    name={product.product_name}
+                    price={product.product_price}
+                    category={product.Category.category_name}
+                    image={product.product_image}
+                  />
+                </div>
+              ))}
+
             </div>
           </div>
 
@@ -142,22 +144,20 @@ function CategoryLayoutMobile() {
             role="tabpanel"
             aria-labelledby="hobi-tab"
           >
-            Hobi
             <div className="row d-flex px-3">
-              <div className="col-6 col-md-4 mt-2">
-                <ItemCard />
-              </div>
-              <div className="col-6 col-md-4 mt-2">
-                <ItemCard />
-              </div>
-              <div className="col-6 col-md-4 mt-2">
-                <ItemCard />
-              </div>
-              <div className="col-6 col-md-4 mt-2">
-                <ItemCard />
-              </div>
+              {products_hobi.map((product) => (
+                <div className="col-6 col-md-4 mt-2">
+                  <ItemCard
+                    name={product.product_name}
+                    price={product.product_price}
+                    image={product.product_image}
+                  />
+                </div>
+
+              ))}
             </div>
           </div>
+
           <div
             className="tab-pane fade"
             id="pills-kendaraan"
@@ -165,18 +165,16 @@ function CategoryLayoutMobile() {
             aria-labelledby="kendaraan-tab"
           >
             <div className="row d-flex px-3">
-              <div className="col-6 col-md-4 mt-2">
-                <ItemCard />
-              </div>
-              <div className="col-6 col-md-4 mt-2">
-                <ItemCard />
-              </div>
-              <div className="col-6 col-md-4 mt-2">
-                <ItemCard />
-              </div>
-              <div className="col-6 col-md-4 mt-2">
-                <ItemCard />
-              </div>
+              {products_kendaraan.map((product) => (
+                <div className="col-6 col-md-4 mt-2">
+                  <ItemCard
+                    name={product.product_name}
+                    price={product.product_price}
+                    image={product.product_image}
+                  />
+                </div>
+
+              ))}
             </div>
           </div>
 
@@ -187,18 +185,15 @@ function CategoryLayoutMobile() {
             aria-labelledby="baju-tab"
           >
             <div className="row d-flex px-3">
-              <div className="col-6 col-md-4 mt-2">
-                <ItemCard />
-              </div>
-              <div className="col-6 col-md-4 mt-2">
-                <ItemCard />
-              </div>
-              <div className="col-6 col-md-4 mt-2">
-                <ItemCard />
-              </div>
-              <div className="col-6 col-md-4 mt-2">
-                <ItemCard />
-              </div>
+              {products_baju.map((product) => (
+                <div className="col-6 col-md-4 mt-2">
+                  <ItemCard
+                    name={product.product_name}
+                    price={product.product_price}
+                    image={product.product_image}
+                  />
+                </div>
+              ))}
             </div>
           </div>
 
@@ -209,18 +204,15 @@ function CategoryLayoutMobile() {
             aria-labelledby="elektronik-tab"
           >
             <div className="row d-flex px-3">
-              <div className="col-6 col-md-4 mt-2">
-                <ItemCard />
-              </div>
-              <div className="col-6 col-md-4 mt-2">
-                <ItemCard />
-              </div>
-              <div className="col-6 col-md-4 mt-2">
-                <ItemCard />
-              </div>
-              <div className="col-6 col-md-4 mt-2">
-                <ItemCard />
-              </div>
+              {products_elektronik.map((product) => (
+                <div className="col-6 col-md-4 mt-2">
+                  <ItemCard
+                    name={product.product_name}
+                    price={product.product_price}
+                    image={product.product_image}
+                  />
+                </div>
+              ))}
             </div>
           </div>
 
@@ -230,24 +222,22 @@ function CategoryLayoutMobile() {
             role="tabpanel"
             aria-labelledby="kesehatan-tab"
           >
-            Kesehatan
+
             <div className="row d-flex px-3">
-              <div className="col-6 col-md-4 mt-2">
-                <ItemCard />
-              </div>
-              <div className="col-6 col-md-4 mt-2">
-                <ItemCard />
-              </div>
-              <div className="col-6 col-md-4 mt-2">
-                <ItemCard />
-              </div>
-              <div className="col-6 col-md-4 mt-2">
-                <ItemCard />
-              </div>
+              {products_kesehatan.map((product) => (
+                <div className="col-6 col-md-4 mt-2">
+                  <ItemCard
+                    name={product.product_name}
+                    price={product.product_price}
+                    image={product.product_image}
+                  />
+                </div>
+              ))}
             </div>
           </div>
+
         </div>
-      </div>
+      </div >
     </>
   );
 }
