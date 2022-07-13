@@ -1,8 +1,9 @@
 /* eslint-disable react/jsx-key */
 import React from "react";
-import CategoryCard from "../components/categoryCard";
+import Link from 'next/link'
 import ItemCard from "../components/itemCard";
 import UlCategoryLayout from "./ulcategorylayout";
+
 
 function CategoryLayout({ products, products_hobi, products_kesehatan, products_elektronik, products_baju, products_kendaraan }) {
   return (
@@ -111,14 +112,19 @@ function CategoryLayout({ products, products_hobi, products_kesehatan, products_
             >
               <div className="row d-flex px-3 mt-2">
                 {products.map((product) => (
-                  <div className="col-2 mt-2">
-                    <ItemCard
-                      name={product.product_name}
-                      price={product.product_price}
-                      category={product.Category.category_name}
-                      image={product.product_image}
-                    />
-                  </div>
+                  <Link
+                    href={'/produk/'+product.id}
+                    key={product.id}
+                  >
+                    <div className="col-2 mt-2">
+                      <ItemCard
+                        name={product.product_name}
+                        price={product.product_price}
+                        category={product.Category.category_name}
+                        image={product.product_image}
+                      />
+                    </div>
+                  </Link>
                 ))}
               </div>
             </div>
@@ -130,13 +136,20 @@ function CategoryLayout({ products, products_hobi, products_kesehatan, products_
             >
               <div className="row d-flex px-3 mt-2">
                 {products_hobi.map((product) => (
-                  <div className="col-2">
-                    <ItemCard
-                      name={product.product_name}
-                      price={product.product_price}
-                      image={product.product_image}
-                    />
-                  </div>
+                  <Link
+                    href={{
+                      pathname: '/produk/[id]',
+                      query: { id: product.id },
+                    }}
+                  >
+                    <div className="col-2">
+                      <ItemCard
+                        name={product.product_name}
+                        price={product.product_price}
+                        image={product.product_image}
+                      />
+                    </div>
+                  </Link>
                 ))}
               </div>
             </div>
@@ -148,13 +161,20 @@ function CategoryLayout({ products, products_hobi, products_kesehatan, products_
             >
               <div className="row d-flex px-3 mt-2">
                 {products_kendaraan.map((product) => (
-                  <div className="col-2">
-                    <ItemCard
-                      name={product.product_name}
-                      price={product.product_price}
-                      image={product.product_image}
-                    />
-                  </div>
+                  <Link
+                    href={{
+                      pathname: '/produk/[id]',
+                      query: { id: product.id },
+                    }}
+                  >
+                    <div className="col-2">
+                      <ItemCard
+                        name={product.product_name}
+                        price={product.product_price}
+                        image={product.product_image}
+                      />
+                    </div>
+                  </Link>
                 ))}
               </div>
             </div>
@@ -167,13 +187,20 @@ function CategoryLayout({ products, products_hobi, products_kesehatan, products_
             >
               <div className="row d-flex px-3 mt-2">
                 {products_baju.map((product) => (
-                  <div className="col-2">
-                    <ItemCard
-                      name={product.product_name}
-                      price={product.product_price}
-                      image={product.product_image}
-                    />
-                  </div>
+                  <Link
+                    href={{
+                      pathname: '/produk/[id]',
+                      query: { id: product.id },
+                    }}
+                  >
+                    <div className="col-2">
+                      <ItemCard
+                        name={product.product_name}
+                        price={product.product_price}
+                        image={product.product_image}
+                      />
+                    </div>
+                  </Link>
                 ))}
               </div>
             </div>
@@ -186,13 +213,20 @@ function CategoryLayout({ products, products_hobi, products_kesehatan, products_
             >
               <div className="row d-flex px-3 mt-2">
                 {products_elektronik.map((product) => (
-                  <div className="col-2">
-                    <ItemCard
-                      name={product.product_name}
-                      price={product.product_price}
-                      image={product.product_image}
-                    />
-                  </div>
+                  <Link
+                    href={{
+                      pathname: '/produk/[id]',
+                      query: { id: product.id },
+                    }}
+                  >
+                    <div className="col-2">
+                      <ItemCard
+                        name={product.product_name}
+                        price={product.product_price}
+                        image={product.product_image}
+                      />
+                    </div>
+                  </Link>
                 ))}
               </div>
             </div>
@@ -206,13 +240,20 @@ function CategoryLayout({ products, products_hobi, products_kesehatan, products_
 
               <div className="row d-flex px-3 mt-2">
                 {products_kesehatan.map((product) => (
-                  <div className="col-2">
-                    <ItemCard
-                      name={product.product_name}
-                      price={product.product_price}
-                      image={product.product_image}
-                    />
-                  </div>
+                  <Link
+                    href={{
+                      pathname: '/produk/[id]',
+                      query: { id: product.id },
+                    }}
+                  >
+                    <div className="col-2">
+                      <ItemCard
+                        name={product.product_name}
+                        price={product.product_price}
+                        image={product.product_image}
+                      />
+                    </div>
+                  </Link>
                 ))}
               </div>
             </div>

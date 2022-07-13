@@ -3,6 +3,7 @@
 import React from "react";
 import Search from "./search";
 import ButtonMasuk from "./buttonMasuk";
+import Link from "next/link";
 
 
 function Header() {
@@ -23,9 +24,11 @@ function Header() {
               <div className="col-4">
               </div>
               <div className="col-2 px-5">
-                <a href="/login" className="text-decoration-none">
+                <Link href="account/login" >
+                <a className="text-decoration-none">
                   <ButtonMasuk />
                 </a>
+                </Link>
               </div>
             </div>
           </div>
