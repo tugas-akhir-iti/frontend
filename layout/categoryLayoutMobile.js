@@ -3,6 +3,8 @@ import React from "react";
 import CategoryCard from "../components/categoryCard";
 import ItemCard from "../components/itemCard";
 import UlCategoryLayout from "./ulcategorylayout";
+import styles from "../styles/Home.module.css";
+
 
 function CategoryLayoutMobile({ products, products_hobi, products_kesehatan, products_elektronik, products_baju, products_kendaraan }) {
   const category = [
@@ -126,12 +128,15 @@ function CategoryLayoutMobile({ products, products_hobi, products_kesehatan, pro
             <div className="row d-flex px-3">
               {products.map((product) => (
                 <div className="col-6 col-md-4 mt-2">
+                    <a className={styles.produk} href={'/produk/' + product.id}
+                      key={product.id}>
                   <ItemCard
                     name={product.product_name}
                     price={product.product_price}
                     category={product.Category.category_name}
                     image={product.product_image}
                   />
+                  </a>
                 </div>
               ))}
 
@@ -147,11 +152,14 @@ function CategoryLayoutMobile({ products, products_hobi, products_kesehatan, pro
             <div className="row d-flex px-3">
               {products_hobi.map((product) => (
                 <div className="col-6 col-md-4 mt-2">
+                  <a className={styles.produk} href={'/produk/' + product.id}
+                      key={product.id}>
                   <ItemCard
                     name={product.product_name}
                     price={product.product_price}
                     image={product.product_image}
                   />
+                  </a>
                 </div>
 
               ))}
@@ -167,11 +175,14 @@ function CategoryLayoutMobile({ products, products_hobi, products_kesehatan, pro
             <div className="row d-flex px-3">
               {products_kendaraan.map((product) => (
                 <div className="col-6 col-md-4 mt-2">
+                  <a className={styles.produk} href={'/produk/' + product.id}
+                      key={product.id}>
                   <ItemCard
                     name={product.product_name}
                     price={product.product_price}
                     image={product.product_image}
                   />
+                  </a>
                 </div>
 
               ))}
@@ -186,12 +197,15 @@ function CategoryLayoutMobile({ products, products_hobi, products_kesehatan, pro
           >
             <div className="row d-flex px-3">
               {products_baju.map((product) => (
-                <div className="col-6 col-md-4 mt-2">
+                <div className="col-6 col-md-4 mt-2"> 
+                  <a className={styles.produk} href={'/produk/' + product.id}
+                      key={product.id}>
                   <ItemCard
                     name={product.product_name}
                     price={product.product_price}
                     image={product.product_image}
                   />
+                  </a>
                 </div>
               ))}
             </div>
@@ -206,11 +220,14 @@ function CategoryLayoutMobile({ products, products_hobi, products_kesehatan, pro
             <div className="row d-flex px-3">
               {products_elektronik.map((product) => (
                 <div className="col-6 col-md-4 mt-2">
+                  <a className={styles.produk} href={'/produk/' + product.id}
+                      key={product.id}>
                   <ItemCard
                     name={product.product_name}
                     price={product.product_price}
                     image={product.product_image}
                   />
+                  </a>
                 </div>
               ))}
             </div>
@@ -226,11 +243,14 @@ function CategoryLayoutMobile({ products, products_hobi, products_kesehatan, pro
             <div className="row d-flex px-3">
               {products_kesehatan.map((product) => (
                 <div className="col-6 col-md-4 mt-2">
+                  <a className={styles.produk} href={'/produk/' + product.id}
+                      key={product.id}>
                   <ItemCard
                     name={product.product_name}
                     price={product.product_price}
                     image={product.product_image}
                   />
+                  </a>
                 </div>
               ))}
             </div>

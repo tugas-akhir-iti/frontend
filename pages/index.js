@@ -7,9 +7,85 @@ import useResize from "../hooks/useResize";
 import ButtonMasuk from "../components/buttonMasuk";
 import CategoryLayout from "../layout/categoryLayout";
 import CategoryLayoutMobile from "../layout/categoryLayoutMobile";
-import ItemCard from "../components/itemCard";
+import Link from "next/link";
 
-export default function Home({ products, products_hobi, products_kesehatan, products_elektronik, products_baju, products_kendaraan }) {
+export async function getServerSideProps({ req, res }) {
+  const API = process.env.NEXT_PUBLIC_API_ENDPOINT;
+  let user = null;
+  let allcookie = req.headers.cookie;
+  let cookielist = allcookie.split("; ");
+  let token = "";
+  cookielist.forEach((element) => {
+    if (element.startsWith("token=")) {
+      token = element.substring(6, element.length);
+    }
+  });
+  let products = [];
+  let products_hobi = [];
+  let products_elektronik = [];
+  let products_kesehatan = [];
+  let products_baju = [];
+  let products_kendaraan = [];
+
+  try {
+    const res_products = await axios.get(API + "/products");
+    products = res_products.data.data;
+
+    const res_products_hobi = await axios.get(API + "/products/categories/1");
+    products_hobi = res_products_hobi.data.data;
+
+    const res_products_kendaraan = await axios.get(
+      API + "/products/categories/2"
+    );
+    products_kendaraan = res_products_kendaraan.data.data;
+
+    const res_products_baju = await axios.get(API + "/products/categories/3");
+    products_baju = res_products_baju.data.data;
+
+    const res_products_elektronik = await axios.get(
+      API + "/products/categories/4"
+    );
+    products_elektronik = res_products_elektronik.data.data;
+
+    const res_products_kesehatan = await axios.get(
+      API + "/products/categories/5"
+    );
+    products_kesehatan = res_products_kesehatan.data.data;
+
+    const res_user = await axios({
+      method: `get`,
+      url: `${API}/users`,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    user = res_user.data.data;
+  } catch (error) {
+    console.log(error.response);
+  }
+
+  return {
+    props: {
+      user,
+      products,
+      products_hobi,
+      products_kesehatan,
+      products_elektronik,
+      products_baju,
+      products_kendaraan,
+    },
+  };
+}
+
+export default function Home({
+  user,
+  products,
+  products_hobi,
+  products_kesehatan,
+  products_elektronik,
+  products_baju,
+  products_kendaraan,
+}) {
   const screen = useResize();
 
   return (
@@ -27,7 +103,8 @@ export default function Home({ products, products_hobi, products_kesehatan, prod
       </Head>
 
       {screen.md ? (
-        <MainLayout>
+        <MainLayout user={user}>
+          {/* <h1>{cookielist}</h1> */}
           <div className="row">
             <div className="col-10 offset-1 mt-5 d-none d-sm-block">
               <div
@@ -52,10 +129,13 @@ export default function Home({ products, products_hobi, products_kesehatan, prod
 
           <div className="row">
             <div className="col-10 offset-1 mt-5 fs-5">
-              <CategoryLayout products={products} products_hobi={products_hobi}
-                products_kesehatan={products_kesehatan} products_elektronik={products_elektronik} products_baju={products_baju}
+              <CategoryLayout
+                products={products}
+                products_hobi={products_hobi}
+                products_kesehatan={products_kesehatan}
+                products_elektronik={products_elektronik}
+                products_baju={products_baju}
                 products_kendaraan={products_kendaraan}
-
               />
             </div>
           </div>
@@ -138,63 +218,27 @@ export default function Home({ products, products_hobi, products_kesehatan, prod
               </div>
             </div>
           </div>
-          <CategoryLayoutMobile products={products} products_hobi={products_hobi}
-            products_kesehatan={products_kesehatan} products_elektronik={products_elektronik} products_baju={products_baju}
+          <CategoryLayoutMobile
+            products={products}
+            products_hobi={products_hobi}
+            products_kesehatan={products_kesehatan}
+            products_elektronik={products_elektronik}
+            products_baju={products_baju}
             products_kendaraan={products_kendaraan}
-
           />
 
-          <div className="">
-            <div className="text-center fixed-bottom">
+          <div className="text-center fixed-bottom">
+            <Link href="/add-produk">
               <a
-                href=""
                 className="btn text-white m-5"
                 style={{ backgroundColor: "var(--purple)" }}
               >
                 +Jual
               </a>
-            </div>
+            </Link>
           </div>
         </div>
       )}
     </>
   );
-}
-
-export async function getStaticProps(context) {
-  const API = process.env.NEXT_PUBLIC_API_ENDPOINT;
-  let products = [];
-  let products_hobi = [];
-  let products_elektronik = [];
-  let products_kesehatan = [];
-  let products_baju = [];
-  let products_kendaraan = [];
-
-
-  try {
-    const res_products = await axios.get(API + "/products");
-    products = res_products.data.data;
-
-    const res_products_hobi = await axios.get(API + "/products/categories/1");
-    products_hobi = res_products_hobi.data.data;
-
-    const res_products_kendaraan = await axios.get(API + "/products/categories/2");
-    products_kendaraan = res_products_kendaraan.data.data;
-
-    const res_products_baju = await axios.get(API + "/products/categories/3");
-    products_baju = res_products_baju.data.data;
-
-    const res_products_elektronik = await axios.get(API + "/products/categories/4");
-    products_elektronik = res_products_elektronik.data.data;
-
-    const res_products_kesehatan = await axios.get(API + "/products/categories/5");
-    products_kesehatan = res_products_kesehatan.data.data;
-
-  } catch (error) {
-    console.log(error.response);
-  }
-
-  return {
-    props: { products, products_hobi, products_kesehatan, products_elektronik, products_baju, products_kendaraan },
-  };
 }

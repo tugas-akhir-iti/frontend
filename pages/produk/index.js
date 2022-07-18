@@ -7,7 +7,7 @@ import ProdukMobileLayout from "../../layout/produkMobile";
 import useResize from "../../hooks/useResize";
 import ProdukDesktopLayout from "../../layout/produkDesktop";
 
-function Produk({product_name, product_description, product_price, product_image}) {
+function Produk({ product_name, product_description, product_price, product_image, category_name, user_image, user_name, user_regency }) {
   const screen = useResize();
 
   let images = (
@@ -27,12 +27,13 @@ function Produk({product_name, product_description, product_price, product_image
   );
   let owner = (
     <OwnerCard
-      foto="dummypp.jpg"
+      foto={user_image}
       fotoalt="fotoalt"
       isOwner={false}
-      nama="Sit"
-      kota="dolor"
+      nama={user_name}
+      kota={user_regency}
     />
+    
   );
   let information = (
     <div
@@ -43,8 +44,8 @@ function Produk({product_name, product_description, product_price, product_image
       }}
     >
       <h4>{product_name}</h4>
-      <p className="p-0 mb-2">Mekanik</p>
-      <h5>{product_price}</h5>
+      <p className="p-0 mb-2">{category_name}</p>
+      <h5>Rp {product_price}</h5>
       {screen.md && (
         <div className="start-0 end-0 d-flex">
           <CategoryCard
