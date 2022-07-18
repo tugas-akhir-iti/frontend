@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import FormData from "form-data";
 import axios from "axios";
@@ -7,16 +7,23 @@ import InputBox from "../components/inputBox";
 import CategoryCard from "../components/categoryCard";
 import MainButton from "../components/mainButton";
 
+const API = process.env.NEXT_PUBLIC_API_ENDPOINT;
+
 function AddProdukLayout() {
   const router = useRouter();
-  const API = process.env.NEXT_PUBLIC_API_ENDPOINT;
+  const [categories, setCategories] = useState([]);
   const [productData, setProductData] = useState({
     product_name: "",
     product_price: "",
     product_description: "",
     product_image: null,
-    category_id: 1,
+    category_id: "",
   });
+
+  const getCategories = async (e) => {
+    const categories = await axios.get(`${API}/categories`);
+    setCategories(categories.data.data);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -37,7 +44,6 @@ function AddProdukLayout() {
         },
       });
       router.replace("/account/login");
-      console.log(productData.category_id);
     } catch (error) {
       console.log(error.response);
     }
@@ -49,8 +55,12 @@ function AddProdukLayout() {
   };
 
   const handleChangeFile = (e) => {
-    setProductData(prev => ({...prev, product_image: e.target.files[0]}))
-  } 
+    setProductData((prev) => ({ ...prev, product_image: e.target.files[0] }));
+  };
+
+  useEffect(() => {
+    getCategories();
+  }, [categories]);
   return (
     <div>
       <form onSubmit={handleSubmit}>
@@ -77,7 +87,7 @@ function AddProdukLayout() {
           </div>
           <div className="col-12 mt-2">
             <label>Kategori</label>
-            <select
+            <select name="category_id"
               className="form-select mt-2"
               aria-label="Default select example"
               onChange={(e) => handleChange(e)}
@@ -89,9 +99,10 @@ function AddProdukLayout() {
               }}
             >
               <option value="">Pilih Kategori</option>
-              <option value="1">One</option>
-              <option value="2">Two</option>
-              <option value="3">Three</option>
+              {categories.map((category)=>(
+                <option value={`${category.id}`} key={category.id}>{category.category_name}</option>
+              ))}
+
             </select>
           </div>
           <div className="col-12 mt-2">
@@ -113,23 +124,6 @@ function AddProdukLayout() {
           </div>
           <div className="col-12 mt-2">
             <label>Foto Produk</label>
-            {/* <button
-              className="flex-fill d-flex flex-column justify-content-center rounded mt-2"
-              style={{
-                borderStyle: "dashed",
-                borderWidth: "2px",
-                borderColor: "lightgray",
-                color: "gray",
-                width: "96px",
-                height: "96px",
-              }}
-            >
-           
-              <i
-                className="bi bi-plus mx-auto"
-                style={{ fontSize: "2rem" }}
-              ></i>
-            </button> */}
             <InputBox
               type="file"
               name="product_image"
