@@ -1,6 +1,7 @@
 :root {
   --purple: #7126b5;
   --purple2: #e2d4f0;
+  --reddark: #cc3434;
 }
 
 html,
@@ -49,4 +50,3 @@ padding: 10px;
   background-blend-mode: screen;
   background: linear-gradient(#ffe9c9, #ffe9ca);
 }
- 

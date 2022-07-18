@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useRouter } from "next/router";
 import FormData from "form-data";
 import axios from "axios";
+import cookie from "js-cookie"
 import Head from "next/head";
 import LoginregisterLayout from "../../layout/loginregisterLayout";
 import CategoryCard from "../../components/categoryCard";
@@ -31,7 +32,8 @@ export default function Login() {
         },
       });
 
-      document.cookie = "token=" + res.data.token + "; path=/; max-age=1800";
+      cookie.set("token", res.data.token)
+      // cookie.set("cookie", "dacookie", {expires: 1/24})
       router.replace("/");
     } catch (error) {
       console.log(error.response);

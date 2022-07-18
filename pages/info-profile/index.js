@@ -1,13 +1,32 @@
 /* eslint-disable @next/next/no-html-link-for-pages */
 /* eslint-disable react/no-unknown-property */
 /* eslint-disable @next/next/no-sync-scripts */
+import cookie from "js-cookie";
 import Head from "next/head";
 import Top from "../../components/top";
 import InfoProfileLayout from "../../layout/infoprofileLayout";
+import { useRouter } from "next/router";
 import useResize from "../../hooks/useResize";
 
 export default function InfoProfile() {
+  const router = useRouter();
   const screen = useResize();
+
+  let user = null;
+  let mycookie = cookie.get("cookie");
+
+  if (mycookie == "dacookie") {
+    user = {
+      Foto_Profil: null,
+      Nama: "daddy",
+      Provinsi: null,
+      Kota: null,
+      Alamat: null,
+      No_Handphone: null,
+    };
+  }else{
+    // router.replace("/")
+  }
   return (
     <>
       <Head>
