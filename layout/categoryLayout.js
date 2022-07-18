@@ -3,6 +3,8 @@ import React from "react";
 import Link from 'next/link'
 import ItemCard from "../components/itemCard";
 import UlCategoryLayout from "./ulcategorylayout";
+import styles from "../styles/Home.module.css";
+
 
 
 function CategoryLayout({ products, products_hobi, products_kesehatan, products_elektronik, products_baju, products_kendaraan }) {
@@ -112,19 +114,19 @@ function CategoryLayout({ products, products_hobi, products_kesehatan, products_
             >
               <div className="row d-flex px-3 mt-2">
                 {products.map((product) => (
-                  <Link
-                    href={'/produk/'+product.id}
-                    key={product.id}
-                  >
-                    <div className="col-2 mt-2">
+                  <div className="col-2 mt-2">
+                    <a className={styles.produk} href={'/produk/' + product.id}
+                      key={product.id}>
+
                       <ItemCard
                         name={product.product_name}
                         price={product.product_price}
                         category={product.Category.category_name}
                         image={product.product_image}
                       />
-                    </div>
-                  </Link>
+                    </a>
+                  </div>
+
                 ))}
               </div>
             </div>
@@ -136,20 +138,18 @@ function CategoryLayout({ products, products_hobi, products_kesehatan, products_
             >
               <div className="row d-flex px-3 mt-2">
                 {products_hobi.map((product) => (
-                  <Link
-                    href={{
-                      pathname: '/produk/[id]',
-                      query: { id: product.id },
-                    }}
-                  >
-                    <div className="col-2">
+
+                  <div className="col-2">
+                    <a className={styles.produk} href={'/produk/' + product.id}
+                      key={product.id}>
                       <ItemCard
                         name={product.product_name}
                         price={product.product_price}
                         image={product.product_image}
                       />
-                    </div>
-                  </Link>
+                    </a>
+                  </div>
+
                 ))}
               </div>
             </div>
@@ -161,20 +161,16 @@ function CategoryLayout({ products, products_hobi, products_kesehatan, products_
             >
               <div className="row d-flex px-3 mt-2">
                 {products_kendaraan.map((product) => (
-                  <Link
-                    href={{
-                      pathname: '/produk/[id]',
-                      query: { id: product.id },
-                    }}
-                  >
-                    <div className="col-2">
+                  <div className="col-2">
+                    <a className={styles.produk} href={'/produk/' + product.id}
+                      key={product.id}>
                       <ItemCard
                         name={product.product_name}
                         price={product.product_price}
                         image={product.product_image}
                       />
-                    </div>
-                  </Link>
+                    </a>
+                  </div>
                 ))}
               </div>
             </div>
@@ -187,20 +183,18 @@ function CategoryLayout({ products, products_hobi, products_kesehatan, products_
             >
               <div className="row d-flex px-3 mt-2">
                 {products_baju.map((product) => (
-                  <Link
-                    href={{
-                      pathname: '/produk/[id]',
-                      query: { id: product.id },
-                    }}
-                  >
-                    <div className="col-2">
+
+                  <div className="col-2">
+                    <a className={styles.produk} href={'/produk/' + product.id}
+                      key={product.id}>
                       <ItemCard
                         name={product.product_name}
                         price={product.product_price}
                         image={product.product_image}
                       />
-                    </div>
-                  </Link>
+                    </a>
+                  </div>
+
                 ))}
               </div>
             </div>
@@ -213,20 +207,17 @@ function CategoryLayout({ products, products_hobi, products_kesehatan, products_
             >
               <div className="row d-flex px-3 mt-2">
                 {products_elektronik.map((product) => (
-                  <Link
-                    href={{
-                      pathname: '/produk/[id]',
-                      query: { id: product.id },
-                    }}
-                  >
-                    <div className="col-2">
+
+                  <div className="col-2">
+                    <a className={styles.produk} href={'/produk/' + product.id}
+                      key={product.id}>
                       <ItemCard
                         name={product.product_name}
                         price={product.product_price}
                         image={product.product_image}
                       />
-                    </div>
-                  </Link>
+                    </a>
+                  </div>
                 ))}
               </div>
             </div>
@@ -240,20 +231,18 @@ function CategoryLayout({ products, products_hobi, products_kesehatan, products_
 
               <div className="row d-flex px-3 mt-2">
                 {products_kesehatan.map((product) => (
-                  <Link
-                    href={{
-                      pathname: '/produk/[id]',
-                      query: { id: product.id },
-                    }}
-                  >
-                    <div className="col-2">
+
+                  <div className="col-2">
+                    <a className={styles.produk} href={'/produk/' + product.id}
+                      key={product.id}>
                       <ItemCard
                         name={product.product_name}
                         price={product.product_price}
                         image={product.product_image}
                       />
-                    </div>
-                  </Link>
+                    </a>
+                  </div>
+
                 ))}
               </div>
             </div>
