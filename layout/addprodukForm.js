@@ -15,7 +15,7 @@ function AddProdukLayout() {
     product_price: "",
     product_description: "",
     product_image: null,
-    category_id: "",
+    category_id: 1,
   });
 
   const handleSubmit = async (e) => {
