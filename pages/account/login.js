@@ -35,6 +35,7 @@ export default function Login() {
       cookie.set("token", res.data.token)
       // cookie.set("cookie", "dacookie", {expires: 1/24})
       router.replace("/");
+      saveTokenToLocalStorage(res.data.token);
     } catch (error) {
       console.log(error.response);
     }
@@ -44,6 +45,10 @@ export default function Login() {
     const { name, value } = e.target;
     setUserData({ ...userData, [name]: value });
   };
+
+  const saveTokenToLocalStorage = (token) => {
+    localStorage.setItem('user_token', token);
+  }
 
   return (
     <>
