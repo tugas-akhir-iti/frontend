@@ -106,7 +106,7 @@ function EditProdukLayout() {
             >
               <option value="">Pilih Kategori</option>
               {categories.map((category)=>(
-                <option value={`${category.id}`} key={category.id}>{category.category_name}</option>
+                <option selected={category.id == productData.category_id} value={`${category.id}`} key={category.id}>{category.category_name}</option>
               ))}
 
             </select>
