@@ -12,7 +12,7 @@ import Link from "next/link";
 export async function getServerSideProps({ req, res }) {
   const API = process.env.NEXT_PUBLIC_API_ENDPOINT;
   let user = null;
-  let allcookie = req.headers.cookie;
+  let allcookie = req.headers.cookie || "   ";
   let cookielist = allcookie.split("; ");
   let token = "";
   cookielist.forEach((element) => {

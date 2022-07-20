@@ -6,6 +6,7 @@ import Head from "next/head";
 import LoginregisterLayout from "../../layout/loginregisterLayout";
 import InputBox from "../../components/inputBox";
 import CategoryCard from "../../components/categoryCard";
+import Link from "next/link";
 
 export default function Login() {
   const router = useRouter();
@@ -126,6 +127,12 @@ export default function Login() {
             </div>
           </div>
         </form>
+        <h5 className="d-flex justify-content-center">
+          Sudah punya akun?&nbsp;
+          <Link href={"/account/login"}>
+            <a style={{color:"var(--purple)", textDecoration:"none"}}>Masuk disini</a>
+          </Link>
+        </h5>
       </LoginregisterLayout>
     </>
   );

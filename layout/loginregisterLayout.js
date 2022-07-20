@@ -38,7 +38,7 @@ function LoginregisterLayout({ children }) {
           <i className="bi bi-arrow-left fs-1"></i>
         </div>
 
-        <div className="mx-auto d-flex flex-column justify-content-center" style={{maxWidth:"600px"}}>{children}</div>
+        <div className="mx-auto d-flex flex-column justify-content-center" style={{maxWidth:"600px", height:"100%"}}>{children}</div>
       </div>
     </section>
   );

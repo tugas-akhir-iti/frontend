@@ -44,7 +44,7 @@ function Header({ user }) {
           {user ? (
             <ul className="m-0 p-0 d-flex gap-3 position-relative">
               {[
-                ["#", "list-ul"],
+                ["/seller", "list-ul"],
                 ["#", "bell"],
                 ["/info-profile", "person"],
               ].map(([href, icon], index) => (

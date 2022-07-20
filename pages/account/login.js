@@ -2,11 +2,12 @@ import React, { useState } from "react";
 import { useRouter } from "next/router";
 import FormData from "form-data";
 import axios from "axios";
-import cookie from "js-cookie"
+import cookie from "js-cookie";
 import Head from "next/head";
 import LoginregisterLayout from "../../layout/loginregisterLayout";
 import CategoryCard from "../../components/categoryCard";
 import InputBox from "../../components/inputBox";
+import Link from "next/link";
 
 export default function Login() {
   const router = useRouter();
@@ -32,8 +33,7 @@ export default function Login() {
         },
       });
 
-      cookie.set("token", res.data.token)
-      // cookie.set("cookie", "dacookie", {expires: 1/24})
+      cookie.set("token", res.data.token);
       router.replace("/");
       saveTokenToLocalStorage(res.data.token);
     } catch (error) {
@@ -47,8 +47,8 @@ export default function Login() {
   };
 
   const saveTokenToLocalStorage = (token) => {
-    localStorage.setItem('user_token', token);
-  }
+    localStorage.setItem("user_token", token);
+  };
 
   return (
     <>
@@ -82,11 +82,12 @@ export default function Login() {
           <div className="col-12 mt-2">
             <label>Password</label>
             <InputBox
-            type="password"
-            name="user_password"
-            onChange={(e) => handleChange(e)}
-            className="form-control mt-2"
-            placeholder="Masukkan password"/>
+              type="password"
+              name="user_password"
+              onChange={(e) => handleChange(e)}
+              className="form-control mt-2"
+              placeholder="Masukkan password"
+            />
           </div>
           <div className="mt-4 mb-4 text-center fw-bold">
             <div className="start-0 end-0 d-flex">
@@ -99,6 +100,12 @@ export default function Login() {
             </div>
           </div>
         </form>
+        <h5 className="d-flex justify-content-center">
+          Belum punya akun?&nbsp;
+          <Link href={"/account/register"}>
+            <a style={{color:"var(--purple)", textDecoration:"none"}}>Daftar disini</a>
+          </Link>
+        </h5>
       </LoginregisterLayout>
     </>
   );

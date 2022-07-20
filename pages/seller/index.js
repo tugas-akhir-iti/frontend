@@ -1,5 +1,6 @@
 import React from "react";
 import Head from "next/head";
+import axios from "axios";
 import CategoryCard from "../../components/categoryCard";
 import OwnerCard from "../../components/ownerCard";
 import MainLayout from "../../layout/mainLayout";
@@ -7,7 +8,39 @@ import useResize from "../../hooks/useResize";
 import ListSeller from "../../components/sellerViewOption/listSeller";
 import GridSeller from "../../components/sellerViewOption/gridSeller";
 
-export default function DaftarJual() {
+export async function getServerSideProps({ req, res }) {
+  const API = process.env.NEXT_PUBLIC_API_ENDPOINT;
+  let user = null;
+  let allcookie = req.headers.cookie || "   ";
+  let cookielist = allcookie.split("; ");
+  let token = "";
+  cookielist.forEach((element) => {
+    if (element.startsWith("token=")) {
+      token = element.substring(6, element.length);
+    }
+  });
+
+  try {
+    const res_user = await axios({
+      method: `get`,
+      url: `${API}/users`,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    user = res_user.data.data;
+  } catch (error) {
+    console.log(error.response);
+  }
+
+  return {
+    props: {
+      user,
+    },
+  };
+}
+
+export default function DaftarJual({user}) {
   const category = [
     ["box", "Semua Produk"],
     ["heart", "Diminati"],
@@ -15,6 +48,7 @@ export default function DaftarJual() {
   ];
 
   const screen = useResize();
+  console.log(user);
 
   return (
     <>
@@ -24,16 +58,16 @@ export default function DaftarJual() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <MainLayout>
+      <MainLayout user={user}>
         <div className="max-width p-2 d-flex flex-column gap-2">
           <h1 className="">Daftar Jual Saya</h1>
 
           <OwnerCard
-            foto="dummypp.jpg"
-            fotoalt="fotoalt"
+            foto={user.user_image}
+            fotoalt={`${user.user_name}'s photo`}
             isOwner={true}
-            nama="Lorem"
-            kota="ipsum"
+            nama={user.user_name}
+            kota={user.user_regency}
           />
         </div>
 
@@ -98,8 +132,8 @@ export default function DaftarJual() {
                 "container-fluid m-0 row p-1 g-2" + (screen.md ? " col-8" : "")
               }
             >
-              {/* <GridSeller /> */}
-              <ListSeller listsize={0}/>
+              <GridSeller />
+              {/* <ListSeller listsize={0}/> */}
             </div>
           </div>
         </div>
