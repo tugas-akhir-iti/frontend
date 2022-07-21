@@ -10,7 +10,8 @@ import useResize from "../../hooks/useResize";
 import ProdukDesktopLayout from "../../layout/produkDesktop";
 
 export async function getServerSideProps(context) {
-  let user = context.query.user
+  let user = null
+  user = JSON.stringify(context.query.user)
   const API = process.env.NEXT_PUBLIC_API_ENDPOINT;
   console.log(context.query.id);
   let product = []
@@ -30,6 +31,7 @@ export async function getServerSideProps(context) {
 
 function Produk({ user, product }) {
   const screen = useResize();
+  console.log(user);
 
   let images = (
     <img
