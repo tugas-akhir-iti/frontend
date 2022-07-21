@@ -130,6 +130,7 @@ export default function Home({
           <div className="row">
             <div className="col-10 offset-1 mt-5 fs-5">
               <CategoryLayout
+                user={user}
                 products={products}
                 products_hobi={products_hobi}
                 products_kesehatan={products_kesehatan}

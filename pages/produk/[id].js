@@ -1,5 +1,6 @@
 import Head from "next/head";
 import React from "react";
+import axios from "axios";
 import { useRouter } from "next/router";
 import CategoryCard from "../../components/categoryCard";
 import OwnerCard from "../../components/ownerCard";
@@ -8,36 +9,26 @@ import ProdukMobileLayout from "../../layout/produkMobile";
 import useResize from "../../hooks/useResize";
 import ProdukDesktopLayout from "../../layout/produkDesktop";
 
-export const getStaticPaths = async () => {
-  const res = await fetch("https://kelompok4-yateam.herokuapp.com/products");
-  const response = await res.json();
-
-  // map data to an array of path objects with params (id)
-  const paths = response.data.map((product) => {
-    return {
-      params: { id: product.id.toString() },
-    };
-  });
-
+export async function getServerSideProps(context) {
+  let user = context.query.user
+  const API = process.env.NEXT_PUBLIC_API_ENDPOINT;
+  console.log(context.query.id);
+  let product = []
+  try{
+    const res = await axios.get(API + "/products/" + context.query.id);
+    product = res.data.data;
+  }catch(error){
+    console.log(error);
+  }
   return {
-    paths,
-    fallback: false,
+    props: {
+      user,
+      product
+    },
   };
-};
+}
 
-export const getStaticProps = async (context) => {
-  const id = context.params.id;
-  const res = await fetch(
-    "https://kelompok4-yateam.herokuapp.com/products/" + id
-  );
-  const response = await res.json();
-
-  return {
-    props: { product: response.data },
-  };
-};
-
-function Produk({ product }) {
+function Produk({ user, product }) {
   const screen = useResize();
 
   let images = (
@@ -106,7 +97,7 @@ function Produk({ product }) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <MainLayout>
+      <MainLayout user={user}>
         <div className="max-width container-fluid p-0">
           {screen.md ? (
             <ProdukDesktopLayout

@@ -30,7 +30,7 @@ function Header({ user }) {
       <div className="max-width d-flex justify-content-between p-2">
         <div className="d-flex gap-3">
           <div>
-            <Link href="/">
+            <Link href="/#">
               <a>
                 <img src="/logo.png" height="45" />
               </a>
@@ -71,7 +71,7 @@ function Header({ user }) {
               </li>
             </ul>
           ) : (
-            <Link href="account/login">
+            <Link href="/account/login">
               <a className="text-decoration-none">
                 <ButtonMasuk />
               </a>
