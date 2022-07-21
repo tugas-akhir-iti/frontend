@@ -1,8 +1,9 @@
 import Link from "next/link";
 import React from "react";
 import ItemCard from "../itemCard";
+import styles from "../../styles/Home.module.css";
 
-function GridSeller() {
+function GridSeller({products,user}) {
   return (
     <>
       <div className="col-6 col-md-4 d-flex">
@@ -21,27 +22,29 @@ function GridSeller() {
           </button>
         </Link>
       </div>
-      <div className="col-6 col-md-4">
-        <ItemCard></ItemCard>
-      </div>
-      <div className="col-6 col-md-4">
-        <ItemCard></ItemCard>
-      </div>
-      <div className="col-6 col-md-4">
-        <ItemCard></ItemCard>
-      </div>
-      <div className="col-6 col-md-4">
-        <ItemCard></ItemCard>
-      </div>
-      <div className="col-6 col-md-4">
-        <ItemCard></ItemCard>
-      </div>
-      <div className="col-6 col-md-4">
-        <ItemCard></ItemCard>
-      </div>
-      <div className="col-6 col-md-4">
-        <ItemCard></ItemCard>
-      </div>
+      {products.map((product) => (
+        <div className="col-6 col-md-4">
+          <Link
+            href={{
+              pathname: "/produk/[id]",
+              query: {
+                // product: product,
+                user: user,
+              },
+            }}
+            as={`produk/${product.id}`}
+          >
+            <a className={styles.produk} key={product.id}>
+              <ItemCard
+                name={product.product_name}
+                price={product.product_price}
+                category={product.category_id}
+                image={product.product_image}
+              />
+            </a>
+          </Link>
+        </div>
+      ))}
     </>
   );
 }

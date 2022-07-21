@@ -14,10 +14,10 @@ function Header({ user }) {
     e.preventDefault();
     try {
       cookie.remove("token");
-      router.replace("/");
     } catch (error) {
       console.log(error);
     }
+    router.replace("/");
   };
   return (
     <div
@@ -30,7 +30,7 @@ function Header({ user }) {
       <div className="max-width d-flex justify-content-between p-2">
         <div className="d-flex gap-3">
           <div>
-            <Link href="/#">
+            <Link href="/">
               <a>
                 <img src="/logo.png" height="45" />
               </a>

@@ -126,7 +126,7 @@ function CategoryLayout({
                         pathname: "/produk/[id]",
                         query: {
                           // product: product,
-                          user: JSON.stringify(user)
+                          user: user
                         },
                       }}
                       as={`produk/${product.id}`}

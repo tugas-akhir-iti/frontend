@@ -19,6 +19,7 @@ export async function getServerSideProps({ req, res }) {
       token = element.substring(6, element.length);
     }
   });
+  let products = []
 
   try {
     const res_user = await axios({
@@ -29,6 +30,15 @@ export async function getServerSideProps({ req, res }) {
       },
     });
     user = res_user.data.data;
+
+    const res_products = await axios({
+      method: `get`,
+      url: `${API}/products/user/id`,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    products = res_products.data.data;
   } catch (error) {
     console.log(error.response);
   }
@@ -36,11 +46,12 @@ export async function getServerSideProps({ req, res }) {
   return {
     props: {
       user,
+      products
     },
   };
 }
 
-export default function DaftarJual({user}) {
+export default function DaftarJual({user,products}) {
   const category = [
     ["box", "Semua Produk"],
     ["heart", "Diminati"],
@@ -132,7 +143,7 @@ export default function DaftarJual({user}) {
                 "container-fluid m-0 row p-1 g-2" + (screen.md ? " col-8" : "")
               }
             >
-              <GridSeller />
+              <GridSeller products={products} user={user}/>
               {/* <ListSeller listsize={0}/> */}
             </div>
           </div>
