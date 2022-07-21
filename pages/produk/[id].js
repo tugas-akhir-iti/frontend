@@ -30,11 +30,11 @@ export const getStaticProps = async (context) => {
 const Details = ({ product }) => {
   return (
     <>
-      <Produk product_name={product.product_name} product_description={product.product_description} product_price={product.product_price} product_image={product.product_image}
+      <Produk product_id={product.id} product_name={product.product_name} product_description={product.product_description} product_price={product.product_price} product_image={product.product_image}
         user_image={product.User.user_image} user_name={product.User.user_name} user_regency={product.User.user_regency}
         category_name={product.Category.category_name}
       />
-      console.log(user_image);
+
     </>
   );
 }

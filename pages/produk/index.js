@@ -6,9 +6,29 @@ import MainLayout from "../../layout/mainLayout";
 import ProdukMobileLayout from "../../layout/produkMobile";
 import useResize from "../../hooks/useResize";
 import ProdukDesktopLayout from "../../layout/produkDesktop";
+import { useState } from "react";
+import TawarPopUp from "../../components/popup/tawarPopUp";
 
-function Produk({ product_name, product_description, product_price, product_image, category_name, user_image, user_name, user_regency }) {
+function Produk({ product_id, product_name, product_description, product_price, product_image, category_name, user_image, user_name, user_regency }) {
   const screen = useResize();
+  const [tawarPopup, settawarPopup] = useState(false)
+
+  const handleTawarPopup = async (e) => {
+    // alert('false')
+    settawarPopup(true);
+
+
+  };
+
+  let button = (
+    <CategoryCard
+      className="p-3 flex-grow-1"
+      text="Saya Tertarik dan Ingin Nego"
+      rad="16"
+      onClick={(e) => handleTawarPopup(e)}
+    />
+
+  );
 
   let images = (
     <img
@@ -18,13 +38,7 @@ function Produk({ product_name, product_description, product_price, product_imag
       alt="carouselproduk"
     />
   );
-  let button = (
-    <CategoryCard
-      className="p-3 flex-grow-1"
-      text="Saya Tertarik dan Ingin Nego"
-      rad="16"
-    />
-  );
+
   let owner = (
     <OwnerCard
       foto={user_image}
@@ -33,7 +47,7 @@ function Produk({ product_name, product_description, product_price, product_imag
       nama={user_name}
       kota={user_regency}
     />
-    
+
   );
   let information = (
     <div
@@ -52,6 +66,7 @@ function Produk({ product_name, product_description, product_price, product_imag
             className="p-3 flex-grow-1"
             text="Saya Tertarik dan Ingin Nego"
             rad="16"
+            onClick={(e) => handleTawarPopup(e)}
           />
         </div>
       )}
@@ -87,7 +102,7 @@ function Produk({ product_name, product_description, product_price, product_imag
               information={information}
               owner={owner}
               description={description}
-              button={button}
+
             />
           ) : (
             <ProdukMobileLayout
@@ -99,6 +114,11 @@ function Produk({ product_name, product_description, product_price, product_imag
             />
           )}
         </div>
+        {tawarPopup && <TawarPopUp
+          product_name={product_name}
+          product_image={product_image}
+          product_id={product_id}
+          product_price={product_price} />}
       </MainLayout>
     </>
   );
