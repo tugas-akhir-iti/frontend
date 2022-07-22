@@ -58,20 +58,22 @@ export default function TawarPopUp({ product_name, product_image, product_price,
           <p className="m-0 p-0">{product_price}</p>
         </div>
       </div>
-      <p className="m-0">Harga Tawar</p>
-
-      <form onSubmit={handleSubmit}>
-
-        <input
-          name="order_price"
-          className="card mb-3 mt-1 p-1"
-          style={{ borderRadius: "8px" }}
-          type="number"
-          placeholder="Rp 0,00"
-          onChange={(e) => handleChange(e)}
-        />
-        <CategoryCard className={"py-2"} text={"Kirim"} rad={"8"} type="submit" />
-      </form>
+      
+      
+        <p className="m-0">Harga Tawar</p>
+        <form onSubmit={handleSubmit}>
+          <div className="d-flex flex-column">
+            <input
+              name="order_price"
+              className="card mb-3 mt-1 p-1"
+              style={{ borderRadius: "8px" }}
+              type="number"
+              placeholder="Rp 0,00"
+              onChange={(e) => handleChange(e)}
+            />
+            <CategoryCard className="py-2" text="Kirim" rad="8" type="submit" />
+          </div>
+        </form>
     </MainModalLayout>
   );
 }
