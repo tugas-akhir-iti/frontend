@@ -143,18 +143,6 @@ export default function Home({
               />
             </div>
           </div>
-
-          <div className="">
-            <div className="text-center fixed-bottom">
-              <a
-                href=""
-                className="btn text-white m-5"
-                style={{ backgroundColor: "var(--purple)" }}
-              >
-                +Jual
-              </a>
-            </div>
-          </div>
         </MainLayout>
       ) : (
         <div className="d-flex flex-column">
@@ -230,17 +218,6 @@ export default function Home({
             products_baju={products_baju}
             products_kendaraan={products_kendaraan}
           />
-
-          <div className="text-center fixed-bottom">
-            <Link href="/add-produk">
-              <a
-                className="btn text-white m-5"
-                style={{ backgroundColor: "var(--purple)" }}
-              >
-                +Jual
-              </a>
-            </Link>
-          </div>
         </div>
       )}
     </>

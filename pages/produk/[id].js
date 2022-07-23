@@ -1,5 +1,5 @@
 import Head from "next/head";
-import React from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/router";
 import CategoryCard from "../../components/categoryCard";
@@ -10,6 +10,7 @@ import useResize from "../../hooks/useResize";
 import ProdukDesktopLayout from "../../layout/produkDesktop";
 import { GetToken } from "../../utils/getToken";
 import MainButton from "../../components/mainButton";
+import TawarPopUp from "../../components/popup/tawarPopUp";
 const API = process.env.NEXT_PUBLIC_API_ENDPOINT;
 
 export async function getServerSideProps(context) {
@@ -42,6 +43,10 @@ export async function getServerSideProps(context) {
 
 function Produk({ token, user, product }) {
   const screen = useResize();
+  const [tawarPopup, settawarPopup] = useState(false);
+  const handleTawarPopup = async (e) => {
+    settawarPopup(!tawarPopup);
+  };
   let isOwner = false;
   if (user != null && product.User.user_name == user.user_name) {
     isOwner = true;
@@ -100,6 +105,7 @@ function Produk({ token, user, product }) {
           className="p-3 flex-grow-1"
           text="Saya Tertarik dan Ingin Nego"
           rad="16"
+          onClick={(e) => handleTawarPopup(e)}
         />
       )}
     </>
@@ -154,6 +160,7 @@ function Produk({ token, user, product }) {
               className="p-3 flex-grow-1"
               text="Saya Tertarik dan Ingin Nego"
               rad="16"
+              onClick={(e) => handleTawarPopup(e)}
             />
           )}
         </div>
@@ -202,6 +209,16 @@ function Produk({ token, user, product }) {
             />
           )}
         </div>
+        {tawarPopup && (
+          <TawarPopUp
+          token={token}
+            tawarPopup={tawarPopup}
+            product_name={product.product_name}
+            product_image={product.product_image}
+            product_id={product.id}
+            product_price={product.product_price}
+          />
+        )}
       </MainLayout>
     </>
   );

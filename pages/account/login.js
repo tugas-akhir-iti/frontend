@@ -23,7 +23,7 @@ export default function Login() {
     const data = new FormData();
     data.append("user_email", userData.user_email);
     data.append("user_password", userData.user_password);
-    data.append("user_role", Number(userData.user_role));
+    // data.append("user_role", Number(userData.user_role));
 
     try {
       const res = await axios({
@@ -88,7 +88,7 @@ export default function Login() {
             />
           </div>
 
-          <div className="col-12 mt-2">
+          {/* <div className="col-12 mt-2">
             <label>Role</label>
             <select
               required
@@ -107,7 +107,7 @@ export default function Login() {
               <option value="1">Buyer</option>
               <option value="2">Seller</option>
             </select>
-          </div>
+          </div> */}
 
           <div className="mt-4 mb-4 text-center fw-bold">
             <div className="start-0 end-0 d-flex">
