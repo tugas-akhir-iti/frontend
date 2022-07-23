@@ -43,7 +43,7 @@ function AddProdukLayout() {
           "Content-Type": `multipart/form-data`,
         },
       });
-      router.replace("/account/login");
+      router.replace("/");
     } catch (error) {
       console.log(error.response);
     }

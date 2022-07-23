@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Head from "next/head";
 import axios from "axios";
 import CategoryCard from "../../components/categoryCard";
@@ -7,6 +7,7 @@ import MainLayout from "../../layout/mainLayout";
 import useResize from "../../hooks/useResize";
 import ListSeller from "../../components/sellerViewOption/listSeller";
 import GridSeller from "../../components/sellerViewOption/gridSeller";
+import { useRouter } from "next/router";
 
 export async function getServerSideProps({ req, res }) {
   const API = process.env.NEXT_PUBLIC_API_ENDPOINT;
@@ -59,8 +60,13 @@ export default function DaftarJual({user,products}) {
   ];
 
   const screen = useResize();
-  console.log(user);
+  const router = useRouter();
 
+  useEffect(()=>{
+    if (user != null && user.user_role == 1) {
+      router.replace("/");
+    }
+  })
   return (
     <>
       <Head>
@@ -95,6 +101,7 @@ export default function DaftarJual({user,products}) {
                   style={{
                     boxShadow: "0px 0px 6px rgba(0,0,0,0.15)",
                     borderRadius: "1rem",
+                    top:"70px"
                   }}
                 >
                   <h4>Kategori</h4>

@@ -8,30 +8,62 @@ import MainLayout from "../../layout/mainLayout";
 import ProdukMobileLayout from "../../layout/produkMobile";
 import useResize from "../../hooks/useResize";
 import ProdukDesktopLayout from "../../layout/produkDesktop";
+import { GetToken } from "../../utils/getToken";
+import MainButton from "../../components/mainButton";
+const API = process.env.NEXT_PUBLIC_API_ENDPOINT;
 
 export async function getServerSideProps(context) {
-  let user = null
-  user = JSON.stringify(context.query.user)
-  const API = process.env.NEXT_PUBLIC_API_ENDPOINT;
-  console.log(context.query.id);
-  let product = []
-  try{
+  let user = null;
+  let allcookie = context.req.headers.cookie || "   ";
+  let token = GetToken(allcookie);
+  let product = [];
+  try {
     const res = await axios.get(API + "/products/" + context.query.id);
     product = res.data.data;
-  }catch(error){
+    const res_user = await axios({
+      method: `get`,
+      url: `${API}/users`,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    user = res_user.data.data;
+  } catch (error) {
     console.log(error);
   }
   return {
     props: {
+      token,
       user,
-      product
+      product,
     },
   };
 }
 
-function Produk({ user, product }) {
+function Produk({ token, user, product }) {
   const screen = useResize();
-  console.log(user);
+  let isOwner = false;
+  if (user != null && product.User.user_name == user.user_name) {
+    isOwner = true;
+  }
+
+  const handleDelete = async (e) => {
+    console.log("Deleting item...");
+    e.preventDefault();
+    try {
+      await axios({
+        method: `delete`,
+        url: `${API}/products/${product.id}`,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+    } catch (error) {
+      console.log(error);
+    }
+    alert("Wait until you are logged out.");
+    // router.replace("/");
+  };
 
   let images = (
     <img
@@ -42,17 +74,41 @@ function Produk({ user, product }) {
     />
   );
   let button = (
-    <CategoryCard
-      className="p-3 flex-grow-1"
-      text="Saya Tertarik dan Ingin Nego"
-      rad="16"
-    />
+    <>
+      {isOwner ? (
+        <div className="d-flex flex-column gap-2" style={{ width: "100%" }}>
+          <MainButton
+            className="p-3 flex-grow-1 text-center bg-white"
+            text="Edit"
+            rad="16"
+          />
+          <button
+            onClick={(e) => handleDelete(e)}
+            className={"p-3 flex-grow-1"}
+            style={{
+              color: "white",
+              backgroundColor: "red",
+              borderRadius: `16px`,
+            }}
+          >
+            <i className={`bi bi- mx-auto`} style={{ fontSize: "1.5rem" }}></i>
+            <p className="m-0 text-center">Delete</p>
+          </button>
+        </div>
+      ) : (
+        <CategoryCard
+          className="p-3 flex-grow-1"
+          text="Saya Tertarik dan Ingin Nego"
+          rad="16"
+        />
+      )}
+    </>
   );
   let owner = (
     <OwnerCard
       foto={product.User.user_image}
       fotoalt="fotoalt"
-      isOwner={false}
+      isOwner={isOwner}
       nama={product.User.user_name}
       kota={product.User.user_regency}
     />
@@ -70,11 +126,36 @@ function Produk({ user, product }) {
       <h5>Rp {product.product_price}</h5>
       {screen.md && (
         <div className="start-0 end-0 d-flex">
-          <CategoryCard
-            className="p-3 flex-grow-1"
-            text="Saya Tertarik dan Ingin Nego"
-            rad="16"
-          />
+          {isOwner ? (
+            <div className="d-flex flex-column gap-2" style={{ width: "100%" }}>
+              <MainButton
+                className="p-3 flex-grow-1 text-center bg-white"
+                text="Edit"
+                rad="16"
+              />
+              <button
+                onClick={(e) => handleDelete(e)}
+                className={"p-3 flex-grow-1"}
+                style={{
+                  color: "white",
+                  backgroundColor: "red",
+                  borderRadius: `16px`,
+                }}
+              >
+                <i
+                  className={`bi bi- mx-auto`}
+                  style={{ fontSize: "1.5rem" }}
+                ></i>
+                <p className="m-0 text-center">Delete</p>
+              </button>
+            </div>
+          ) : (
+            <CategoryCard
+              className="p-3 flex-grow-1"
+              text="Saya Tertarik dan Ingin Nego"
+              rad="16"
+            />
+          )}
         </div>
       )}
     </div>
@@ -108,6 +189,7 @@ function Produk({ user, product }) {
               owner={owner}
               description={description}
               button={button}
+              isOwner={isOwner}
             />
           ) : (
             <ProdukMobileLayout
@@ -116,6 +198,7 @@ function Produk({ user, product }) {
               owner={owner}
               description={description}
               button={button}
+              isOwner={isOwner}
             />
           )}
         </div>

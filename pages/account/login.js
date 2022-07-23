@@ -15,6 +15,7 @@ export default function Login() {
   const [userData, setUserData] = useState({
     user_email: "",
     user_password: "",
+    user_role: "",
   });
 
   const handleSubmit = async (e) => {
@@ -22,6 +23,7 @@ export default function Login() {
     const data = new FormData();
     data.append("user_email", userData.user_email);
     data.append("user_password", userData.user_password);
+    data.append("user_role", Number(userData.user_role));
 
     try {
       const res = await axios({
@@ -32,10 +34,10 @@ export default function Login() {
           "Content-Type": `multipart/form-data`,
         },
       });
-
-      cookie.set("token", res.data.token);
+      cookie.set("token", res.data.token)
+      localStorage.setItem("token", res.data.token);
+      alert("Wait until you are logged in");
       router.replace("/");
-      saveTokenToLocalStorage(res.data.token);
     } catch (error) {
       console.log(error.response);
     }
@@ -44,10 +46,6 @@ export default function Login() {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setUserData({ ...userData, [name]: value });
-  };
-
-  const saveTokenToLocalStorage = (token) => {
-    localStorage.setItem("user_token", token);
   };
 
   return (
@@ -89,6 +87,28 @@ export default function Login() {
               placeholder="Masukkan password"
             />
           </div>
+
+          <div className="col-12 mt-2">
+            <label>Role</label>
+            <select
+              required
+              name="user_role"
+              className="form-select mt-2"
+              aria-label="Default select example"
+              onChange={(e) => handleChange(e)}
+              style={{
+                padding: "12px 16px",
+                border: "1px solid #D0D0D0",
+                borderRadius: "16px",
+                display: "flex",
+              }}
+            >
+              <option value="">Pilih Role</option>
+              <option value="1">Buyer</option>
+              <option value="2">Seller</option>
+            </select>
+          </div>
+
           <div className="mt-4 mb-4 text-center fw-bold">
             <div className="start-0 end-0 d-flex">
               <CategoryCard
@@ -103,7 +123,9 @@ export default function Login() {
         <h5 className="d-flex justify-content-center">
           Belum punya akun?&nbsp;
           <Link href={"/account/register"}>
-            <a style={{color:"var(--purple)", textDecoration:"none"}}>Daftar disini</a>
+            <a style={{ color: "var(--purple)", textDecoration: "none" }}>
+              Daftar disini
+            </a>
           </Link>
         </h5>
       </LoginregisterLayout>

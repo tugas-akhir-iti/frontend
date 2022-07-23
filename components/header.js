@@ -17,6 +17,7 @@ function Header({ user }) {
     } catch (error) {
       console.log(error);
     }
+    alert("Wait until you are logged out.");
     router.replace("/");
   };
   return (
@@ -44,7 +45,6 @@ function Header({ user }) {
           {user ? (
             <ul className="m-0 p-0 d-flex gap-3 position-relative">
               {[
-                ["/seller", "list-ul"],
                 ["#", "bell"],
                 ["/info-profile", "person"],
               ].map(([href, icon], index) => (

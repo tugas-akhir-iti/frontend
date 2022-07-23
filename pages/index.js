@@ -8,18 +8,15 @@ import ButtonMasuk from "../components/buttonMasuk";
 import CategoryLayout from "../layout/categoryLayout";
 import CategoryLayoutMobile from "../layout/categoryLayoutMobile";
 import Link from "next/link";
+import { useRouter } from "next/router";
+import { GetToken } from "../utils/getToken";
+import { useEffect } from "react";
 
 export async function getServerSideProps({ req, res }) {
   const API = process.env.NEXT_PUBLIC_API_ENDPOINT;
   let user = null;
   let allcookie = req.headers.cookie || "   ";
-  let cookielist = allcookie.split("; ");
-  let token = "";
-  cookielist.forEach((element) => {
-    if (element.startsWith("token=")) {
-      token = element.substring(6, element.length);
-    }
-  });
+  let token = GetToken(allcookie);
   let products = [];
   let products_hobi = [];
   let products_elektronik = [];
@@ -87,6 +84,13 @@ export default function Home({
   products_kendaraan,
 }) {
   const screen = useResize();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (user != null && user.user_role == 2) {
+      router.replace("/seller");
+    }
+  });
 
   return (
     <>
@@ -104,7 +108,6 @@ export default function Home({
 
       {screen.md ? (
         <MainLayout user={user}>
-          {/* <h1>{cookielist}</h1> */}
           <div className="row">
             <div className="col-10 offset-1 mt-5 d-none d-sm-block">
               <div

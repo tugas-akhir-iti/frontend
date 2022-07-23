@@ -2,11 +2,15 @@ import React, {useEffect, useState} from "react";
 import InputBox from "../components/inputBox";
 import CategoryCard from "../components/categoryCard";
 import axios from "axios";
+import cookie from "js-cookie"
+import { GetToken } from "../utils/getToken";
 import FormData from "form-data";
 
 const API = process.env.NEXT_PUBLIC_API_ENDPOINT;
 
 function InfoProfileLayout() {
+  let allcookie = cookie.get("token") || "   ";
+  let token = GetToken(allcookie)
   
   const [provinces, setProvinces]=useState([]);
   const [regencies, setRegencies]=useState([]);
@@ -35,7 +39,7 @@ function InfoProfileLayout() {
         url: `${API}/users`,
         data: data,
         headers: {
-          Authorization: `Bearer ${localStorage.getItem("user_token")}`,
+          Authorization: `Bearer ${token}`,
           "Content-Type": `multipart/form-data`,
         },
       });
@@ -54,7 +58,7 @@ function InfoProfileLayout() {
   const getUsers = async(e)=>{
     const res_user = await axios.get(`${API}/users`,{ 
       headers: {
-        'Authorization': `Bearer ${localStorage.getItem("user_token")}`
+        'Authorization': `Bearer ${token}`
       }
     })
     setUserData(res_user.data.data);

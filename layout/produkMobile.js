@@ -4,7 +4,7 @@ function ProdukMobileLayout(props) {
   return (
     <>
       {props.images}
-      <div className="p-2 d-flex flex-column gap-4">
+      <div className="p-2 d-flex flex-column gap-4" style={{marginBottom:"110px"}}>
         {props.information}
         {props.owner}
         {props.description}

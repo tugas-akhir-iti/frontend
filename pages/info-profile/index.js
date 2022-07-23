@@ -14,19 +14,6 @@ export default function InfoProfile() {
 
   let user = null;
   let mycookie = cookie.get("cookie");
-
-  if (mycookie == "dacookie") {
-    user = {
-      Foto_Profil: null,
-      Nama: "daddy",
-      Provinsi: null,
-      Kota: null,
-      Alamat: null,
-      No_Handphone: null,
-    };
-  }else{
-    // router.replace("/")
-  }
   return (
     <>
       <Head>
@@ -51,7 +38,7 @@ export default function InfoProfile() {
         </Top>
       ) : (
         <div className="d-flex d-row gap-2 m-3 fw-bold fs-4 justify-content-center">
-          <i className="bi bi-arrow-left pe-3"></i>
+          <i onClick={router.back()} style={{cursor:"pointer"}} className="bi bi-arrow-left pe-3"></i>
           <p className="">Lengkapi Info Akun</p>
         </div>
       )}
@@ -59,7 +46,7 @@ export default function InfoProfile() {
 
       {screen.md ? (
         <div className="col-4 offset-4 mt-3 d-flex flex-column justify-content-center">
-          <i className="bi bi-arrow-left fs-3 pe-5"></i>
+          <i onClick={router.back()} style={{cursor:"pointer"}} className="bi bi-arrow-left fs-3 pe-5"></i>
           <InfoProfileLayout />
         </div>) :
         (

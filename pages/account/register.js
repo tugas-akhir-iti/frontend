@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useRouter } from "next/router";
 import FormData from "form-data";
 import axios from "axios";
+import cookie from "js-cookie";
 import Head from "next/head";
 import LoginregisterLayout from "../../layout/loginregisterLayout";
 import InputBox from "../../components/inputBox";
@@ -34,7 +35,19 @@ export default function Login() {
           "Content-Type": `multipart/form-data`,
         },
       });
-      router.replace("/account/login");
+
+      alert("You are now registered");
+      const res = await axios({
+        method: "post",
+        url: `${API}/users/login`,
+        data: data,
+        headers: {
+          "Content-Type": `multipart/form-data`,
+        },
+      });
+      cookie.set("token", res.data.token)
+      alert("You are now logged in");
+      router.replace("/");
     } catch (error) {
       console.log(error.response);
     }
@@ -130,7 +143,9 @@ export default function Login() {
         <h5 className="d-flex justify-content-center">
           Sudah punya akun?&nbsp;
           <Link href={"/account/login"}>
-            <a style={{color:"var(--purple)", textDecoration:"none"}}>Masuk disini</a>
+            <a style={{ color: "var(--purple)", textDecoration: "none" }}>
+              Masuk disini
+            </a>
           </Link>
         </h5>
       </LoginregisterLayout>
