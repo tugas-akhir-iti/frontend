@@ -4,8 +4,21 @@ import CategoryCard from "../categoryCard";
 import { useState } from "react";
 import { useRouter } from "next/router";
 import axios from "axios";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import 'react-toastify/dist/ReactToastify.min.css';
 
 const API = process.env.NEXT_PUBLIC_API_ENDPOINT;
+
+const notify = () => toast.success('Sukses', {
+  position: "top-center",
+  autoClose: 5000,
+  hideProgressBar: false,
+  closeOnClick: true,
+  pauseOnHover: true,
+  draggable: true,
+  progress: undefined,
+});
 
 export default function TawarPopUp({ product_name, product_image, product_price, product_id }) {
   // console.log(product_id);
@@ -32,8 +45,6 @@ export default function TawarPopUp({ product_name, product_image, product_price,
       });
 
       window.location.reload();
-      alert('sukses');
-
     } catch (error) {
       console.log(error.response);
     }
@@ -47,6 +58,7 @@ export default function TawarPopUp({ product_name, product_image, product_price,
 
 
   return (
+
     <MainModalLayout
       title={`Masukkan Harga Tawaranmu`}
       description={`Harga tawaranmu akan diketahui penjual, jika penjual cocok kamu akan segera dihubungi penjual.`}
@@ -70,7 +82,18 @@ export default function TawarPopUp({ product_name, product_image, product_price,
           placeholder="Rp 0,00"
           onChange={(e) => handleChange(e)}
         />
-        <CategoryCard className={"py-2"} text={"Kirim"} rad={"8"} type="submit" />
+        <CategoryCard className={"py-2"} text={"Kirim"} rad={"8"} type="submit" onClick={notify} />
+        <ToastContainer
+          position="top-center"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+        />
       </form>
     </MainModalLayout>
   );

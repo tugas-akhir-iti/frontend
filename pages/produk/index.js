@@ -92,6 +92,8 @@ function Produk({ product_id, product_name, product_description, product_price, 
         <title>Daftar Jual Saya</title>
         <meta name="description" content="Daftar barang jual saya" />
         <link rel="icon" href="/favicon.ico" />
+        
+        
       </Head>
 
       <MainLayout>
