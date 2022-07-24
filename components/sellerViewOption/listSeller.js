@@ -1,23 +1,17 @@
 import React from "react";
 import ItemList from "../itemList";
 
-function ListSeller({ listsize }) {
+function ListSeller({ transactions }) {
+  const listsize = Object.keys(transactions).length;
   return (
     <>
       {listsize > 0 ? (
         <div>
-          <li>
-            <ItemList />
-          </li>
-          <li>
-            <ItemList />
-          </li>
-          <li>
-            <ItemList />
-          </li>
-          <li>
-            <ItemList />
-          </li>
+          {transactions.map((transaction) => (
+            <li>
+              <ItemList product={transaction}/>
+            </li>
+          ))}
         </div>
       ) : (
         <div className="text-center d-flex flex-column justify-items-center py-5 ">

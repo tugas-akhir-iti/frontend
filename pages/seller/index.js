@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Head from "next/head";
 import axios from "axios";
 import CategoryCard from "../../components/categoryCard";
@@ -20,17 +20,20 @@ export async function getServerSideProps({ req, res }) {
       token = element.substring(6, element.length);
     }
   });
-  let products = []
+  let products = [];
+  let transactions = [];
 
   try {
-    const res_user = await axios({
-      method: `get`,
-      url: `${API}/users`,
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    user = res_user.data.data;
+    if (token != "") {
+      const res_user = await axios({
+        method: `get`,
+        url: `${API}/users`,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      user = res_user.data.data;
+    }
 
     const res_products = await axios({
       method: `get`,
@@ -40,6 +43,15 @@ export async function getServerSideProps({ req, res }) {
       },
     });
     products = res_products.data.data;
+
+    const res_transactions = await axios({
+      method: `get`,
+      url: `${API}/users/transactions`,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    transactions = res_transactions.data.data;
   } catch (error) {
     console.log(error.response);
   }
@@ -47,26 +59,26 @@ export async function getServerSideProps({ req, res }) {
   return {
     props: {
       user,
-      products
+      products,
+      transactions,
     },
   };
 }
 
-export default function DaftarJual({user,products}) {
+export default function DaftarJual({ user, products, transactions }) {
   const category = [
-    ["box", "Semua Produk"],
-    ["heart", "Diminati"],
-    ["currency-dollar", "Terjual"],
+    ["box", "Semua Produk", () => setCategoryState(1), 1],
+    ["currency-dollar", "Transaksi", () => setCategoryState(2), 2],
   ];
-
   const screen = useResize();
   const router = useRouter();
+  const [categoryState, setCategoryState] = useState(1);
 
-  useEffect(()=>{
-    if (user != null && user.user_role == 1) {
+  useEffect(() => {
+    if (user == null || user.user_role == 1) {
       router.replace("/");
     }
-  })
+  });
   return (
     <>
       <Head>
@@ -78,14 +90,15 @@ export default function DaftarJual({user,products}) {
       <MainLayout user={user}>
         <div className="max-width p-2 d-flex flex-column gap-2">
           <h1 className="">Daftar Jual Saya</h1>
-
-          <OwnerCard
-            foto={user.user_image}
-            fotoalt={`${user.user_name}'s photo`}
-            isOwner={true}
-            nama={user.user_name}
-            kota={user.user_regency}
-          />
+          {user && (
+            <OwnerCard
+              foto={user.user_image}
+              fotoalt={`${user.user_name}'s photo`}
+              isOwner={true}
+              nama={user.user_name}
+              kota={user.user_regency}
+            />
+          )}
         </div>
 
         <div className={"" + (screen.md ? " max-width" : "")}>
@@ -101,7 +114,7 @@ export default function DaftarJual({user,products}) {
                   style={{
                     boxShadow: "0px 0px 6px rgba(0,0,0,0.15)",
                     borderRadius: "1rem",
-                    top:"70px"
+                    top: "70px",
                   }}
                 >
                   <h4>Kategori</h4>
@@ -110,6 +123,11 @@ export default function DaftarJual({user,products}) {
                       <div
                         key={index}
                         className="d-flex align-items-center justify-content-between py-2"
+                        onClick={data[2]}
+                        style={{
+                          cursor: "pointer",
+                          color: data[3] == categoryState && "var(--purple)",
+                        }}
                       >
                         <div className="d-flex align-items-center gap-2">
                           <i
@@ -150,8 +168,11 @@ export default function DaftarJual({user,products}) {
                 "container-fluid m-0 row p-1 g-2" + (screen.md ? " col-8" : "")
               }
             >
-              <GridSeller products={products} user={user}/>
-              {/* <ListSeller listsize={0}/> */}
+              {categoryState == 1 ? (
+                <GridSeller products={products} user={user} />
+              ) : (
+                <ListSeller transactions={transactions} />
+              )}
             </div>
           </div>
         </div>

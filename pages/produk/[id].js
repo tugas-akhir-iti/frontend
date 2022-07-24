@@ -43,12 +43,13 @@ export async function getServerSideProps(context) {
 
 function Produk({ token, user, product }) {
   const screen = useResize();
+  const router = useRouter()
   const [tawarPopup, settawarPopup] = useState(false);
   const handleTawarPopup = async (e) => {
     settawarPopup(!tawarPopup);
   };
   let isOwner = false;
-  if (user != null && product.User.user_name == user.user_name) {
+  if (user != null && product.User.id == user.user_id) {
     isOwner = true;
   }
 
@@ -63,11 +64,12 @@ function Produk({ token, user, product }) {
           Authorization: `Bearer ${token}`,
         },
       });
+      alert("Item being deleted. Please wait.")
     } catch (error) {
       console.log(error);
     }
-    alert("Wait until you are logged out.");
-    // router.replace("/");
+    
+    router.replace("/seller");
   };
 
   let images = (

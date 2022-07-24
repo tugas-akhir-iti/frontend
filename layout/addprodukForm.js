@@ -9,7 +9,7 @@ import MainButton from "../components/mainButton";
 
 const API = process.env.NEXT_PUBLIC_API_ENDPOINT;
 
-function AddProdukLayout() {
+function AddProdukLayout({ user, token }) {
   const router = useRouter();
   const [categories, setCategories] = useState([]);
   const [productData, setProductData] = useState({
@@ -39,7 +39,7 @@ function AddProdukLayout() {
         url: `${API}/products`,
         data: data,
         headers: {
-          Authorization: `Bearer ${localStorage.getItem("user_token")}`,
+          Authorization: `Bearer ${token}`,
           "Content-Type": `multipart/form-data`,
         },
       });

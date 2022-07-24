@@ -6,8 +6,36 @@ import Head from "next/head";
 import AddProdukLayout from "../../layout/addprodukForm";
 import Top from "../../components/top";
 import useResize from "../../hooks/useResize";
+import { GetToken } from "../../utils/getToken";
+import axios from "axios";
 
-export default function AddProduk() {
+export async function getServerSideProps(context) {
+  const API = process.env.NEXT_PUBLIC_API_ENDPOINT;
+
+  let user = null;
+  let allcookie = context.req.headers.cookie || "   ";
+  let token = GetToken(allcookie);
+  try {
+    const res_user = await axios({
+      method: `get`,
+      url: `${API}/users`,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    user = res_user.data.data;
+  } catch (error) {
+    console.log(error);
+  }
+  return {
+    props: {
+      token,
+      user,
+    },
+  };
+}
+
+export default function AddProduk({ user, token }) {
   const screen = useResize();
   return (
     <>
@@ -35,11 +63,11 @@ export default function AddProduk() {
         <div className="col-6 offset-3 mt-3 d-flex flex-column justify-content-center">
           <i className="bi bi-arrow-left fs-3 mt-2"></i>
 
-          <AddProdukLayout />
+          <AddProdukLayout user={user} token={token} />
         </div>
       ) : (
         <div className="px-3">
-          <AddProdukLayout />
+          <AddProdukLayout user={user} token={token} />
         </div>
       )}
     </>

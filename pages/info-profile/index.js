@@ -2,18 +2,44 @@
 /* eslint-disable react/no-unknown-property */
 /* eslint-disable @next/next/no-sync-scripts */
 import cookie from "js-cookie";
+import axios from "axios";
 import Head from "next/head";
 import Top from "../../components/top";
 import InfoProfileLayout from "../../layout/infoprofileLayout";
 import { useRouter } from "next/router";
 import useResize from "../../hooks/useResize";
+import { GetToken } from "../../utils/getToken";
 
-export default function InfoProfile() {
+export async function getServerSideProps(context) {
+  const API = process.env.NEXT_PUBLIC_API_ENDPOINT;
+
+  let user = null;
+  let allcookie = context.req.headers.cookie || "   ";
+  let token = GetToken(allcookie);
+  try {
+    const res_user = await axios({
+      method: `get`,
+      url: `${API}/users`,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    user = res_user.data.data;
+  } catch (error) {
+    console.log(error);
+  }
+  return {
+    props: {
+      token,
+      user,
+    },
+  };
+}
+
+export default function InfoProfile({ user, token }) {
   const router = useRouter();
   const screen = useResize();
 
-  let user = null;
-  let mycookie = cookie.get("cookie");
   return (
     <>
       <Head>
@@ -38,23 +64,29 @@ export default function InfoProfile() {
         </Top>
       ) : (
         <div className="d-flex d-row gap-2 m-3 fw-bold fs-4 justify-content-center">
-          <i onClick={router.back()} style={{cursor:"pointer"}} className="bi bi-arrow-left pe-3"></i>
+          <i
+            onClick={() => router.back()}
+            style={{ cursor: "pointer" }}
+            className="bi bi-arrow-left pe-3"
+          ></i>
           <p className="">Lengkapi Info Akun</p>
         </div>
       )}
 
-
       {screen.md ? (
         <div className="col-4 offset-4 mt-3 d-flex flex-column justify-content-center">
-          <i onClick={router.back()} style={{cursor:"pointer"}} className="bi bi-arrow-left fs-3 pe-5"></i>
-          <InfoProfileLayout />
-        </div>) :
-        (
-          <div className="px-3">
-            <InfoProfileLayout />
-          </div>
-
-        )}
+          <i
+            onClick={() => router.back()}
+            style={{ cursor: "pointer" }}
+            className="bi bi-arrow-left fs-3 pe-5"
+          ></i>
+          <InfoProfileLayout user={user} token={token} />
+        </div>
+      ) : (
+        <div className="px-3">
+          <InfoProfileLayout user={user} token={token} />
+        </div>
+      )}
     </>
   );
 }

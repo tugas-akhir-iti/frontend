@@ -8,19 +8,17 @@ import FormData from "form-data";
 
 const API = process.env.NEXT_PUBLIC_API_ENDPOINT;
 
-function InfoProfileLayout() {
-  let allcookie = cookie.get("token") || "   ";
-  let token = GetToken(allcookie)
+function InfoProfileLayout({user,token}) {
   
   const [provinces, setProvinces]=useState([]);
   const [regencies, setRegencies]=useState([]);
   const [userData, setUserData]=useState({
-    user_name: "",
-    user_province: "",
-    user_regency: "",
-    user_address: "",
-    user_phone: "",
-    user_image: null,
+    user_name: user.user_name,
+    user_province: user.user_province,
+    user_regency: user.user_regency,
+    user_address: user.user_address,
+    user_phone: user.user_phone,
+    user_image: user.user_image,
   })
   
   const handleSubmit = async (e) => {
