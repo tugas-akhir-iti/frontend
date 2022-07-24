@@ -91,11 +91,11 @@ export default function TawarPopUp({
       </div>
       <p className="m-0">Harga Tawar</p>
 
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className="d-flex flex-column">
         <input
           name="order_price"
           className="card mb-3 mt-1 p-1"
-          style={{ borderRadius: "8px" }}
+          style={{ borderRadius: "8px", width:"100%" }}
           type="number"
           placeholder="Rp 0,00"
           onChange={(e) => handleChange(e)}

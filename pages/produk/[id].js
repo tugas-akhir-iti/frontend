@@ -131,7 +131,7 @@ function Produk({ token, user, product }) {
     >
       <h4>{product.product_name}</h4>
       <p className="p-0 mb-2">{product.Category.category_name}</p>
-      <h5>Rp {product.product_price}</h5>
+      <h5>Rp {product.product_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}</h5>
       {screen.md && (
         <div className="start-0 end-0 d-flex">
           {isOwner ? (
