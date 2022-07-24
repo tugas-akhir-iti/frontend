@@ -9,7 +9,7 @@ import MainButton from "../components/mainButton";
 
 const API = process.env.NEXT_PUBLIC_API_ENDPOINT;
 
-function AddProdukLayout({ user, token }) {
+function EditProdukLayout() {
   const router = useRouter();
   const [categories, setCategories] = useState([]);
   const [productData, setProductData] = useState({
@@ -25,6 +25,11 @@ function AddProdukLayout({ user, token }) {
     setCategories(categories.data.data);
   };
 
+  const getProductById = async (e) => {
+    const products = await axios.get(`${API}/products/11`);
+    setProductData(products.data.data);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const data = new FormData();
@@ -35,15 +40,15 @@ function AddProdukLayout({ user, token }) {
     data.append("category_id", Number(productData.category_id));
     try {
       await axios({
-        method: "post",
-        url: `${API}/products`,
+        method: "put",
+        url: `${API}/products/11`,
         data: data,
         headers: {
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${localStorage.getItem("user_token")}`,
           "Content-Type": `multipart/form-data`,
         },
       });
-      router.replace("/");
+      router.replace("/account/login");
     } catch (error) {
       console.log(error.response);
     }
@@ -60,7 +65,8 @@ function AddProdukLayout({ user, token }) {
 
   useEffect(() => {
     getCategories();
-  }, [categories]);
+    getProductById();
+  }, []);
   return (
     <div>
       <form onSubmit={handleSubmit}>
@@ -71,7 +77,7 @@ function AddProdukLayout({ user, token }) {
               type="text"
               name="product_name"
               className="form-control mt-2"
-              placeholder="Nama Produk"
+              placeholder="Nama Produk" value={productData.product_name}
               onChange={(e) => handleChange(e)}
             />
           </div>
@@ -81,7 +87,7 @@ function AddProdukLayout({ user, token }) {
               type="text"
               name="product_price"
               className="form-control mt-2"
-              placeholder="Rp 0,00"
+              placeholder="Rp 0,00" value={productData.product_price}
               onChange={(e) => handleChange(e)}
             />
           </div>
@@ -100,7 +106,7 @@ function AddProdukLayout({ user, token }) {
             >
               <option value="">Pilih Kategori</option>
               {categories.map((category)=>(
-                <option value={`${category.id}`} key={category.id}>{category.category_name}</option>
+                <option selected={category.id == productData.category_id} value={`${category.id}`} key={category.id}>{category.category_name}</option>
               ))}
 
             </select>
@@ -111,7 +117,7 @@ function AddProdukLayout({ user, token }) {
               className="form-control mt-2"
               name="product_description"
               rows="2"
-              placeholder="Contoh: Jalan Ikan Hiu 33"
+              placeholder="Contoh: Jalan Ikan Hiu 33" value={productData.product_description}
               style={{
                 padding: "12px 16px",
                 border: "1px solid #D0D0D0",
@@ -124,6 +130,7 @@ function AddProdukLayout({ user, token }) {
           </div>
           <div className="col-12 mt-2">
             <label>Foto Produk</label>
+            <img src={productData.product_image}/>
             <InputBox
               type="file"
               name="product_image"
@@ -153,4 +160,4 @@ function AddProdukLayout({ user, token }) {
   );
 }
 
-export default AddProdukLayout;
+export default EditProdukLayout;

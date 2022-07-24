@@ -46,7 +46,8 @@
   line-height: 1.15;
   font-size: 1.3rem;
 }
-.produk{
+
+.produk {
   text-decoration: none;
   color: black;
 }
@@ -108,4 +109,7 @@
   font-size: 1.25rem;
   line-height: 1.5;
 }
- 
+
+/* .image-upload>input {
+  display: none;
+} */

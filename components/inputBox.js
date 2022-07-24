@@ -3,7 +3,6 @@ import React from "react";
 function InputBox({ className, placeholder, name, type, value, onChange }) {
   return (
     <input
-    required
       type={type}
       name={name}
       value={value}

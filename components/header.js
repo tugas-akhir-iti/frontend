@@ -14,10 +14,11 @@ function Header({ user }) {
     e.preventDefault();
     try {
       cookie.remove("token");
-      router.replace("/");
     } catch (error) {
       console.log(error);
     }
+    alert("Wait until you are logged out.");
+    router.replace("/");
   };
   return (
     <div
@@ -44,7 +45,6 @@ function Header({ user }) {
           {user ? (
             <ul className="m-0 p-0 d-flex gap-3 position-relative">
               {[
-                ["#", "list-ul"],
                 ["#", "bell"],
                 ["/info-profile", "person"],
               ].map(([href, icon], index) => (
@@ -71,7 +71,7 @@ function Header({ user }) {
               </li>
             </ul>
           ) : (
-            <Link href="account/login">
+            <Link href="/account/login">
               <a className="text-decoration-none">
                 <ButtonMasuk />
               </a>

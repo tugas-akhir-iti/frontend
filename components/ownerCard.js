@@ -1,3 +1,4 @@
+import Link from "next/link";
 import React from "react";
 import MainButton from "./mainButton";
 
@@ -19,10 +20,20 @@ function OwnerCard({ foto, fotoalt, nama, kota, isOwner }) {
         <h3 className="m-0">{nama}</h3>
         <p className="m-0">{kota}</p>
       </div>
-      {isOwner && 
-      <div className="d-flex align-items-center">
-      <MainButton className="d-flex align-items-center px-3 py-1 gap-2" text="Edit" rad="8"/>
-      </div>}
+      {isOwner && (
+        <div className="d-flex align-items-center">
+          <Link href={"/info-profile"}>
+            <a style={{textDecoration:"none"}}>
+
+            <MainButton
+              className="d-flex align-items-center px-3 py-1 gap-2"
+              text="Edit"
+              rad="8"
+              />
+              </a>
+          </Link>
+        </div>
+      )}
     </div>
   );
 }
