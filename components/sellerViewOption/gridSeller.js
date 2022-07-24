@@ -22,8 +22,8 @@ function GridSeller({products,user}) {
           </button>
         </Link>
       </div>
-      {products.map((product) => (
-        <div className="col-6 col-md-4">
+      {products.map((product,key) => (
+        <div key={key} className="col-6 col-md-4">
           <Link
             href={{
               pathname: "/produk/[id]",

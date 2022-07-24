@@ -7,8 +7,8 @@ function ListSeller({ transactions }) {
     <>
       {listsize > 0 ? (
         <div>
-          {transactions.map((transaction) => (
-            <li>
+          {transactions.map((transaction,key) => (
+            <li key={key}>
               <ItemList product={transaction}/>
             </li>
           ))}

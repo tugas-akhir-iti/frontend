@@ -15,8 +15,8 @@ export default function StatusPopUp() {
       <div className="d-flex align-items-start">
         <input type="radio" id="accepted" name="fav_language" value="accepted" />
         <div className="d-flex flex-column">
-          <b for="html">Batalkan transaksi</b>
-          <p for="html">Kamu membatalkan transaksi produk ini dengan pembeli</p>
+          <b htmlFor="html">Batalkan transaksi</b>
+          <p htmlFor="html">Kamu membatalkan transaksi produk ini dengan pembeli</p>
         </div>
       </div>
       <CategoryCard className={"py-2"} text={"Kirim"} rad={"8"} />

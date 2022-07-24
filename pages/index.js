@@ -1,5 +1,3 @@
-/* eslint-disable @next/next/no-html-link-for-pages */
-/* eslint-disable @next/next/no-sync-scripts */
 import axios from "axios";
 import Head from "next/head";
 import MainLayout from "../layout/mainLayout";
@@ -7,7 +5,6 @@ import useResize from "../hooks/useResize";
 import ButtonMasuk from "../components/buttonMasuk";
 import CategoryLayout from "../layout/categoryLayout";
 import CategoryLayoutMobile from "../layout/categoryLayoutMobile";
-import Link from "next/link";
 import { useRouter } from "next/router";
 import { GetToken } from "../utils/getToken";
 import { useEffect } from "react";
