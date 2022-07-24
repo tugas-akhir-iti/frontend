@@ -8,8 +8,8 @@ export default function StatusPopUp() {
       <div className="d-flex align-items-start">
         <input type="radio" id="accepted" name="fav_language" value="accepted" />
         <div className="d-flex flex-column">
-          <b for="html">Berhasil terjual</b>
-          <p for="html">Kamu telah sepakat menjual produk ini kepada pembeli</p>
+          <b htmlFor="html">Berhasil terjual</b>
+          <p htmlFor="html">Kamu telah sepakat menjual produk ini kepada pembeli</p>
         </div>
       </div>
       <div className="d-flex align-items-start">
