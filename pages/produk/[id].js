@@ -1,5 +1,5 @@
 import Head from "next/head";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/router";
 import CategoryCard from "../../components/categoryCard";
@@ -43,11 +43,9 @@ export async function getServerSideProps(context) {
 
 function Produk({ token, user, product }) {
   const screen = useResize();
-  const router = useRouter()
-  const [tawarPopup, settawarPopup] = useState(false);
-  const handleTawarPopup = async (e) => {
-    settawarPopup(!tawarPopup);
-  };
+  const router = useRouter();
+  const [tawarPopup, setTawarPopup] = useState(false);
+  const handleTawarPopup = () => setTawarPopup((tawarPopup = !tawarPopup));
   let isOwner = false;
   if (user != null && product.User.id == user.user_id) {
     isOwner = true;
@@ -64,11 +62,11 @@ function Produk({ token, user, product }) {
           Authorization: `Bearer ${token}`,
         },
       });
-      alert("Item being deleted. Please wait.")
+      alert("Item being deleted. Please wait.");
     } catch (error) {
       console.log(error);
     }
-    
+
     router.replace("/seller");
   };
 
@@ -107,7 +105,7 @@ function Produk({ token, user, product }) {
           className="p-3 flex-grow-1"
           text="Saya Tertarik dan Ingin Nego"
           rad="16"
-          onClick={(e) => handleTawarPopup(e)}
+          onClick={handleTawarPopup}
         />
       )}
     </>
@@ -131,7 +129,10 @@ function Produk({ token, user, product }) {
     >
       <h4>{product.product_name}</h4>
       <p className="p-0 mb-2">{product.Category.category_name}</p>
-      <h5>Rp {product.product_price}</h5>
+      <h5>
+        Rp{" "}
+        {product.product_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}
+      </h5>
       {screen.md && (
         <div className="start-0 end-0 d-flex">
           {isOwner ? (
@@ -162,7 +163,7 @@ function Produk({ token, user, product }) {
               className="p-3 flex-grow-1"
               text="Saya Tertarik dan Ingin Nego"
               rad="16"
-              onClick={(e) => handleTawarPopup(e)}
+              onClick={handleTawarPopup}
             />
           )}
         </div>
@@ -213,8 +214,8 @@ function Produk({ token, user, product }) {
         </div>
         {tawarPopup && (
           <TawarPopUp
-          token={token}
-            tawarPopup={tawarPopup}
+            token={token}
+            onClick={handleTawarPopup}
             product_name={product.product_name}
             product_image={product.product_image}
             product_id={product.id}

@@ -16,8 +16,8 @@ function ItemList({product}) {
           <p className="m-0">{typeof(product.createdAt)}</p>
         </div>
         <h4>{product.Product.product_name}</h4>
-        <p className="m-0">Rp. {product.Product.product_price}</p>
-        <p className="m-0">Ditawar Rp. {product.order_price}</p>
+        <p className="m-0">Rp. {product.Product.product_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}</p>
+        <p className="m-0">Ditawar Rp. {product.order_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}</p>
       </div>
     </div>
   );
