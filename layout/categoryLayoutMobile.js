@@ -1,6 +1,5 @@
 /* eslint-disable react/jsx-key */
 import React from "react";
-import CategoryCard from "../components/categoryCard";
 import ItemCard from "../components/itemCard";
 import UlCategoryLayout from "./ulcategorylayout";
 import styles from "../styles/Home.module.css";
@@ -14,11 +13,6 @@ function CategoryLayoutMobile({
   products_baju,
   products_kendaraan,
 }) {
-  const category = [
-    ["box", "Semua Produk"],
-    ["heart", "Diminati"],
-    ["currency-dollar", "Terjual"],
-  ];
 
   return (
     <>

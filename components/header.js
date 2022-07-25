@@ -96,12 +96,17 @@ function Header({ user, notifications }) {
             >
               <div
                 className="d-flex flex-column gap-2"
-                style={{ maxHeight: "200px", minWidth:"120px",maxWidth: "300px", overflow: "auto" }}
+                style={{
+                  maxHeight: "200px",
+                  minWidth: "120px",
+                  maxWidth: "300px",
+                  overflow: "auto",
+                }}
               >
                 {Object.keys(notifications).length > 0 ? (
                   <>
                     {notifications.map((notification, index) => (
-                      <div className="d-flex">
+                      <div className="d-flex" key={index}>
                         <img
                           src={notification.Product.product_image}
                           style={{
