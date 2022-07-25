@@ -104,7 +104,7 @@ function InfoProfileLayout({ user, token }) {
             </div>
             <div className="col-12 mt-2">
               <div className="image-upload">
-                <label>
+                <label for="file-input">
                   <i className="bi bi-pencil-fill mt-2">Edit Foto</i>
                 </label>
                 <input
