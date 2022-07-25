@@ -47,7 +47,7 @@ export async function getServerSideProps({ req, res }) {
 
     const res_transactions = await axios({
       method: `get`,
-      url: `${API}/users/notifications`,
+      url: `${API}/users/transactions`,
       headers: {
         Authorization: `Bearer ${token}`,
       },

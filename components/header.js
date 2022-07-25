@@ -15,14 +15,12 @@ function Header({ user, notifications }) {
     setNotifPopup((notifPopup = !notifPopup));
   };
   const handleLogout = async (e) => {
-    console.log("Logging out...");
     e.preventDefault();
     try {
       cookie.remove("token");
     } catch (error) {
       console.log(error);
     }
-    alert("Wait until you are logged out.");
     router.replace("/");
   };
 
