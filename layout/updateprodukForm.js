@@ -9,25 +9,21 @@ import MainButton from "../components/mainButton";
 
 const API = process.env.NEXT_PUBLIC_API_ENDPOINT;
 
-function EditProdukLayout() {
+function EditProdukLayout({product, token}) {
+
   const router = useRouter();
   const [categories, setCategories] = useState([]);
   const [productData, setProductData] = useState({
-    product_name: "",
-    product_price: "",
-    product_description: "",
-    product_image: null,
-    category_id: "",
+    product_name: product.product_name||"",
+    product_price: product.product_price,
+    product_description: product.product_description,
+    product_image: product.product_image,
+    category_id: product.category_id,
   });
 
   const getCategories = async (e) => {
     const categories = await axios.get(`${API}/categories`);
     setCategories(categories.data.data);
-  };
-
-  const getProductById = async (e) => {
-    const products = await axios.get(`${API}/products/11`);
-    setProductData(products.data.data);
   };
 
   const handleSubmit = async (e) => {
@@ -41,14 +37,14 @@ function EditProdukLayout() {
     try {
       await axios({
         method: "put",
-        url: `${API}/products/11`,
+        url: `${API}/products/${product.id}`,
         data: data,
         headers: {
           Authorization: `Bearer ${localStorage.getItem("user_token")}`,
           "Content-Type": `multipart/form-data`,
         },
       });
-      router.replace("/account/login");
+      router.back();
     } catch (error) {
       console.log(error.response);
     }
@@ -65,7 +61,6 @@ function EditProdukLayout() {
 
   useEffect(() => {
     getCategories();
-    getProductById();
   }, []);
   return (
     <div>
@@ -130,7 +125,7 @@ function EditProdukLayout() {
           </div>
           <div className="col-12 mt-2">
             <label>Foto Produk</label>
-            <img src={productData.product_image}/>
+            <img width="200px" src={productData.product_image}/>
             <InputBox
               type="file"
               name="product_image"

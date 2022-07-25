@@ -51,6 +51,10 @@ function Produk({ token, user, product }) {
     isOwner = true;
   }
 
+  const handleEdit = async (e) => {
+    router.replace("/update-produk/"+product.id);
+  };
+
   const handleDelete = async (e) => {
     console.log("Deleting item...");
     e.preventDefault();
@@ -86,6 +90,7 @@ function Produk({ token, user, product }) {
             className="p-3 flex-grow-1 text-center bg-white"
             text="Edit"
             rad="16"
+            onClick={(e)=>handleEdit(e)}
           />
           <button
             onClick={(e) => handleDelete(e)}
@@ -138,6 +143,7 @@ function Produk({ token, user, product }) {
           {isOwner ? (
             <div className="d-flex flex-column gap-2" style={{ width: "100%" }}>
               <MainButton
+                onClick={(e) => handleEdit(e)}
                 className="p-3 flex-grow-1 text-center bg-white"
                 text="Edit"
                 rad="16"

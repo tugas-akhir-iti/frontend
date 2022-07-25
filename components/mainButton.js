@@ -1,8 +1,9 @@
 import React from "react";
 
-function MainButton({ className,text, rad }) {
+function MainButton({ className,text, rad, onClick }) {
   return (
     <button
+      onClick={onClick}
       className={className}
       style={{
         color: "black",

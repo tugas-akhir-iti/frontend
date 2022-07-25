@@ -3,9 +3,37 @@ import Head from "next/head";
 import UpdateProdukLayout from "../../layout/updateprodukForm";
 import Top from "../../components/top";
 import useResize from "../../hooks/useResize";
+import { GetToken } from "../../utils/getToken";
+import axios from "axios";
 
-export default function AddProduk() {
+export async function getServerSideProps(context) {
+  const API = process.env.NEXT_PUBLIC_API_ENDPOINT;
+
+  let product = [];
+  let allcookie = context.req.headers.cookie || "   ";
+  let token = GetToken(allcookie);
+  try {
+    const res_product = await axios({
+      method: `get`,
+      url: `${API}/products/${context.query.id}`
+    });
+    product = res_product.data.data;
+  } catch (error) {
+    console.log(error);
+  }
+  return {
+    props: {
+      token,
+      product,
+    },
+  };
+}
+
+
+export default function AddProduk({product, token}){
+
   const screen = useResize();
+  console.log(product);
   return (
     <>
       <Head>
@@ -27,11 +55,11 @@ export default function AddProduk() {
         <div className="col-6 offset-3 mt-3 d-flex flex-column justify-content-center">
           <i className="bi bi-arrow-left fs-3 mt-2"></i>
 
-          <UpdateProdukLayout />
+          <UpdateProdukLayout product={product} token={token}/>
         </div>
       ) : (
         <div className="px-3">
-          <UpdateProdukLayout />
+          <UpdateProdukLayout product={product} token={token} />
         </div>
       )}
     </>
