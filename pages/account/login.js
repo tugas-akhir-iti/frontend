@@ -35,8 +35,6 @@ export default function Login() {
         },
       });
       cookie.set("token", res.data.token)
-      localStorage.setItem("token", res.data.token);
-      alert("Wait until you are logged in");
       router.replace("/");
     } catch (error) {
       console.log(error.response);

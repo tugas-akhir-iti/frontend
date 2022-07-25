@@ -36,7 +36,6 @@ export default function Login() {
         },
       });
 
-      alert("You are now registered");
       const res = await axios({
         method: "post",
         url: `${API}/users/login`,
@@ -46,7 +45,6 @@ export default function Login() {
         },
       });
       cookie.set("token", res.data.token)
-      alert("You are now logged in");
       router.replace("/");
     } catch (error) {
       console.log(error.response);
