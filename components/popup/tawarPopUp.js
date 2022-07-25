@@ -23,7 +23,7 @@ const notify = () =>
 
 export default function TawarPopUp({
   token,
-  tawarPopup,
+  onClick,
   product_name,
   product_image,
   product_price,
@@ -34,9 +34,6 @@ export default function TawarPopUp({
     product_id: null,
     order_price: "",
   });
-  const handleTawarPopup = async (e) => {
-    settawarPopup(!tawarPopup);
-  };
   const handleSubmit = async (e) => {
     e.preventDefault();
     const data = new FormData();
@@ -71,7 +68,7 @@ export default function TawarPopUp({
 
   return (
     <MainModalLayout
-      closePopup={(e) => handleTawarPopup(e)}
+      onClick={onClick}
       title={`Masukkan Harga Tawaranmu`}
       description={`Harga tawaranmu akan diketahui penjual, jika penjual cocok kamu akan segera dihubungi penjual.`}
     >
@@ -86,7 +83,7 @@ export default function TawarPopUp({
         />
         <div>
           <b>{product_name}</b>
-          <p className="m-0 p-0">{product_price}</p>
+          <p className="m-0 p-0">RP. {product_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}</p>
         </div>
       </div>
       <p className="m-0">Harga Tawar</p>

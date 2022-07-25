@@ -1,6 +1,6 @@
 import React from "react";
 
-function MainModalLayout({ closePopup,title, description, children }) {
+function MainModalLayout({ onClick, title, description, children }) {
   return (
     <div
       className="position-fixed d-flex justify-content-center align-items-center"
@@ -22,7 +22,11 @@ function MainModalLayout({ closePopup,title, description, children }) {
         }}
       >
         <div className="d-flex justify-content-end">
-          <i onClick={closePopup} className="bi bi-x m-0 p-0" style={{ fontSize: "2rem" }}></i>
+          <i
+            onClick={onClick}
+            className="bi bi-x m-0 p-0"
+            style={{ fontSize: "2rem", cursor: "pointer" }}
+          ></i>
         </div>
         <h4>{title}</h4>
         <p className="mb-2">{description}</p>
