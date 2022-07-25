@@ -22,6 +22,7 @@ export async function getServerSideProps({ req, res }) {
   });
   let products = [];
   let transactions = [];
+  let notifications = [];
 
   try {
     if (token != "") {
@@ -52,6 +53,15 @@ export async function getServerSideProps({ req, res }) {
       },
     });
     transactions = res_transactions.data.data;
+
+    const res_notifications = await axios({
+      method: `get`,
+      url: `${API}/users/notifications`,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    notifications = res_notifications.data.data;
   } catch (error) {
     console.log(error.response);
   }
@@ -61,11 +71,17 @@ export async function getServerSideProps({ req, res }) {
       user,
       products,
       transactions,
+      notifications,
     },
   };
 }
 
-export default function DaftarJual({ user, products, transactions }) {
+export default function DaftarJual({
+  user,
+  products,
+  transactions,
+  notifications,
+}) {
   const category = [
     ["box", "Semua Produk", () => setCategoryState(1), 1],
     ["currency-dollar", "Transaksi", () => setCategoryState(2), 2],
@@ -87,9 +103,9 @@ export default function DaftarJual({ user, products, transactions }) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <MainLayout user={user}>
+      <MainLayout user={user} notifications={notifications}>
         <div className="max-width p-2 d-flex flex-column gap-2">
-          <h1 className="">Daftar Jual Saya</h1>
+          <h1>Daftar Jual Saya</h1>
           {user && (
             <OwnerCard
               foto={user.user_image}

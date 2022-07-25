@@ -21,6 +21,7 @@ export async function getServerSideProps({ req, res }) {
   let products_kesehatan = [];
   let products_baju = [];
   let products_kendaraan = [];
+  let notifications = [];
 
   try {
     const res_products = await axios.get(API + "/products");
@@ -55,6 +56,15 @@ export async function getServerSideProps({ req, res }) {
       },
     });
     user = res_user.data.data;
+
+    const res_notifications = await axios({
+      method: `get`,
+      url: `${API}/users/notifications`,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    notifications = res_notifications.data.data;
   } catch (error) {
     console.log(error.response);
   }
@@ -68,6 +78,7 @@ export async function getServerSideProps({ req, res }) {
       products_elektronik,
       products_baju,
       products_kendaraan,
+      notifications,
     },
   };
 }
@@ -80,6 +91,7 @@ export default function Home({
   products_elektronik,
   products_baju,
   products_kendaraan,
+  notifications,
 }) {
   const screen = useResize();
   const router = useRouter();
@@ -105,7 +117,7 @@ export default function Home({
       </Head>
 
       {screen.md ? (
-        <MainLayout user={user}>
+        <MainLayout user={user} notifications={notifications}>
           <div className="row">
             <div className="col-10 offset-1 mt-5 d-none d-sm-block">
               <div
