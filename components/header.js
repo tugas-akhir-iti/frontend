@@ -98,15 +98,14 @@ function Header({ user, notifications }) {
                 className="d-flex flex-column gap-2"
                 style={{
                   maxHeight: "200px",
-                  minWidth: "120px",
-                  maxWidth: "300px",
+                  width: "300px",
                   overflow: "auto",
                 }}
               >
                 {Object.keys(notifications).length > 0 ? (
                   <>
                     {notifications.map((notification, index) => (
-                      <div className="d-flex" key={index}>
+                      <div className="d-flex gap-2" key={index}>
                         <img
                           src={notification.Product.product_image}
                           style={{
@@ -115,8 +114,8 @@ function Header({ user, notifications }) {
                             borderRadius: "12px",
                           }}
                         ></img>
-                        <div>
-                          <div style={{ fontSize: "0.75rem", color: "gray" }}>
+                        <div style={{width:"100%"}}>
+                          <div className="d-flex justify-content-between" style={{ fontSize: "0.75rem", color: "gray" }}>
                             {notification.Order.order_status == 0 ? (
                               <div>Penawaran Produk</div>
                             ) : (
@@ -124,7 +123,7 @@ function Header({ user, notifications }) {
                             )}
                             <p className="m-0">
                               {moment(notification.createdAt).format(
-                                "hh:mm:ss DD MMM, YYYY"
+                                "DD MMM, hh.mm"
                               )}
                             </p>
                           </div>
