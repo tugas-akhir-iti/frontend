@@ -7,11 +7,9 @@ import Link from "next/link";
 
 function CategoryLayoutMobile({
   products,
-  products_hobi,
-  products_kesehatan,
-  products_elektronik,
-  products_baju,
-  products_kendaraan,
+  products_sayur,
+  products_buah,
+  products_rempah,
 }) {
 
   return (
@@ -42,77 +40,48 @@ function CategoryLayoutMobile({
               <button
                 style={{ borderRadius: "16px" }}
                 className="pill m-2"
-                id="pills-hobi-tab"
+                id="pills-sayur-tab"
                 data-bs-toggle="pill"
-                data-bs-target="#pills-hobi"
+                data-bs-target="#pills-sayur"
                 type="button"
                 role="tab"
-                aria-controls="pills-hobi"
+                aria-controls="pills-sayur"
                 aria-selected="true"
               >
                 <i className="bi bi-search"> </i>
-                Hobi
+                Sayuran
               </button>
 
               <button
                 style={{ borderRadius: "16px" }}
                 className="pill m-2"
-                id="pills-kendaraan-tab"
+                id="pills-buah-tab"
                 data-bs-toggle="pill"
-                data-bs-target="#pills-kendaraan"
+                data-bs-target="#pills-buah"
                 type="button"
                 role="tab"
-                aria-controls="pills-kendaraan"
+                aria-controls="pills-buah"
                 aria-selected="true"
               >
                 <i className="bi bi-search"> </i>
-                Kendaraan
+                Buah
               </button>
 
               <button
                 style={{ borderRadius: "16px" }}
                 className="pill m-2"
-                id="pills-baju-tab"
+                id="pills-rempah-tab"
                 data-bs-toggle="pill"
-                data-bs-target="#pills-baju"
+                data-bs-target="#pills-rempah"
                 type="button"
                 role="tab"
-                aria-controls="pills-baju"
+                aria-controls="pills-rempah"
                 aria-selected="true"
               >
                 <i className="bi bi-search"> </i>
-                Baju
+                Rempah
               </button>
 
-              <button
-                style={{ borderRadius: "16px" }}
-                className="pill m-2"
-                id="pills-elektronik-tab"
-                data-bs-toggle="pill"
-                data-bs-target="#pills-elektronik"
-                type="button"
-                role="tab"
-                aria-controls="pills-elektronik"
-                aria-selected="true"
-              >
-                <i className="bi bi-search"> </i>
-                Elektronik
-              </button>
-
-              <button
-                style={{ borderRadius: "16px" }}
-                className="pill m-2"
-                id="pills-kesehatan-tab"
-                data-bs-toggle="pill"
-                data-bs-target="#pills-kesehatan"
-                type="button"
-                role="tab"
-                aria-controls="pills-kesehatan"
-                aria-selected="true"
-              >
-                <i className="bi bi-search"> </i>
-                Kesehatan
-              </button>
             </UlCategoryLayout>
           </div>
         </div>
@@ -126,7 +95,7 @@ function CategoryLayoutMobile({
           >
             <div className="row d-flex px-3">
               {products.map((product) => (
-                <div className="col-6 col-md-4 mt-2">
+                <div className="col-6 col-md-4 mt-3">
                   <Link
                       href={{
                         pathname: "/produk/[id]",
@@ -140,7 +109,8 @@ function CategoryLayoutMobile({
                         <ItemCard
                           name={product.product_name}
                           price={product.product_price}
-                          category={product.Category.category_name}
+                          regency={product.user_regency}
+                          stock={product.product_stock}
                           image={product.product_image}
                         />
                       </a>
@@ -152,12 +122,12 @@ function CategoryLayoutMobile({
 
           <div
             className="tab-pane fade"
-            id="pills-hobi"
+            id="pills-sayur"
             role="tabpanel"
-            aria-labelledby="hobi-tab"
+            aria-labelledby="sayur-tab"
           >
             <div className="row d-flex px-3">
-              {products_hobi.map((product) => (
+              {products_sayur.map((product) => (
                 <div className="col-6 col-md-4 mt-2">
                   <Link
                       href={{
@@ -172,7 +142,8 @@ function CategoryLayoutMobile({
                         <ItemCard
                           name={product.product_name}
                           price={product.product_price}
-                          category={product.Category.category_name}
+                          regency={product.user_regency}
+                          stock={product.product_stock}
                           image={product.product_image}
                         />
                       </a>
@@ -184,12 +155,12 @@ function CategoryLayoutMobile({
 
           <div
             className="tab-pane fade"
-            id="pills-kendaraan"
+            id="pills-buah"
             role="tabpanel"
-            aria-labelledby="kendaraan-tab"
+            aria-labelledby="buah-tab"
           >
             <div className="row d-flex px-3">
-              {products_kendaraan.map((product) => (
+              {products_buah.map((product) => (
                 <div className="col-6 col-md-4 mt-2">
                   <Link
                       href={{
@@ -204,7 +175,8 @@ function CategoryLayoutMobile({
                         <ItemCard
                           name={product.product_name}
                           price={product.product_price}
-                          category={product.Category.category_name}
+                          regency={product.user_regency}
+                          stock={product.product_stock}
                           image={product.product_image}
                         />
                       </a>
@@ -216,12 +188,12 @@ function CategoryLayoutMobile({
 
           <div
             className="tab-pane fade"
-            id="pills-baju"
+            id="pills-rempah"
             role="tabpanel"
-            aria-labelledby="baju-tab"
+            aria-labelledby="rempah-tab"
           >
             <div className="row d-flex px-3">
-              {products_baju.map((product) => (
+              {products_rempah.map((product) => (
                 <div className="col-6 col-md-4 mt-2">
                   <Link
                       href={{
@@ -236,7 +208,8 @@ function CategoryLayoutMobile({
                         <ItemCard
                           name={product.product_name}
                           price={product.product_price}
-                          category={product.Category.category_name}
+                          regency={product.user_regency}
+                          stock={product.product_stock}
                           image={product.product_image}
                         />
                       </a>
@@ -246,69 +219,6 @@ function CategoryLayoutMobile({
             </div>
           </div>
 
-          <div
-            className="tab-pane fade"
-            id="pills-elektronik"
-            role="tabpanel"
-            aria-labelledby="elektronik-tab"
-          >
-            <div className="row d-flex px-3">
-              {products_elektronik.map((product) => (
-                <div className="col-6 col-md-4 mt-2">
-                  <Link
-                      href={{
-                        pathname: "/produk/[id]",
-                      }}
-                      as={`produk/${product.id}`}
-                    >
-                      <a
-                        className={styles.produk}
-                        key={product.id}
-                      >
-                        <ItemCard
-                          name={product.product_name}
-                          price={product.product_price}
-                          category={product.Category.category_name}
-                          image={product.product_image}
-                        />
-                      </a>
-                    </Link>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <div
-            className="tab-pane fade"
-            id="pills-kesehatan"
-            role="tabpanel"
-            aria-labelledby="kesehatan-tab"
-          >
-            <div className="row d-flex px-3">
-              {products_kesehatan.map((product) => (
-                <div className="col-6 col-md-4 mt-2">
-                  <Link
-                      href={{
-                        pathname: "/produk/[id]",
-                      }}
-                      as={`produk/${product.id}`}
-                    >
-                      <a
-                        className={styles.produk}
-                        key={product.id}
-                      >
-                        <ItemCard
-                          name={product.product_name}
-                          price={product.product_price}
-                          category={product.Category.category_name}
-                          image={product.product_image}
-                        />
-                      </a>
-                    </Link>
-                </div>
-              ))}
-            </div>
-          </div>
         </div>
       </div>
     </>

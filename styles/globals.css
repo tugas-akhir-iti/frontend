@@ -17,11 +17,16 @@ a {
   text-decoration: none;
 }
 
+a:hover {
+  color: var(--purple);
+}
+
 * {
   box-sizing: border-box;
 }
 
-button,li {
+button,
+li {
   all: unset;
 }
 
@@ -31,18 +36,20 @@ button,li {
   margin-right: auto;
 }
 
-.pill{
-background: #d3a6f8;
-color: white;
-padding: 10px;
-         
-}
-.pill.active{
-  background:#7126b5;
+.pill {
+  background: #d3a6f8;
+  color: white;
+  padding: 10px;
 
 }
-.pill:focus{
-  background:#7126b5;
+
+.pill.active {
+  background: #7126b5;
+
+}
+
+.pill:focus {
+  background: #7126b5;
 
 }
 

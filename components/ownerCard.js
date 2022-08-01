@@ -17,7 +17,7 @@ function OwnerCard({ foto, fotoalt, nama, kota, isOwner }) {
         style={{ height: "5rem", borderRadius: "1rem" }}
       />
       <div className="flex-fill d-flex flex-column justify-content-center">
-        <h3 className="m-0">{nama}</h3>
+        <h4 className="m-0">{nama}</h4>
         <p className="m-0">{kota}</p>
       </div>
       {isOwner && (

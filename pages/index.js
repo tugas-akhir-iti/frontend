@@ -12,41 +12,29 @@ import { useEffect } from "react";
 
 export async function getServerSideProps({ req, res }) {
   const API = process.env.NEXT_PUBLIC_API_ENDPOINT;
+
   let user = null;
   let allcookie = req.headers.cookie || "   ";
   let token = GetToken(allcookie);
   let products = [];
-  let products_hobi = [];
-  let products_elektronik = [];
-  let products_kesehatan = [];
-  let products_baju = [];
-  let products_kendaraan = [];
-  let notifications = [];
+  let products_sayur = [];
+  let products_buah = [];
+  let products_rempah = [];
 
   try {
-    const res_products = await axios.get(API + "/products");
+    const res_products = await axios.get(API +"/products");
     products = res_products.data.data;
 
-    const res_products_hobi = await axios.get(API + "/products/categories/1");
-    products_hobi = res_products_hobi.data.data;
+    const res_products_sayur = await axios.get(API + "/products/categories/1");
+    products_sayur = res_products_sayur.data.data;
 
-    const res_products_kendaraan = await axios.get(
+    const res_products_buah = await axios.get(
       API + "/products/categories/2"
     );
-    products_kendaraan = res_products_kendaraan.data.data;
+    products_buah = res_products_buah.data.data;
 
-    const res_products_baju = await axios.get(API + "/products/categories/3");
-    products_baju = res_products_baju.data.data;
-
-    const res_products_elektronik = await axios.get(
-      API + "/products/categories/4"
-    );
-    products_elektronik = res_products_elektronik.data.data;
-
-    const res_products_kesehatan = await axios.get(
-      API + "/products/categories/5"
-    );
-    products_kesehatan = res_products_kesehatan.data.data;
+    const res_products_rempah = await axios.get(API + "/products/categories/3");
+    products_rempah = res_products_rempah.data.data;
 
     const res_user = await axios({
       method: `get`,
@@ -73,12 +61,9 @@ export async function getServerSideProps({ req, res }) {
     props: {
       user,
       products,
-      products_hobi,
-      products_kesehatan,
-      products_elektronik,
-      products_baju,
-      products_kendaraan,
-      notifications,
+      products_sayur,
+      products_buah,
+      products_rempah,
     },
   };
 }
@@ -86,18 +71,15 @@ export async function getServerSideProps({ req, res }) {
 export default function Home({
   user,
   products,
-  products_hobi,
-  products_kesehatan,
-  products_elektronik,
-  products_baju,
-  products_kendaraan,
-  notifications,
+  products_sayur,
+  products_buah,
+  products_rempah,
 }) {
   const screen = useResize();
   const router = useRouter();
 
   useEffect(() => {
-    if (user != null && user.user_role == 2) {
+    if (user != null && user.role_id == 1) {
       router.replace("/seller");
     }
   });
@@ -117,7 +99,8 @@ export default function Home({
       </Head>
 
       {screen.md ? (
-        <MainLayout user={user} notifications={notifications}>
+        // <MainLayout user={user} notifications={notifications}>
+        <MainLayout user={user}>
           <div className="row">
             <div className="col-10 offset-1 mt-5 d-none d-sm-block">
               <div
@@ -145,11 +128,9 @@ export default function Home({
               <CategoryLayout
                 user={user}
                 products={products}
-                products_hobi={products_hobi}
-                products_kesehatan={products_kesehatan}
-                products_elektronik={products_elektronik}
-                products_baju={products_baju}
-                products_kendaraan={products_kendaraan}
+                products_sayur={products_sayur}
+                products_buah={products_buah}
+                products_rempah={products_rempah}
               />
             </div>
           </div>
@@ -222,11 +203,9 @@ export default function Home({
           </div>
           <CategoryLayoutMobile
             products={products}
-            products_hobi={products_hobi}
-            products_kesehatan={products_kesehatan}
-            products_elektronik={products_elektronik}
-            products_baju={products_baju}
-            products_kendaraan={products_kendaraan}
+            products_sayur={products_sayur}
+            products_buah={products_buah}
+            products_rempah={products_rempah}
           />
         </div>
       )}

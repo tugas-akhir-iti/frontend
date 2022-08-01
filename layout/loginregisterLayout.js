@@ -8,7 +8,7 @@ function LoginregisterLayout({ children }) {
         style={{ position: "relative" }}
       >
         <img
-          src="/loginregisterbg.png"
+          src="/loginregister.png"
           alt="image"
           style={{
             position: "absolute",
@@ -26,9 +26,9 @@ function LoginregisterLayout({ children }) {
             className="m-0 p-0"
             style={{ fontSize: "3rem", fontWeight: "700" }}
           >
-            Second
+            Rumah
             <br />
-            Hand.
+            Tani.
           </h1>
         </div>
       </div>

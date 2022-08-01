@@ -38,7 +38,7 @@ function GridSeller({products,user}) {
               <ItemCard
                 name={product.product_name}
                 price={product.product_price}
-                category={product.Category.category_name}
+                stock={product.product_stock}
                 image={product.product_image}
               />
             </a>

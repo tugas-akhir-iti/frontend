@@ -52,6 +52,10 @@
   color: black;
 }
 
+.produk:hover {
+  color: #7126B5;
+}
+
 .title,
 .description {
   text-align: center;
@@ -95,8 +99,8 @@
 .card:hover,
 .card:focus,
 .card:active {
-  color: #0070f3;
-  border-color: #0070f3;
+  color: #7126B5;
+  border-color: #7126B5;
 }
 
 .card h2 {

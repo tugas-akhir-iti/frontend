@@ -33,7 +33,7 @@ export async function getServerSideProps(context) {
 export default function AddProduk({product, token}){
 
   const screen = useResize();
-  console.log(product);
+  // console.log(product);
   return (
     <>
       <Head>

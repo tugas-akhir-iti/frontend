@@ -1,5 +1,5 @@
 import Head from "next/head";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/router";
 import CategoryCard from "../../components/categoryCard";
@@ -11,6 +11,8 @@ import ProdukDesktopLayout from "../../layout/produkDesktop";
 import { GetToken } from "../../utils/getToken";
 import MainButton from "../../components/mainButton";
 import TawarPopUp from "../../components/popup/tawarPopUp";
+import QuestionBuyer from "../../components/questionBuyer";
+import Link from 'next/link'
 const API = process.env.NEXT_PUBLIC_API_ENDPOINT;
 
 export async function getServerSideProps(context) {
@@ -18,9 +20,20 @@ export async function getServerSideProps(context) {
   let allcookie = context.req.headers.cookie || "   ";
   let token = GetToken(allcookie);
   let product = [];
+  let questions = [];
+
+  const res_questions = await axios({
+    method: "get",
+    url : `http://localhost:3001/products/questions/${context.query.id}`
+  })
+  questions = res_questions.data.data;
+
   try {
+    // Products
     const res = await axios.get(API + "/products/" + context.query.id);
     product = res.data.data;
+
+    // Users
     const res_user = await axios({
       method: `get`,
       url: `${API}/users`,
@@ -29,6 +42,7 @@ export async function getServerSideProps(context) {
       },
     });
     user = res_user.data.data;
+  
   } catch (error) {
     console.log(error);
   }
@@ -37,17 +51,20 @@ export async function getServerSideProps(context) {
       token,
       user,
       product,
+      questions
     },
   };
 }
 
-function Produk({ token, user, product }) {
+function Produk({ token, user, product, questions }) {
+
   const screen = useResize();
   const router = useRouter();
   const [tawarPopup, setTawarPopup] = useState(false);
+  const [question, setQuestion] = useState("");
   const handleTawarPopup = () => setTawarPopup((tawarPopup = !tawarPopup));
   let isOwner = false;
-  if (user != null && product.User.id == user.user_id) {
+  if (user != null && product.user_id == user.user_id) {
     isOwner = true;
   }
 
@@ -72,6 +89,34 @@ function Produk({ token, user, product }) {
     }
 
     router.replace("/seller");
+  };
+
+  const handleQuestion = async (e) => {
+    console.log(question, product.id);
+    e.preventDefault();
+    
+    const data = new FormData();
+    data.append("product_id", product.id);
+    data.append("question", question);
+    if (token) {
+      try {
+        await axios({
+          method: "post",
+          url: `${API}/products/questions`,
+          data: data,
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": `multipart/form-data`,
+          },
+        });
+        router.reload();
+      } catch (error) {
+        console.log(error.response);
+      }
+    } else {
+      alert("Please Login to continue");
+      router.replace("/account/login");
+    }
   };
 
   let images = (
@@ -108,7 +153,7 @@ function Produk({ token, user, product }) {
       ) : (
         <CategoryCard
           className="p-3 flex-grow-1"
-          text="Saya Tertarik dan Ingin Nego"
+          text="Tambahkan Keranjang"
           rad="16"
           onClick={handleTawarPopup}
         />
@@ -117,11 +162,11 @@ function Produk({ token, user, product }) {
   );
   let owner = (
     <OwnerCard
-      foto={product.User.user_image}
+      foto={product.user_image}
       fotoalt="fotoalt"
       isOwner={isOwner}
-      nama={product.User.user_name}
-      kota={product.User.user_regency}
+      nama={product.user_name}
+      kota={product.user_regency}
     />
   );
   let information = (
@@ -133,7 +178,8 @@ function Produk({ token, user, product }) {
       }}
     >
       <h4>{product.product_name}</h4>
-      <p className="p-0 mb-2">{product.Category.category_name}</p>
+      <p className="p-0 mb-0">Stok {product.product_stock} kg</p>
+      <p className="p-0 mb-2">Minimal Pembelian {product.product_min_order} kg</p>
       <h5>
         Rp{" "}
         {product.product_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}
@@ -167,7 +213,7 @@ function Produk({ token, user, product }) {
           ) : (
             <CategoryCard
               className="p-3 flex-grow-1"
-              text="Saya Tertarik dan Ingin Nego"
+              text="Tambahkan Keranjang"
               rad="16"
               onClick={handleTawarPopup}
             />
@@ -178,7 +224,7 @@ function Produk({ token, user, product }) {
   );
   let description = (
     <div
-      className="p-3"
+      className="p-4"
       style={{
         boxShadow: "0px 0px 6px rgba(0,0,0,0.15)",
         borderRadius: "1rem",
@@ -188,6 +234,61 @@ function Produk({ token, user, product }) {
       <p className="mb-0 mt-2">{product.product_description}</p>
     </div>
   );
+  let questionBuyer = (
+    <div
+      className="p-3 d-flex flex-column "
+      style={{
+        boxShadow: "0px 0px 6px rgba(0,0,0,0.15)",
+        borderRadius: "1rem",
+      }}
+    >
+      <div className="d-flex flex-row justify-content-between mb-3">
+        <h4>Tanya Produk(12)</h4>
+        <Link href="#value-question">
+        <CategoryCard
+          className="p-2"
+          text="Tanya Produk"
+          rad="5"
+        />
+        </Link>
+
+      </div>
+      {questions.map((data)=>(
+        <QuestionBuyer 
+          question={data.question} 
+          answare={data.answare} 
+          user_name_question={data.user_name_question} 
+          user_image_question={data.user_image_question} 
+          user_name_product={data.user_name_product}
+          user_image_product={data.user_image_product}
+          createdAt={data.createdAt} 
+          updatedAt={data.updatedAt}
+        />
+      ))}
+      <textarea
+        style={{
+          boxShadow: "0px 0px 6px rgba(0,0,0,0.15)",
+          borderRadius: "0.3rem", 
+          border:"none"}} 
+        className="mt-4 mb-2 p-2" 
+        placeholder="Tulis pertanyaan"
+        type="textarea" 
+        id="value-question"
+        name="value-question"
+        onChange={e=>{setQuestion(e.currentTarget.value)}}
+      />
+      
+      <div 
+        className="d-flex justify-content-end">
+        <CategoryCard
+          className="p-2 ps-4 pe-4"
+          text="Kirim"
+          rad="5"
+          onClick={handleQuestion}
+        />
+      </div>
+    </ div>
+  )
   return (
     <>
       <Head>
@@ -206,6 +307,7 @@ function Produk({ token, user, product }) {
               description={description}
               button={button}
               isOwner={isOwner}
+              questionBuyer={questionBuyer}
             />
           ) : (
             <ProdukMobileLayout
@@ -215,6 +317,7 @@ function Produk({ token, user, product }) {
               description={description}
               button={button}
               isOwner={isOwner}
+              questionBuyer={questionBuyer}
             />
           )}
         </div>
