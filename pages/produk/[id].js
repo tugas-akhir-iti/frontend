@@ -12,6 +12,7 @@ import { GetToken } from "../../utils/getToken";
 import MainButton from "../../components/mainButton";
 import TawarPopUp from "../../components/popup/tawarPopUp";
 import QuestionBuyer from "../../components/questionBuyer";
+import QuestionSeller from "../../components/questionSeller";
 import Link from 'next/link'
 const API = process.env.NEXT_PUBLIC_API_ENDPOINT;
 
@@ -244,16 +245,24 @@ function Produk({ token, user, product, questions }) {
     >
       <div className="d-flex flex-row justify-content-between mb-3">
         <h4>Tanya Produk(12)</h4>
-        <Link href="#value-question">
-        <CategoryCard
-          className="p-2"
-          text="Tanya Produk"
-          rad="5"
-        />
-        </Link>
+
+        {user == null  || user.role_id == 2 ? 
+          <Link href="#value-question">
+            <CategoryCard
+              className="p-2"
+              text="Tanya Produk"
+              rad="5"
+            />
+          </Link>
+        : null
+        }
 
       </div>
-      {questions.map((data)=>(
+
+      {/* Question buyer condition */}
+      
+      {questions != null && user == null || user.role_id == 2 ? questions.map((data)=>(
+      <>     
         <QuestionBuyer 
           question={data.question} 
           answare={data.answare} 
@@ -264,29 +273,54 @@ function Produk({ token, user, product, questions }) {
           createdAt={data.createdAt} 
           updatedAt={data.updatedAt}
         />
-      ))}
-      <textarea
-        style={{
-          boxShadow: "0px 0px 6px rgba(0,0,0,0.15)",
-          borderRadius: "0.3rem", 
-          border:"none"}} 
-        className="mt-4 mb-2 p-2" 
-        placeholder="Tulis pertanyaan"
-        type="textarea" 
-        id="value-question"
-        name="value-question"
-        onChange={e=>{setQuestion(e.currentTarget.value)}}
-      />
-      
-      <div 
-        className="d-flex justify-content-end">
-        <CategoryCard
-          className="p-2 ps-4 pe-4"
-          text="Kirim"
-          rad="5"
-          onClick={handleQuestion}
+
+      </>
+      )) : null}
+
+      {user == null  || user.role_id == 2 ? 
+      <>
+        <textarea
+          style={{
+            boxShadow: "0px 0px 6px rgba(0,0,0,0.15)",
+            borderRadius: "0.3rem", 
+            border:"none"}} 
+          className="mt-4 mb-2 p-2" 
+          placeholder="Tulis pertanyaan"
+          type="textarea" 
+          id="value-question"
+          name="value-question"
+          onChange={e=>{setQuestion(e.currentTarget.value)}}
         />
-      </div>
+        
+        <div 
+          className="d-flex justify-content-end">
+          <CategoryCard
+            className="p-2 ps-4 pe-4"
+            text="Kirim"
+            rad="5"
+            onClick={handleQuestion}
+          />
+        </div>
+      </>
+      : null }
+
+      {/* Question Seller */}
+      {questions != null && user != null && user.role_id == 1 ? questions.map((data)=>(
+          <>     
+            <QuestionSeller 
+              id={data.id}
+              question={data.question} 
+              answare={data.answare} 
+              user_name_question={data.user_name_question} 
+              user_image_question={data.user_image_question} 
+              user_name_product={data.user_name_product}
+              user_image_product={data.user_image_product}
+              createdAt={data.createdAt} 
+              updatedAt={data.updatedAt}
+              token={token}
+            />
+          </>
+          )) : null}
     </ div>
   )
   return (
