@@ -16,7 +16,7 @@ export default function Login() {
     user_name: "",
     user_email: "",
     user_password: "",
-    user_role: "",
+    role_id: "",
   });
 
   const handleSubmit = async (e) => {
@@ -25,7 +25,7 @@ export default function Login() {
     data.append("user_email", userData.user_email);
     data.append("user_password", userData.user_password);
     data.append("user_name", userData.user_name);
-    data.append("user_role", Number(userData.user_role));
+    data.append("role_id", Number(userData.role_id));
     try {
       await axios({
         method: "post",
@@ -105,7 +105,7 @@ export default function Login() {
           <div className="col-12 mt-2">
             <label>Role</label>
             <select
-              name="user_role"
+              name="role_id"
               className="form-select mt-2"
               aria-label="Default select example"
               onChange={(e) => handleChange(e)}
@@ -117,8 +117,8 @@ export default function Login() {
               }}
             >
               <option value="">Pilih Role</option>
-              <option value="1">Buyer</option>
-              <option value="2">Seller</option>
+              <option value="2">Pasar</option>
+              <option value="1">Petani</option>
             </select>
           </div>
 

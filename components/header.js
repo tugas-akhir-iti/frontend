@@ -51,6 +51,7 @@ function Header({ user, notifications }) {
             <ul className="m-0 p-0 d-flex gap-3 position-relative">
               {[
                 // ["/history-buyer", "list-ul"],
+                ["/cart", "cart3"],
                 ["", "bell", handleNotifPopup],
                 ["/info-profile", "person"],
               ].map(([href, icon, onClick], index) => (

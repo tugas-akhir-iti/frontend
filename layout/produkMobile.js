@@ -1,5 +1,4 @@
 import React from "react";
-import QuestionBuyer from "../components/questionBuyer.js";
 
 function ProdukMobileLayout(props) {
   return (

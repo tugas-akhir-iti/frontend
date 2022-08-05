@@ -1,0 +1,293 @@
+//copy by checkout
+import Head from "next/head";
+import React, {useState} from "react";
+import CategoryCard from "../../components/categoryCard";
+import MainLayout from "../../layout/mainLayout";
+import useResize from "../../hooks/useResize";
+import CartLayoutDekstop from "../../layout/cartLayoutDekstop";
+import CartLayoutMobile from "../../layout/cartLayoutMobile";
+import ListProduct from "../../components/listProduct";
+import { GetToken } from "../../utils/getToken";
+import axios from "axios";
+import { useRouter } from "next/router";
+const API = process.env.NEXT_PUBLIC_API_ENDPOINT;
+import { ToastContainer, toast } from "react-toastify";
+
+
+export async function getServerSideProps(context) {
+    
+    let user = null;
+    let allcookie = context.req.headers.cookie || "   ";
+    let token = GetToken(allcookie);
+    let carts = [];
+  
+    const res_cart = await axios({
+      method: `get`,
+      url : `${API}/carts`,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+    carts = res_cart.data.cart;
+  
+    try {  
+      // Users
+      const res_user = await axios({
+        method: `get`,
+        url: `${API}/users`,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      user = res_user.data.data;
+    
+    } catch (error) {
+      console.log(error);
+    }
+    return {
+      props: {
+        token,
+        user,
+        carts
+      },
+    };
+  }
+
+function Cart({token, user, carts}){
+  const screen = useResize();
+  const router = useRouter()
+  const [total, setTotal] = useState(0)
+  const [index, setIndex] = useState(null)
+
+  const handleCheckout = async(e) => {
+    e.preventDefault();
+
+    const notify = () =>
+    toast.success("Sukses Tambahkan Keranjang", {
+      position: "top-center",
+      autoClose: 2500,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    });
+
+    const order = await axios({
+      method: "post",
+      url: `${API}/orders`,
+      data: {"order_price":total},
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": `multipart/form-data`,
+      },
+    });
+
+    if(index != null){
+      carts[index].product_cart.map(async(data)=>(
+      await axios({
+        method: "post",
+        url: `${API}/orders/order-detail`,
+        data: {
+          "order_detail_qty": data.cart_qty,
+          "product_id":  data.product_id,
+          "order_id":  order.data.id
+        },
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": `multipart/form-data`,
+        },
+      }),
+
+      await axios({
+        method: "delete",
+        url: `${API}/carts/${data.cart_id}`,
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": `multipart/form-data`,
+        },
+      }),
+      notify(),
+      
+      setTimeout(() => {
+        router.reload()
+      }, 2500)
+      
+    ))
+
+      console.log(order.data.id)
+       
+    }else{
+      console.log("Data null tol");
+    }
+  }
+
+  
+  const handleCart = e => {
+    const index = e.target.value; 
+    setIndex(index) 
+    
+    let get_price = 0
+    carts[index].product_cart.map((data)=>(
+      get_price += data.product_price*data.cart_qty
+    ))
+    
+    setTotal(get_price)
+  }
+
+  
+  const handleDelete = async (e) => {
+    const id = e.target.value;
+    e.preventDefault();
+    try {
+      await axios({
+        method: `delete`,
+        url: `${API}/carts/${id}`,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      alert("Item being deleted. Please wait.");
+      router.reload()
+    } catch (error) {
+      console.log(error);
+  }
+}
+
+  let information = (
+    <div
+      className="p-4 mb-2"
+      style={{
+        boxShadow: "0px 0px 6px rgba(0,0,0,0.15)",
+        borderRadius: "1rem",
+      }}
+    >
+      {screen.md ? (
+      <>
+      <h4>Ringkasan Belanja</h4>
+      <p className="p-0 mb-2">Total Harga</p>
+      <h4>Rp. {total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}</h4>
+        <div className="start-0 end-0 d-flex mt-4">
+          <CategoryCard
+            className="py-3 flex-grow-1"
+            text="Checkout"
+            rad="16"
+            fontSize="25px"
+            onClick={handleCheckout}
+          />
+        </div>
+      </>
+      ): (
+        <>
+          <div className="d-flex flex justify-content-between">
+            <h5 className="h5-0 mb-2">Total Harga</h5>
+            <h5>Rp. {total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}</h5>
+            </div>
+        </>
+      )}
+    </div>
+  );
+  let product = (
+    <>  
+        <div
+            className="d-flex flex-column p-4"
+            style={{
+                boxShadow: "0px 0px 6px rgba(0,0,0,0.15)",
+                borderRadius: "1rem",
+            }}
+            >
+            
+            {Object.keys(carts).map((key)=>(
+            <>
+                <div className="d-flex flex-row gap-3 align-items-center">
+                    <input className="mb-2" style={{width:"17px", height:"17px"}}  type="radio" value={key} onChange={handleCart} name="checkProduct"/>
+                    <label>
+                        <div className="d-flex flex-column">
+                        <h5 className="mb-0">{carts[key].product_owner_name}</h5>
+                        <p className="p-0">{carts[key].product_owner_regency}</p>
+                        </div>
+                    </label>
+                </div>
+  
+              {carts[key].product_cart.map((data)=>(
+              <div className="ms-4 d-flex flex-column">
+                  <ListProduct
+                    productName={data.product_name} 
+                    productStock={data.product_stock} 
+                    productPrice={data.product_price} 
+                    productImage={data.product_image} 
+                    minOrder={data.product_min_order}
+                    cartQty={data.cart_qty}
+                    handleDelete={handleDelete}
+                    value={data.cart_id}
+                  />
+              </div>
+              ))}
+              <hr 
+                  style={{
+                  height:"4px",
+                  borderWidth:"0",
+                  color:"gray",
+                  backgroundColor:"gray",
+                  }}
+              />
+            </>
+            ))}
+
+
+        </div>
+    </>
+  );
+
+  let button = (
+    <>
+      <CategoryCard
+          className="p-3 flex-grow-1"
+          text="Checkout"
+          rad="16"
+          onClick={handleCheckout}
+      />
+    </>
+  );
+
+  return(
+        <>
+            <Head>
+                <title>Keranjang</title>
+                <meta name="description" content="Daftar barang jual saya" />
+                <link rel="icon" href="/favicon.ico" />
+            </Head>
+
+            <MainLayout user={user}>
+                <div className="max-width container-fluid p-0">
+                  {screen.md ? (
+                  <CartLayoutDekstop
+                    information={information}
+                    product={product}
+                  />
+                  ) : (
+                  <CartLayoutMobile
+                    information={information}
+                    product={product}
+                    button={button}
+                  />
+                  )}
+                </div>
+            </MainLayout>
+            <ToastContainer
+              position="top-center"
+              autoClose={5000}
+              hideProgressBar={false}
+              newestOnTop={false}
+              closeOnClick
+              rtl={false}
+              toastStyle={{backgroundColor: "#7126B5", color: "white"}}
+              pauseOnFocusLoss
+              draggable
+              pauseOnHover
+            />
+        </>
+    )
+}
+
+export default Cart;

@@ -8,7 +8,7 @@ function ItemCard({ name, price, regency, image, stock }) {
       <h5 className="mt-2 ms-2">{name}</h5>
       <p className="mb-0 mt-0 ms-2" style={{color:"grey", fontSize:"1.1rem"}}>{regency}</p>
       <p className="mb-1 ms-2" style={{color:"grey", fontSize:"1.1rem"}}>Stok : {stock} kg</p>
-      <h5 className="mb-3 ms-2" >Rp {price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")} /kg</h5>
+      <h5 className="mb-3 ms-2" >Rp. {price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")} /kg</h5>
     </div>
 
   );

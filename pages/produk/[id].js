@@ -10,7 +10,7 @@ import useResize from "../../hooks/useResize";
 import ProdukDesktopLayout from "../../layout/produkDesktop";
 import { GetToken } from "../../utils/getToken";
 import MainButton from "../../components/mainButton";
-import TawarPopUp from "../../components/popup/tawarPopUp";
+import AddCartPopUp from "../../components/popup/addCartPopUp";
 import QuestionBuyer from "../../components/questionBuyer";
 import QuestionSeller from "../../components/questionSeller";
 import Link from 'next/link'
@@ -25,7 +25,7 @@ export async function getServerSideProps(context) {
 
   const res_questions = await axios({
     method: "get",
-    url : `http://localhost:3001/products/questions/${context.query.id}`
+    url : `${API}/products/questions/${context.query.id}`
   })
   questions = res_questions.data.data;
 
@@ -61,9 +61,9 @@ function Produk({ token, user, product, questions }) {
 
   const screen = useResize();
   const router = useRouter();
-  const [tawarPopup, setTawarPopup] = useState(false);
+  const [addCartPopup, setAddCartPopup] = useState(false);
   const [question, setQuestion] = useState("");
-  const handleTawarPopup = () => setTawarPopup((tawarPopup = !tawarPopup));
+  const handleAddCart = () => setAddCartPopup((addCartPopup = !addCartPopup));
   let isOwner = false;
   if (user != null && product.user_id == user.user_id) {
     isOwner = true;
@@ -93,7 +93,7 @@ function Produk({ token, user, product, questions }) {
   };
 
   const handleQuestion = async (e) => {
-    console.log(question, product.id);
+    // console.log(question, product.id);
     e.preventDefault();
     
     const data = new FormData();
@@ -156,7 +156,7 @@ function Produk({ token, user, product, questions }) {
           className="p-3 flex-grow-1"
           text="Tambahkan Keranjang"
           rad="16"
-          onClick={handleTawarPopup}
+          onClick={handleAddCart}
         />
       )}
     </>
@@ -216,7 +216,7 @@ function Produk({ token, user, product, questions }) {
               className="p-3 flex-grow-1"
               text="Tambahkan Keranjang"
               rad="16"
-              onClick={handleTawarPopup}
+              onClick={handleAddCart}
             />
           )}
         </div>
@@ -248,7 +248,7 @@ function Produk({ token, user, product, questions }) {
 
         {user == null  || user.role_id == 2 ? 
           <Link href="#value-question">
-            <CategoryCard
+            <MainButton
               className="p-2"
               text="Tanya Produk"
               rad="5"
@@ -260,7 +260,7 @@ function Produk({ token, user, product, questions }) {
       </div>
 
       {/* Question buyer condition */}
-      
+
       {questions != null && user == null || user.role_id == 2 ? questions.map((data)=>(
       <>     
         <QuestionBuyer 
@@ -304,7 +304,7 @@ function Produk({ token, user, product, questions }) {
       </>
       : null }
 
-      {/* Question Seller */}
+      {/* Question Seller Condition */}
       {questions != null && user != null && user.role_id == 1 ? questions.map((data)=>(
           <>     
             <QuestionSeller 
@@ -355,14 +355,17 @@ function Produk({ token, user, product, questions }) {
             />
           )}
         </div>
-        {tawarPopup && (
-          <TawarPopUp
+        {addCartPopup && (
+          <AddCartPopUp
             token={token}
-            onClick={handleTawarPopup}
+            onClick={handleAddCart}
+            stateChanger={handleAddCart}
             product_name={product.product_name}
             product_image={product.product_image}
-            product_id={product.id}
             product_price={product.product_price}
+            product_min_order={product.product_min_order}
+            product_stock={product.product_stock}
+            product_id={product.id}
           />
         )}
       </MainLayout>

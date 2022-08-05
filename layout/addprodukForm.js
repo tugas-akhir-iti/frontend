@@ -9,27 +9,31 @@ import MainButton from "../components/mainButton";
 
 const API = process.env.NEXT_PUBLIC_API_ENDPOINT;
 
-function AddProdukLayout({ user, token }) {
+function AddProdukLayout({ user, token, categories}) {
   const router = useRouter();
-  const [categories, setCategories] = useState([]);
+  // const [categories, setCategories] = useState([]);
   const [productData, setProductData] = useState({
     product_name: "",
     product_price: "",
+    product_stock: "",
+    product_min_order: "",
     product_description: "",
     product_image: null,
     category_id: "",
   });
 
-  const getCategories = async (e) => {
-    const categories = await axios.get(`${API}/categories`);
-    setCategories(categories.data.data);
-  };
+  // const getCategories = async (e) => {
+  //   const categories = await axios.get(`${API}/categories`);
+  //   setCategories(categories.data.data);
+  // };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const data = new FormData();
     data.append("product_name", productData.product_name);
     data.append("product_price", Number(productData.product_price));
+    data.append("product_stock", Number(productData.product_stock));
+    data.append("product_min_order", Number(productData.product_min_order));
     data.append("product_description", productData.product_description);
     data.append("product_image", productData.product_image);
     data.append("category_id", Number(productData.category_id));
@@ -58,9 +62,9 @@ function AddProdukLayout({ user, token }) {
     setProductData((prev) => ({ ...prev, product_image: e.target.files[0] }));
   };
 
-  useEffect(() => {
-    getCategories();
-  }, [categories]);
+  // useEffect(() => {
+  //   getCategories();
+  // }, [categories]);
   return (
     <div>
       <form onSubmit={handleSubmit}>
@@ -78,10 +82,30 @@ function AddProdukLayout({ user, token }) {
           <div className="col-12 mt-2">
             <label>Harga Produk</label>
             <InputBox
-              type="text"
+              type="number"
               name="product_price"
               className="form-control mt-2"
               placeholder="Rp 0,00"
+              onChange={(e) => handleChange(e)}
+            />
+          </div>
+          <div className="col-12 mt-2">
+            <label>Stok Produk</label>
+            <InputBox
+              type="number"
+              name="product_stock"
+              className="form-control mt-2"
+              placeholder="5000 kg"
+              onChange={(e) => handleChange(e)}
+            />
+          </div>
+          <div className="col-12 mt-2">
+            <label>Minimal Pembelian Produk</label>
+            <InputBox
+              type="number"
+              name="product_min_order"
+              className="form-control mt-2"
+              placeholder="100 kg"
               onChange={(e) => handleChange(e)}
             />
           </div>
@@ -134,11 +158,11 @@ function AddProdukLayout({ user, token }) {
           </div>
           <div className="col-12 mt-5 mb-5 fw-bold">
             <div className="d-flex flex-row gap-2">
-              <MainButton
+              {/* <MainButton
                 className="p-3 flex-grow-1 text-center"
                 text="Preview"
                 rad="16"
-              />
+              /> */}
               <CategoryCard
                 type="submit"
                 className="p-3 flex-grow-1"

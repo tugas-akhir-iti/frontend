@@ -13,6 +13,10 @@ export async function getServerSideProps(context) {
   let user = null;
   let allcookie = context.req.headers.cookie || "   ";
   let token = GetToken(allcookie);
+
+  const res_categories = await axios.get(`${API}/categories`)
+  const categories = res_categories.data.data;
+
   try {
     const res_user = await axios({
       method: `get`,
@@ -29,11 +33,12 @@ export async function getServerSideProps(context) {
     props: {
       token,
       user,
+      categories
     },
   };
 }
 
-export default function AddProduk({ user, token }) {
+export default function AddProduk({ user, token, categories }) {
   const router = useRouter();
   const screen = useResize();
   return (
@@ -65,11 +70,11 @@ export default function AddProduk({ user, token }) {
             style={{ cursor: "pointer" }}
           ></i>
 
-          <AddProdukLayout user={user} token={token} />
+          <AddProdukLayout user={user} token={token} categories={categories}/>
         </div>
       ) : (
         <div className="px-3">
-          <AddProdukLayout user={user} token={token} />
+          <AddProdukLayout user={user} token={token} categories={categories}/>
         </div>
       )}
     </>

@@ -5,15 +5,32 @@ import { useState } from "react";
 import { useRouter } from "next/router";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import "react-toastify/dist/ReactToastify.min.css";
 
 const API = process.env.NEXT_PUBLIC_API_ENDPOINT;
 
-const notify = () =>
-  toast.success("Sukses", {
+
+
+export default function AddCartPopUp({
+  token,
+  onClick,
+  product_name,
+  product_image,
+  product_price,
+  product_min_order,
+  product_stock,
+  product_id,
+  stateChanger,
+}) {
+  const router = useRouter();
+  const [orderData, setOrderData] = useState({
+    product_id: null,
+    cart_qty: "",
+  });
+
+  const notify = () =>
+  toast.success("Sukses Tambahkan Keranjang", {
     position: "top-center",
-    autoClose: 5000,
+    autoClose: 2500,
     hideProgressBar: false,
     closeOnClick: true,
     pauseOnHover: true,
@@ -21,37 +38,26 @@ const notify = () =>
     progress: undefined,
   });
 
-export default function TawarPopUp({
-  token,
-  onClick,
-  product_name,
-  product_image,
-  product_price,
-  product_id,
-}) {
-  const router = useRouter();
-  const [orderData, setOrderData] = useState({
-    product_id: null,
-    order_price: "",
-  });
   const handleSubmit = async (e) => {
     e.preventDefault();
     const data = new FormData();
+    data.append("cart_qty", Number(orderData.cart_qty));
     data.append("product_id", product_id);
-    data.append("order_price", Number(orderData.order_price));
     if (token) {
       try {
         await axios({
           method: "post",
-          url: `${API}/orders`,
+          url: `${API}/carts`,
           data: data,
           headers: {
             Authorization: `Bearer ${token}`,
             "Content-Type": `multipart/form-data`,
           },
         });
-        (e) => handleTawarPopup(e);
-        router.reload();
+        notify()
+        setTimeout(() => {
+          stateChanger()
+        }, 2500);
       } catch (error) {
         console.log(error.response);
       }
@@ -69,40 +75,50 @@ export default function TawarPopUp({
   return (
     <MainModalLayout
       onClick={onClick}
-      title={`Masukkan Harga Tawaranmu`}
-      description={`Harga tawaranmu akan diketahui penjual, jika penjual cocok kamu akan segera dihubungi penjual.`}
+      title={`Tambahakan Keranjang`}
+      description={`Masukan jumlah barang yang ingin kamu beli`}
     >
       <div
-        className="d-flex p-2"
+        className="d-flex p-2 my-2 align-items-center"
         style={{ backgroundColor: "#EEEEEE", borderRadius: "8px" }}
       >
+        
         <img
           src={product_image}
           alt=""
-          style={{ height: "48px", borderRadius: "8px", marginRight: "4px" }}
+          style={{ height: "65px", borderRadius: "8px", marginRight: "8px" }}
         />
+        
         <div>
           <b>{product_name}</b>
+          <p className="m-0 p-0">Stock : {product_stock} kg</p>
           <p className="m-0 p-0">RP. {product_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}</p>
         </div>
       </div>
-      <p className="m-0">Harga Tawar</p>
+      <p className="m-0">Min order {product_min_order} kg</p>
 
       <form onSubmit={handleSubmit} className="d-flex flex-column">
-        <input
-          name="order_price"
-          className="card mb-3 mt-1 p-1"
-          style={{ borderRadius: "8px", width:"100%" }}
-          type="number"
-          placeholder="Rp 0,00"
-          onChange={(e) => handleChange(e)}
-        />
+        <div className="input-group my-2">
+          <input 
+            type="number" 
+            name="cart_qty"
+            className="form-control" 
+            ariaLabel="Amount (to the nearest dollar)" 
+            placeholder={product_min_order}
+            min={product_min_order}
+            max={product_stock}
+            onChange={(e) => handleChange(e)}  
+          />
+          <div className="input-group-append">
+            <span className="input-group-text">kg</span>
+          </div>
+        </div>
         <CategoryCard
           className={"py-2"}
           text={"Kirim"}
           rad={"8"}
           type="submit"
-          onClick={notify}
+          // onClick={notify}
         />
         <ToastContainer
           position="top-center"
@@ -111,6 +127,7 @@ export default function TawarPopUp({
           newestOnTop={false}
           closeOnClick
           rtl={false}
+          toastStyle={{backgroundColor: "#7126B5", color: "white"}}
           pauseOnFocusLoss
           draggable
           pauseOnHover

@@ -180,7 +180,7 @@ export default function Home({
                   <p className="fs-2 text-danger p-3">60%</p>
                 </div>
                 <div className="col-5">
-                  <img src="/kado.png" />
+                  <img src="/cart.png" />
                 </div>
               </div>
 
