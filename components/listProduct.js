@@ -3,7 +3,7 @@ import useResize from "../hooks/useResize";
 
 function ListProduct(props) {
   const screen = useResize();
-  const amount = props.productPrice * props.cartQty;
+  const amount = props.productPrice * props.quantity;
   return (
     <>
     {screen.md ? (
@@ -15,14 +15,14 @@ function ListProduct(props) {
           alt="foto produk"
           style={{ height: "4rem", borderRadius: "1rem" }}
         />
-        <div className="flex-fill d-flex flex-column justify-content-center">
+        <div className="d-flex flex-column">
           <h6 className="m-0">{props.productName}</h6>
-          <p className="m-0">Stok {props.productStock}</p>
+          {props.cart_id && (<p className="m-0">Stok {props.productStock}</p>)}
           <p className="m-0">Rp.{props.productPrice} / kg</p>
         </div>
-        <input type="number" style={{width:"60px", height: "35px"}} defaultValue={props.cartQty} min={props.minOrder} max={props.productStock}/>
+        <input type="number" style={{width:"60px", height: "35px"}} defaultValue={props.quantity} min={props.minOrder} max={props.productStock}/>
         <h6 style={{height: "35px", fontWeight:"600"}} className="pt-2">Rp. {amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}</h6>
-        <button className="ms-auto me-2 bi bi-trash3" style={{width:"20px"}} value={props.value} onClick={props.handleDelete} name="button-delete"></button>
+        {props.cart_id && (<button className="ms-auto me-2 bi bi-trash3" style={{width:"20px"}} value={props.cart_id} onClick={props.handleDelete} name="button-delete"></button>)}
       </div>
     ) : (
       <div
@@ -44,11 +44,13 @@ function ListProduct(props) {
             <p className="m-0">Rp.{props.productPrice} / kg</p>
           </div>
           <div>
-            <input type="number" style={{width:"50px", height: "35px"}} defaultValue={props.cartQty} min={props.minOrder} max={props.productStock}/>
+            <input type="number" style={{width:"50px", height: "35px"}} defaultValue={props.quantity} min={props.minOrder} max={props.productStock}/>
           </div>
+          {props.cart_id && (
           <div>
-            <button className="bi bi-trash3" style={{width:"20px"}} value={props.value} onClick={props.handleDelete} name="button-delete"></button>
+            <button className="bi bi-trash3" style={{width:"20px"}} value={props.cart_id} onClick={props.handleDelete} name="button-delete"></button>
           </div>
+          )}
         </div>
         <h6 style={{height: "35px", fontWeight:"600"}} className="align-self-end">Rp. {amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}</h6>
       </div>

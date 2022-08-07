@@ -11,10 +11,11 @@ import { GetToken } from "../../utils/getToken";
 import axios from "axios";
 import { useRouter } from "next/router";
 const API = process.env.NEXT_PUBLIC_API_ENDPOINT;
-// import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 
 
 export async function getServerSideProps(context) {
+    const id = context.query.id
     
     let user = null;
     let allcookie = context.req.headers.cookie || "   ";
@@ -23,13 +24,22 @@ export async function getServerSideProps(context) {
   
     const res_cart = await axios({
       method: `get`,
-      url : `${API}/carts`,
+      url : `${API}/carts/${id}`,
       headers: {
         Authorization: `Bearer ${token}`,
       },
     })
     carts = res_cart.data.cart;
-  
+    
+    //get price
+    let getPrice = 0
+    carts.map((cart)=>{
+      cart.product_cart.map((data)=>(
+        getPrice += data.product_price*data.cart_qty
+      ))
+    })
+    
+
     try {  
       // Users
       const res_user = await axios({
@@ -48,36 +58,78 @@ export async function getServerSideProps(context) {
       props: {
         token,
         user,
-        carts
+        carts,
+        getPrice,
+        id
       },
     };
   }
 
-function Cart({token, user, carts}){
+function Cart({token, user, carts, getPrice, id}){
+  console.log(id)
   const screen = useResize();
   const router = useRouter()
-  const [total, setTotal] = useState(0)
-  const [productOwnerId, setProductOwnerId] = useState(null)
 
+  const handleCheckout = async(e) => {
+    e.preventDefault();
 
-  const handleBuy = async(e) => {
-    if(productOwnerId != null){
-      router.replace(`/checkout/${productOwnerId}`);
-    }
-  }
+    const notify = () =>
+    toast.success("Sukses Order", {
+      position: "top-center",
+      autoClose: 2500,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    });
 
-  
-  const handleCart = e => {
-    const index = e.target.value; 
-    
-    setProductOwnerId(carts[index].product_owner_id)
+    const order = await axios({
+      method: "post",
+      url: `${API}/orders`,
+      data: {"order_price":getPrice},
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": `multipart/form-data`,
+      },
+    });
 
-    let get_price = 0
-    carts[index].product_cart.map((data)=>(
-      get_price += data.product_price*data.cart_qty
+    if(id != null){
+      carts[0].product_cart.map(async(data)=>(
+      await axios({
+        method: "post",
+        url: `${API}/orders/order-detail`,
+        data: {
+          "order_detail_qty": data.cart_qty,
+          "product_id":  data.product_id,
+          "order_id":  order.data.id
+        },
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": `multipart/form-data`,
+        },
+      }),
+
+      await axios({
+        method: "delete",
+        url: `${API}/carts/${data.cart_id}`,
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": `multipart/form-data`,
+        },
+      })
     ))
-    
-    setTotal(get_price)
+        
+    notify()
+      setTimeout(() => {
+        router.reload()
+      }, 2500)
+
+      console.log(order.data.id)
+       
+    }else{
+      console.log("Data null tol");
+    }
   }
 
   
@@ -111,14 +163,14 @@ function Cart({token, user, carts}){
       <>
       <h4>Ringkasan Belanja</h4>
       <p className="p-0 mb-2">Total Harga</p>
-      <h4>Rp. {total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}</h4>
+      <h4>Rp. {getPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}</h4>
         <div className="start-0 end-0 d-flex mt-4">
           <CategoryCard
             className="py-3 flex-grow-1"
-            text="Beli"
+            text="Bayar"
             rad="16"
             fontSize="25px"
-            onClick={handleBuy}
+            onClick={handleCheckout}
           />
         </div>
       </>
@@ -126,7 +178,7 @@ function Cart({token, user, carts}){
         <>
           <div className="d-flex flex justify-content-between">
             <h5 className="h5-0 mb-2">Total Harga</h5>
-            <h5>Rp. {total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}</h5>
+            <h5>Rp. {getPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}</h5>
             </div>
         </>
       )}
@@ -145,7 +197,6 @@ function Cart({token, user, carts}){
             {Object.keys(carts).map((key)=>(
             <>
                 <div className="d-flex flex-row gap-3 align-items-center">
-                    <input className="mb-2" style={{width:"17px", height:"17px"}}  type="radio" value={key} onChange={handleCart} name="checkProduct"/>
                     <label>
                         <div className="d-flex flex-column">
                         <h5 className="mb-0">{carts[key].product_owner_name}</h5>
@@ -155,7 +206,7 @@ function Cart({token, user, carts}){
                 </div>
   
               {carts[key].product_cart.map((data)=>(
-              <div className="ms-4 d-flex flex-column">
+              <div className="ms-0 d-flex flex-column">
                   <ListProduct
                     productName={data.product_name} 
                     productStock={data.product_stock} 
@@ -164,7 +215,7 @@ function Cart({token, user, carts}){
                     minOrder={data.product_min_order}
                     quantity={data.cart_qty}
                     handleDelete={handleDelete}
-                    cart_id={data.cart_id}
+                    cart_id={id}
                   />
               </div>
               ))}
@@ -184,13 +235,58 @@ function Cart({token, user, carts}){
     </>
   );
 
+  let address = (
+    <div
+      className="p-3 d-flex flex-column"
+      style={{
+        boxShadow: "0px 0px 6px rgba(0,0,0,0.15)",
+        borderRadius: "1rem",
+      }}
+    >
+      <h4>Alamat Pengiriman</h4>
+      <hr 
+        style={{
+          height:"3px",
+          borderWidth:"0",
+          color:"gray",
+          backgroundColor:"gray",
+        }}
+      />
+      <h5>{user.user_name} (Pasar)</h5>
+      <p className="mt-1 mb-1">
+        {user.user_phone}
+      </p>
+      <p style={{width: "25rem"}}>
+        {user.user_address} ,{user.user_regency}, {user.user_province}
+      </p>
+    </div>
+  );
+
+  let attention = (
+    <div
+      className="p-4 d-flex flex-column"
+      style={{
+        boxShadow: "0px 0px 6px rgba(0,0,0,0.15)",
+        borderRadius: "1rem",
+        backgroundColor: "#FFB802",
+      }}
+    >
+      <h5 style={{fontWeight: "700",}}>Perhatian</h5>
+      <p 
+        className="p-0 mb-2" 
+        style={{fontSize:"1.1rem", fontWeight:"500"}}>
+          Produk yang dibeli belum termasuk ongkos kirim. Untuk ongkos kirim hubungi penjual setelah menekan tombol bayar.
+      </p>
+    </div>
+  );
+
   let button = (
     <>
       <CategoryCard
           className="p-3 flex-grow-1"
-          text="Beli"
+          text="Bayar"
           rad="16"
-          onClick={handleBuy}
+          onClick={handleCheckout}
       />
     </>
   );
@@ -198,7 +294,7 @@ function Cart({token, user, carts}){
   return(
         <>
             <Head>
-                <title>Keranjang</title>
+                <title>Checkout</title>
                 <meta name="description" content="Daftar barang jual saya" />
                 <link rel="icon" href="/favicon.ico" />
             </Head>
@@ -206,20 +302,31 @@ function Cart({token, user, carts}){
             <MainLayout user={user}>
                 <div className="max-width container-fluid p-0">
                   {screen.md ? (
+                  <>
+                  <i
+                    onClick={() => router.replace("/cart")}
+                    style={{ cursor: "pointer"}}
+                    className="bi bi-arrow-left fs-3 ms-3"
+                  ></i>
                   <CartLayoutDekstop
                     information={information}
                     product={product}
+                    attention={attention}
+                    address={address}
                   />
+                  </>
                   ) : (
                   <CartLayoutMobile
                     information={information}
                     product={product}
                     button={button}
+                    attention={attention}
+                    address={address}
                   />
                   )}
                 </div>
             </MainLayout>
-            {/* <ToastContainer
+            <ToastContainer
               position="top-center"
               autoClose={5000}
               hideProgressBar={false}
@@ -230,7 +337,7 @@ function Cart({token, user, carts}){
               pauseOnFocusLoss
               draggable
               pauseOnHover
-            /> */}
+            />
         </>
     )
 }

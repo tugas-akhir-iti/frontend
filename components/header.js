@@ -51,13 +51,14 @@ function Header({ user, notifications }) {
             <ul className="m-0 p-0 d-flex gap-3 position-relative">
               {[
                 // ["/history-buyer", "list-ul"],
-                ["/cart", "cart3"],
-                ["", "bell", handleNotifPopup],
-                ["/info-profile", "person"],
-              ].map(([href, icon, onClick], index) => (
+                ["/cart", "cart3",null, "Keranjang"],
+                ["/transaction", "clipboard2",null, "Transaksi"],
+                ["", "bell", handleNotifPopup, "Notif"],
+                ["/info-profile", "person", null, "Profil"],
+              ].map(([href, icon, onClick, titleHover], index) => (
                 <li key={index}>
                   <Link href={href}>
-                    <a onClick={onClick} style={{ color: "black" }}>
+                    <a onClick={onClick} style={{ color: "black" }} title={titleHover}>
                       <i
                         className={`bi bi-${icon}`}
                         style={{ fontSize: "1.75rem" }}
