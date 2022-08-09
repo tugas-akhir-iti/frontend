@@ -4,6 +4,7 @@ function CartMobileLayout(props) {
   return (
     <>
       <div className="p-2 d-flex flex-column gap-4" style={{marginBottom:"110px"}}>
+        <h3 className="ms-2 mt-2 mb-0">{props.pageTitle}</h3>
         {props.address}
         {props.product}
         {props.attention}

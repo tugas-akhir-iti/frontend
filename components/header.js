@@ -10,10 +10,12 @@ import moment from "moment";
 
 function Header({ user, notifications }) {
   const router = useRouter();
-  const [notifPopup, setNotifPopup] = useState(false);
-  const handleNotifPopup = () => {
-    setNotifPopup((notifPopup = !notifPopup));
-  };
+  const path = router.pathname;
+  // console.log(path);
+  // const [notifPopup, setNotifPopup] = useState(false);
+  // const handleNotifPopup = () => {
+  //   setNotifPopup((notifPopup = !notifPopup));
+  // };
   const handleLogout = async (e) => {
     e.preventDefault();
     try {
@@ -24,7 +26,7 @@ function Header({ user, notifications }) {
     router.replace("/");
   };
 
-  console.log(notifications);
+  // console.log(notifications);
   return (
     <div
       className=" container-fluid p-0 sticky-top "
@@ -43,30 +45,50 @@ function Header({ user, notifications }) {
             </Link>
           </div>
           <div>
-            <Search />
+            { user == null || user.role_id == 2 && path != "/checkout/[id]"? (
+              <Search />
+            ):(null)
+            }
           </div>
         </div>
         <div>
           {user ? (
             <ul className="m-0 p-0 d-flex gap-3 position-relative">
-              {[
-                // ["/history-buyer", "list-ul"],
-                ["/cart", "cart3",null, "Keranjang"],
-                ["/transaction", "clipboard2",null, "Transaksi"],
-                ["", "bell", handleNotifPopup, "Notif"],
-                ["/info-profile", "person", null, "Profil"],
-              ].map(([href, icon, onClick, titleHover], index) => (
-                <li key={index}>
-                  <Link href={href}>
-                    <a onClick={onClick} style={{ color: "black" }} title={titleHover}>
-                      <i
-                        className={`bi bi-${icon}`}
-                        style={{ fontSize: "1.75rem" }}
+              {user.role_id == 2 &&
+              <> 
+              <li>
+                <Link href={"/cart"}>
+                  <a style={{ color: "black" }} title={"Keranjang"}>
+                    <i
+                      className={`bi bi-cart3`}
+                      style={{ fontSize: "1.75rem" }}
                       ></i>
-                    </a>
-                  </Link>
-                </li>
-              ))}
+                  </a>
+                </Link>
+              </li>
+              <li>
+              <Link href={"/transaction"}>
+                <a style={{ color: "black" }} title={"Transaksi"}>
+                  <i
+                    className={`bi bi-clipboard2`}
+                    style={{ fontSize: "1.75rem" }}
+                  ></i>
+                </a>
+              </Link>
+            </li>
+            </>
+            }
+              
+              <li>
+                <Link href={"/info-profile"}>
+                  <a style={{ color: "black" }} title={"Profil"}>
+                    <i
+                      className={`bi bi-person`}
+                      style={{ fontSize: "1.75rem" }}
+                    ></i>
+                  </a>
+                </Link>
+              </li>
               <li>
                 <button onClick={(e) => handleLogout(e)}>
                   <a style={{ color: "var(--reddark)" }}>
@@ -85,7 +107,8 @@ function Header({ user, notifications }) {
               </a>
             </Link>
           )}
-          {notifPopup && (
+          
+          {/* {notifPopup && (
             <div
               className="position-absolute p-3"
               style={{
@@ -104,7 +127,7 @@ function Header({ user, notifications }) {
                   overflow: "auto",
                 }}
               >
-                {Object.keys(notifications).length > 0 ? (
+               {Object.keys(notifications).length > 0 ? (
                   <>
                     {notifications.map((notification, index) => (
                       <div className="d-flex gap-2" key={index}>
@@ -151,8 +174,8 @@ function Header({ user, notifications }) {
                 )}
               </div>
             </div>
-          )}
-        </div>
+          )}*/}
+        </div> 
       </div>
     </div>
   );

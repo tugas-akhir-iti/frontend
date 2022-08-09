@@ -45,14 +45,14 @@ export async function getServerSideProps({ req, res }) {
     });
     user = res_user.data.data;
 
-    const res_notifications = await axios({
-      method: `get`,
-      url: `${API}/users/notifications`,
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    notifications = res_notifications.data.data;
+    // const res_notifications = await axios({
+    //   method: `get`,
+    //   url: `${API}/users/notifications`,
+    //   headers: {
+    //     Authorization: `Bearer ${token}`,
+    //   },
+    // });
+    // notifications = res_notifications.data.data;
   } catch (error) {
     console.log(error.response);
   }
@@ -77,6 +77,7 @@ export default function Home({
 }) {
   const screen = useResize();
   const router = useRouter();
+  console.log(products);
 
   useEffect(() => {
     if (user != null && user.role_id == 1) {

@@ -4,7 +4,7 @@ function cartLayoutDekstop(props) {
   return (
     <div className="container-fluid row m-0 mt-5 p-2" style={{width:"100%"}}>
       <div className="col-7 d-flex flex-column gap-4">
-      <h3>Keranjang</h3>
+      <h3>{props.pageTitle}</h3>
         {props.address}
         {props.product}
       </div>

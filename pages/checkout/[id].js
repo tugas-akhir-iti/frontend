@@ -122,7 +122,7 @@ function Cart({token, user, carts, getPrice, id}){
         
     notify()
       setTimeout(() => {
-        router.reload()
+        router.replace("/transaction")
       }, 2500)
 
       console.log(order.data.id)
@@ -313,6 +313,7 @@ function Cart({token, user, carts, getPrice, id}){
                     product={product}
                     attention={attention}
                     address={address}
+                    pageTitle={"Checkout"}
                   />
                   </>
                   ) : (
@@ -322,6 +323,7 @@ function Cart({token, user, carts, getPrice, id}){
                     button={button}
                     attention={attention}
                     address={address}
+                    pageTitle={"Checkout"}
                   />
                   )}
                 </div>

@@ -13,7 +13,8 @@ import MainButton from "../../components/mainButton";
 import AddCartPopUp from "../../components/popup/addCartPopUp";
 import QuestionBuyer from "../../components/questionBuyer";
 import QuestionSeller from "../../components/questionSeller";
-import Link from 'next/link'
+import Link from 'next/link';
+import styles from "../../styles/Home.module.css"
 const API = process.env.NEXT_PUBLIC_API_ENDPOINT;
 
 export async function getServerSideProps(context) {
@@ -59,6 +60,7 @@ export async function getServerSideProps(context) {
 
 function Produk({ token, user, product, questions }) {
 
+  // console.log(product);
   const screen = useResize();
   const router = useRouter();
   const [addCartPopup, setAddCartPopup] = useState(false);
@@ -162,13 +164,20 @@ function Produk({ token, user, product, questions }) {
     </>
   );
   let owner = (
-    <OwnerCard
-      foto={product.user_image}
-      fotoalt="fotoalt"
-      isOwner={isOwner}
-      nama={product.user_name}
-      kota={product.user_regency}
-    />
+    <Link 
+    href={{pathname: "seller/[id]"}}
+    as={`seller/${product.user_id}`}
+    >
+      <a className={styles.produk} key={product.id}>
+        <OwnerCard
+        foto={product.user_image}
+        fotoalt="fotoalt"
+        isOwner={isOwner}
+        nama={product.user_name}
+        kota={product.user_regency}
+        />
+      </a>
+    </Link>
   );
   let information = (
     <div

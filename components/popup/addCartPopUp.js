@@ -92,7 +92,7 @@ export default function AddCartPopUp({
         <div>
           <b>{product_name}</b>
           <p className="m-0 p-0">Stock : {product_stock} kg</p>
-          <p className="m-0 p-0">RP. {product_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}</p>
+          <p className="m-0 p-0">Rp. {product_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")} /kg</p>
         </div>
       </div>
       <p className="m-0">Min order {product_min_order} kg</p>

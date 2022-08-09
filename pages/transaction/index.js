@@ -112,13 +112,14 @@ function Transaction({token, user, orders}){
             <MainLayout user={user}>
             <div className="col-8 offset-2 mt-3 d-flex flex-column justify-content-center">
               <i className="bi bi-arrow-left fs-3 pe-5 mb-3"></i>
-              <h4>Daftar Transaksi</h4>
+              <h4 className="ms-2 mb-4">Daftar Transaksi</h4>
 
                 <TransactionDekstopLayout 
                 orders={orders} 
                 handleUploadTransaction={handleUploadTransaction} 
                 getOrderId={getOrderId}
                 handleCancle={handleCancle}
+                user={user}
                 />
 
             </div> 

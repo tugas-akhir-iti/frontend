@@ -207,11 +207,13 @@ function Cart({token, user, carts}){
                 <div className="max-width container-fluid p-0">
                   {screen.md ? (
                   <CartLayoutDekstop
+                    pageTitle={"Keranjang"}
                     information={information}
                     product={product}
                   />
                   ) : (
                   <CartLayoutMobile
+                    pageTitle={"Keranjang"}
                     information={information}
                     product={product}
                     button={button}

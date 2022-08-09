@@ -8,6 +8,8 @@ import useResize from "../../hooks/useResize";
 import ListSeller from "../../components/sellerViewOption/listSeller";
 import GridSeller from "../../components/sellerViewOption/gridSeller";
 import { useRouter } from "next/router";
+import TransactionDekstopLayout from "../../layout/transactionDekstopLayout";
+import AddStatusOrderPopUp from "../../components/popup/statusOrderPopUp";
 
 export async function getServerSideProps({ req, res }) {
   const API = process.env.NEXT_PUBLIC_API_ENDPOINT;
@@ -21,8 +23,14 @@ export async function getServerSideProps({ req, res }) {
     }
   });
   let products = [];
-  let transactions = [];
-  let notifications = [];
+  const res_order = await axios({
+    method: `get`,
+    url: `${API}/orders/seller`,
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  const orders = res_order.data.order;
 
   try {
     if (token != "") {
@@ -45,23 +53,23 @@ export async function getServerSideProps({ req, res }) {
     });
     products = res_products.data.data;
 
-    const res_transactions = await axios({
-      method: `get`,
-      url: `${API}/users/transactions`,
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    transactions = res_transactions.data.data;
+    // const res_order = await axios({
+    //   method: `get`,
+    //   url: `${API}/orders/seller`,
+    //   headers: {
+    //     Authorization: `Bearer ${token}`,
+    //   },
+    // });
+    // orders = res_order.data.data;
 
-    const res_notifications = await axios({
-      method: `get`,
-      url: `${API}/users/notifications`,
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    notifications = res_notifications.data.data;
+    // const res_notifications = await axios({
+    //   method: `get`,
+    //   url: `${API}/users/notifications`,
+    //   headers: {
+    //     Authorization: `Bearer ${token}`,
+    //   },
+    // });
+    // notifications = res_notifications.data.data;
   } catch (error) {
     console.log(error.response);
   }
@@ -70,8 +78,9 @@ export async function getServerSideProps({ req, res }) {
     props: {
       user,
       products,
-      transactions,
-      notifications,
+      orders,
+      token
+      // notifications,
     },
   };
 }
@@ -79,8 +88,9 @@ export async function getServerSideProps({ req, res }) {
 export default function DaftarJual({
   user,
   products,
-  transactions,
-  notifications,
+  orders,
+  // notifications,
+  token
 }) {
   const category = [
     ["box", "Semua Produk", () => setCategoryState(1), 1],
@@ -89,6 +99,9 @@ export default function DaftarJual({
   const screen = useResize();
   const router = useRouter();
   const [categoryState, setCategoryState] = useState(1);
+  const [addStatusOrderPopUp, setAddStatusOrderPopUp] = useState(false);
+  const handleStatusOrder = () => setAddStatusOrderPopUp((addStatusOrderPopUp = !addStatusOrderPopUp));
+  // console.log("Orders", orders);
 
   useEffect(() => {
     if (user == null || user.user_role == 1) {
@@ -103,7 +116,7 @@ export default function DaftarJual({
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <MainLayout user={user} notifications={notifications}>
+      <MainLayout user={user} /*notifications={notifications}*/>
         <div className="max-width p-2 d-flex flex-column gap-2">
           <h1>Daftar Jual Saya</h1>
           {user && (
@@ -187,11 +200,22 @@ export default function DaftarJual({
               {categoryState == 1 ? (
                 <GridSeller products={products} user={user} />
               ) : (
-                <ListSeller transactions={transactions} />
+                <TransactionDekstopLayout 
+                orders={orders} 
+                user={user} 
+                handleStatusOrder={handleStatusOrder}
+                setCategoryState={()=>setCategoryState(2)}
+                />
               )}
             </div>
           </div>
         </div>
+        {addStatusOrderPopUp && (
+          <AddStatusOrderPopUp
+            token={token}
+            onClick={handleStatusOrder}
+          />
+        )}
       </MainLayout>
     </>
   );
