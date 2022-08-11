@@ -11,10 +11,12 @@ import ProdukDesktopLayout from "../../layout/produkDesktop";
 import { GetToken } from "../../utils/getToken";
 import MainButton from "../../components/mainButton";
 import AddCartPopUp from "../../components/popup/addCartPopUp";
+import AddStockPopUp from "../../components/popup/addStockPopUp";
 import QuestionBuyer from "../../components/questionBuyer";
 import QuestionSeller from "../../components/questionSeller";
 import Link from 'next/link';
 import styles from "../../styles/Home.module.css"
+
 const API = process.env.NEXT_PUBLIC_API_ENDPOINT;
 
 export async function getServerSideProps(context) {
@@ -59,14 +61,23 @@ export async function getServerSideProps(context) {
 }
 
 function Produk({ token, user, product, questions }) {
+  
+  
 
-  // console.log(product);
+  // console.log(sum);
   const screen = useResize();
   const router = useRouter();
   const [addCartPopup, setAddCartPopup] = useState(false);
+  const [addStockPopUp, setAddStockPopUp] = useState(false);
   const [question, setQuestion] = useState("");
-  const handleAddCart = () => setAddCartPopup((addCartPopup = !addCartPopup));
+  const handleAddCart = () => setAddCartPopup((addCartPopup =! addCartPopup));
+  const handleAddStock = () => setAddStockPopUp((addStockPopUp =! addStockPopUp));
   let isOwner = false;
+
+  // Sum questions
+  let sum = 0;
+  for(let i = 0; i < questions.length; i++){sum += 1}
+
   if (user != null && product.user_id == user.user_id) {
     isOwner = true;
   }
@@ -204,6 +215,12 @@ function Produk({ token, user, product, questions }) {
                 text="Edit"
                 rad="16"
               />
+              <CategoryCard
+                onClick={(e) => handleAddStock(e)}
+                className="p-3 flex-grow-1"
+                text="Tambah Stok"
+                rad="16"
+              />
               <button
                 onClick={(e) => handleDelete(e)}
                 className={"p-3 flex-grow-1"}
@@ -253,7 +270,11 @@ function Produk({ token, user, product, questions }) {
       }}
     >
       <div className="d-flex flex-row justify-content-between mb-3">
-        <h4>Tanya Produk(12)</h4>
+        {questions != null ? (
+        <h4>Tanya Produk ({sum})</h4>
+        ) : (
+          <h4>Tanya Produk (0)</h4>
+        )}
 
         {user == null  || user.role_id == 2 ? 
           <Link href="#value-question">
@@ -362,6 +383,7 @@ function Produk({ token, user, product, questions }) {
               isOwner={isOwner}
               questionBuyer={questionBuyer}
             />
+            // <p>Hello</p>
           )}
         </div>
         {addCartPopup && (
@@ -375,6 +397,22 @@ function Produk({ token, user, product, questions }) {
             product_min_order={product.product_min_order}
             product_stock={product.product_stock}
             product_id={product.id}
+            user={user}
+          />
+        )}
+
+        {addStockPopUp && (
+          <AddStockPopUp
+            token={token}
+            onClick={handleAddStock}
+            stateChanger={handleAddStock}
+            product_name={product.product_name}
+            product_image={product.product_image}
+            product_price={product.product_price}
+            product_min_order={product.product_min_order}
+            product_stock={product.product_stock}
+            product_id={product.id}
+            user={user}
           />
         )}
       </MainLayout>

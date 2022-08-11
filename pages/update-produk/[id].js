@@ -5,6 +5,7 @@ import Top from "../../components/top";
 import useResize from "../../hooks/useResize";
 import { GetToken } from "../../utils/getToken";
 import axios from "axios";
+import {useRouter} from "next/router";
 
 export async function getServerSideProps(context) {
   const API = process.env.NEXT_PUBLIC_API_ENDPOINT;
@@ -33,7 +34,7 @@ export async function getServerSideProps(context) {
 export default function AddProduk({product, token}){
 
   const screen = useResize();
-  // console.log(product);
+  const router = useRouter()
   return (
     <>
       <Head>
@@ -46,14 +47,21 @@ export default function AddProduk({product, token}){
         <Top />
       ) : (
         <div className="d-flex d-row gap-2 m-3 fw-bold fs-4 justify-content-center">
-          <i className="bi bi-arrow-left pe-3"></i>
-          <p className="">Lengkapi Detail Produk</p>
+          <i 
+          onClick={() => router.back()}
+          style={{ cursor: "pointer"}}
+          className="bi bi-arrow-left pe-3"></i>
+          <p className="">Update Produk</p>
         </div>
       )}
 
       {screen.md ? (
         <div className="col-6 offset-3 mt-3 d-flex flex-column justify-content-center">
-          <i className="bi bi-arrow-left fs-3 mt-2"></i>
+          <i 
+          className="bi bi-arrow-left fs-3 mt-2"
+          onClick={() => router.back()}
+          style={{ cursor: "pointer"}}
+          ></i>
 
           <UpdateProdukLayout product={product} token={token}/>
         </div>

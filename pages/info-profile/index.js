@@ -10,9 +10,20 @@ export async function getServerSideProps(context) {
   const API = process.env.NEXT_PUBLIC_API_ENDPOINT;
 
   let user = null;
+  let bank = null;
   let allcookie = context.req.headers.cookie || "   ";
   let token = GetToken(allcookie);
+
   try {
+    const res_bank = await axios({
+      method: `get`,
+      url: `${API}/users/all/bank`,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    bank = res_bank.data.data;
+
     const res_user = await axios({
       method: `get`,
       url: `${API}/users`,
@@ -28,11 +39,12 @@ export async function getServerSideProps(context) {
     props: {
       token,
       user,
+      bank
     },
   };
 }
 
-export default function InfoProfile({ user, token }) {
+export default function InfoProfile({ user, token, bank }) {
   const router = useRouter();
   const screen = useResize();
 
@@ -66,11 +78,11 @@ export default function InfoProfile({ user, token }) {
             style={{ cursor: "pointer" }}
             className="bi bi-arrow-left fs-3 pe-5"
           ></i>
-          <InfoProfileLayout user={user} token={token} />
+          <InfoProfileLayout user={user} token={token} bank={bank}/>
         </div>
       ) : (
         <div className="px-3">
-          <InfoProfileLayout user={user} token={token} />
+          <InfoProfileLayout user={user} token={token} bank={bank}/>
         </div>
       )}
     </>

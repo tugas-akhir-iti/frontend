@@ -8,6 +8,7 @@ import LoginregisterLayout from "../../layout/loginregisterLayout";
 import CategoryCard from "../../components/categoryCard";
 import InputBox from "../../components/inputBox";
 import Link from "next/link";
+import { ToastContainer, toast } from "react-toastify";
 
 export default function Login() {
   const router = useRouter();
@@ -16,6 +17,19 @@ export default function Login() {
     user_email: "",
     user_password: "",
     user_role: "",
+  });
+  const [attention, setAttention] = useState(false);
+  const handleAttention = () => setAttention(true)
+
+  const notify = (title) =>
+  toast.error(title, {
+    position: "top-center",
+    autoClose: 2500,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
   });
 
   const handleSubmit = async (e) => {
@@ -35,7 +49,16 @@ export default function Login() {
         },
       });
       cookie.set("token", res.data.token)
-      router.replace("/");
+      if(res.data.role_id == 1){
+        router.replace("/seller");
+      }else if(res.data.role_id == 2){
+        router.replace("/"); 
+      }else if(res.data.password == "incorect"){
+        handleAttention()
+      }else if(res.data.user == null){
+        notify("User tidak tersedia, silahkan daftar")
+      }
+      
     } catch (error) {
       console.log(error.response);
     }
@@ -79,29 +102,11 @@ export default function Login() {
               className="form-control mt-2"
               placeholder="Masukkan password"
             />
+            {attention == true && (
+              <p className="mt-1" style={{color: "red"}}>Password salah, silahkan coba kembali</p>
+            )}
+            
           </div>
-
-          {/* <div className="col-12 mt-2">
-            <label>Role</label>
-            <select
-              required
-              name="user_role"
-              className="form-select mt-2"
-              aria-label="Default select example"
-              onChange={(e) => handleChange(e)}
-              style={{
-                padding: "12px 16px",
-                border: "1px solid #D0D0D0",
-                borderRadius: "16px",
-                display: "flex",
-              }}
-            >
-              <option value="">Pilih Role</option>
-              <option value="1">Buyer</option>
-              <option value="2">Seller</option>
-            </select>
-          </div> */}
-
           <div className="mt-4 mb-4 text-center fw-bold">
             <div className="start-0 end-0 d-flex">
               <CategoryCard
@@ -121,6 +126,18 @@ export default function Login() {
             </a>
           </Link>
         </h5>
+        <ToastContainer
+          position="top-center"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          toastStyle={{backgroundColor: "#7126B5", color: "white"}}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+        />
       </LoginregisterLayout>
     </>
   );

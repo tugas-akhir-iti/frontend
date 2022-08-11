@@ -70,65 +70,76 @@ function Cart({token, user, carts, getPrice, id}){
   const screen = useResize();
   const router = useRouter()
 
+  const notify = (title) =>
+      toast.success(title, {
+        position: "top-center",
+        autoClose: 2500,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+
   const handleCheckout = async(e) => {
     e.preventDefault();
 
-    const notify = () =>
-    toast.success("Sukses Order", {
-      position: "top-center",
-      autoClose: 2500,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-    });
-
-    const order = await axios({
-      method: "post",
-      url: `${API}/orders`,
-      data: {"order_price":getPrice},
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": `multipart/form-data`,
-      },
-    });
-
-    if(id != null){
-      carts[0].product_cart.map(async(data)=>(
-      await axios({
+    if(user.user_phone != null 
+      && user.user_province != null
+      && user.user_regency != null
+      && user.user_address !=null
+      && user.user_image != null){
+      const order = await axios({
         method: "post",
-        url: `${API}/orders/order-detail`,
-        data: {
-          "order_detail_qty": data.cart_qty,
-          "product_id":  data.product_id,
-          "order_id":  order.data.id
-        },
+        url: `${API}/orders`,
+        data: {"order_price":getPrice},
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": `multipart/form-data`,
         },
-      }),
+      });
 
-      await axios({
-        method: "delete",
-        url: `${API}/carts/${data.cart_id}`,
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": `multipart/form-data`,
-        },
-      })
-    ))
-        
-    notify()
-      setTimeout(() => {
-        router.replace("/transaction")
-      }, 2500)
+      if(id != null){
+        carts[0].product_cart.map(async(data)=>(
+        await axios({
+          method: "post",
+          url: `${API}/orders/order-detail`,
+          data: {
+            "order_detail_qty": data.cart_qty,
+            "product_id":  data.product_id,
+            "order_id":  order.data.id
+          },
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": `multipart/form-data`,
+          },
+        }),
 
-      console.log(order.data.id)
-       
+        await axios({
+          method: "delete",
+          url: `${API}/carts/${data.cart_id}`,
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": `multipart/form-data`,
+          },
+        })
+      ))
+          
+        notify("Sukses Order")
+        setTimeout(() => {
+          router.replace("/transaction")
+        }, 2500)
+
+        console.log(order.data.id)
+      
+      }else{
+        notify("Sukses Order")
+      }
     }else{
-      console.log("Data null tol");
+      notify("Lengkapi Profile")
+      setTimeout(() => {
+        router.replace("/info-profile")
+      }, 2500)
     }
   }
 
@@ -144,8 +155,12 @@ function Cart({token, user, carts, getPrice, id}){
           Authorization: `Bearer ${token}`,
         },
       });
-      alert("Item being deleted. Please wait.");
-      router.reload()
+
+      notify("Success Delete");
+      setTimeout(() => {
+        router.reload()
+      },2500)
+
     } catch (error) {
       console.log(error);
   }

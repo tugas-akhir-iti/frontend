@@ -89,7 +89,6 @@ export default function DaftarJual({
   user,
   products,
   orders,
-  // notifications,
   token
 }) {
   const category = [
@@ -101,6 +100,13 @@ export default function DaftarJual({
   const [categoryState, setCategoryState] = useState(1);
   const [addStatusOrderPopUp, setAddStatusOrderPopUp] = useState(false);
   const handleStatusOrder = () => setAddStatusOrderPopUp((addStatusOrderPopUp = !addStatusOrderPopUp));
+  const [chooseOrderId, setChooseOrderId] = useState(null)
+
+  const handleChangeOrderId = async(e) => {
+    handleStatusOrder()
+    // console.log(e.target.value);
+    setChooseOrderId(e.target.value);
+  }
   // console.log("Orders", orders);
 
   useEffect(() => {
@@ -203,8 +209,9 @@ export default function DaftarJual({
                 <TransactionDekstopLayout 
                 orders={orders} 
                 user={user} 
-                handleStatusOrder={handleStatusOrder}
+                // handleStatusOrder={handleStatusOrder}
                 setCategoryState={()=>setCategoryState(2)}
+                handleChangeOrderId={handleChangeOrderId}
                 />
               )}
             </div>
@@ -214,6 +221,7 @@ export default function DaftarJual({
           <AddStatusOrderPopUp
             token={token}
             onClick={handleStatusOrder}
+            idOrder={chooseOrderId}
           />
         )}
       </MainLayout>

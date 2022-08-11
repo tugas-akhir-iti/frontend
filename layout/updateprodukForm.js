@@ -16,6 +16,9 @@ function EditProdukLayout({product, token}) {
   const [productData, setProductData] = useState({
     product_name: product.product_name||"",
     product_price: product.product_price,
+    product_stock: product.product_stock,
+    product_min_order: product.product_min_order,
+    product_price: product.product_price,
     product_description: product.product_description,
     product_image: product.product_image,
     category_id: product.category_id,
@@ -31,6 +34,8 @@ function EditProdukLayout({product, token}) {
     const data = new FormData();
     data.append("product_name", productData.product_name);
     data.append("product_price", Number(productData.product_price));
+    data.append("product_stock", Number(productData.product_stock));
+    data.append("product_min_order", Number(productData.product_min_order));
     data.append("product_description", productData.product_description);
     data.append("product_image", productData.product_image);
     data.append("category_id", Number(productData.category_id));
@@ -87,6 +92,26 @@ function EditProdukLayout({product, token}) {
             />
           </div>
           <div className="col-12 mt-2">
+            <label>Stok Produk / kg</label>
+            <InputBox
+              type="text"
+              name="product_stock"
+              className="form-control mt-2"
+              placeholder="100 kg" value={productData.product_stock}
+              onChange={(e) => handleChange(e)}
+            />
+          </div>
+          <div className="col-12 mt-2">
+            <label>Minimal Pembelian Produk / kg</label>
+            <InputBox
+              type="text"
+              name="product_min_order"
+              className="form-control mt-2"
+              placeholder="10 kg" value={productData.product_min_order}
+              onChange={(e) => handleChange(e)}
+            />
+          </div>
+          <div className="col-12 mt-2">
             <label>Kategori</label>
             <select name="category_id"
               className="form-select mt-2"
@@ -136,15 +161,10 @@ function EditProdukLayout({product, token}) {
           </div>
           <div className="col-12 mt-5 mb-5 fw-bold">
             <div className="d-flex flex-row gap-2">
-              <MainButton
-                className="p-3 flex-grow-1 text-center"
-                text="Preview"
-                rad="16"
-              />
               <CategoryCard
                 type="submit"
                 className="p-3 flex-grow-1"
-                text="Terbitkan"
+                text="Simpan"
                 rad="16"
               />
             </div>

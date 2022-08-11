@@ -78,7 +78,7 @@ function Transaction({token, user, orders}){
   }
 
   const handleUploadTransaction = async(e) => {
-    console.log(e.target.name)
+    console.log(e.target.value)
     // const ordTransferImage = e.target.files[0];
     // console.log(ordTransferImage);
     // // const orderId = e.target.value
@@ -113,7 +113,6 @@ function Transaction({token, user, orders}){
             <div className="col-8 offset-2 mt-3 d-flex flex-column justify-content-center">
               <i className="bi bi-arrow-left fs-3 pe-5 mb-3"></i>
               <h4 className="ms-2 mb-4">Daftar Transaksi</h4>
-
                 <TransactionDekstopLayout 
                 orders={orders} 
                 handleUploadTransaction={handleUploadTransaction} 
@@ -121,7 +120,6 @@ function Transaction({token, user, orders}){
                 handleCancle={handleCancle}
                 user={user}
                 />
-
             </div> 
             </MainLayout>
             

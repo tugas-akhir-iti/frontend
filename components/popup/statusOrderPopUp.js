@@ -14,6 +14,7 @@ export default function AddStatusOrderPopUp({
   token,
   setCategoryState,
   onClick,
+  idOrder
 }) {
   const router = useRouter();
   const [orderStatusId, setOrderStatusId] = useState(null);
@@ -37,7 +38,7 @@ export default function AddStatusOrderPopUp({
       try {
         await axios({
           method: "put",
-          url: `${API}/orders/12`,
+          url: `${API}/orders/${idOrder}`,
           data: {
             "status_id": orderStatusId,
           },
@@ -89,12 +90,6 @@ export default function AddStatusOrderPopUp({
             <input class="form-check-input" type="radio" name="flexRadioDefault" id="Selesai" value={4} onChange={handleChange}/>
             <label class="form-check-label" for="Selesai">
                 Selesai
-            </label>
-        </div>
-        <div class="form-check">
-            <input class="form-check-input" type="radio" name="flexRadioDefault" id="Dibatalkan" value={5} onChange={handleChange}/>
-            <label class="form-check-label" for="Dibatalkan">
-                Dibatalkan
             </label>
         </div>
         

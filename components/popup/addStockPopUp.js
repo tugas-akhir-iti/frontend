@@ -9,8 +9,7 @@ import { ToastContainer, toast } from "react-toastify";
 const API = process.env.NEXT_PUBLIC_API_ENDPOINT;
 
 
-
-export default function AddCartPopUp({
+export default function AddStockPopUp({
   token,
   user,
   onClick,
@@ -23,9 +22,8 @@ export default function AddCartPopUp({
   stateChanger,
 }) {
   const router = useRouter();
-  const [orderData, setOrderData] = useState({
-    product_id: null,
-    cart_qty: "",
+  const [productData, setProductData] = useState({
+    product_stock: null,
   });
 
   const notify = (title) =>
@@ -41,50 +39,48 @@ export default function AddCartPopUp({
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const data = new FormData();
-    data.append("cart_qty", Number(orderData.cart_qty));
-    data.append("product_id", product_id);
-    if (token) {
-      if(orderData.cart_qty != ""){
+    // alert(Number(productData.product_stock) + product_stock)
+    // const data = new FormData();
+    // data.append("product_stock", Number(orderData.cart_qty));
+    // data.append("product_id", product_id);
+  
+      if(productData.product_stock != null){
         try {
           await axios({
-            method: "post",
-            url: `${API}/carts`,
-            data: data,
+            method: "put",
+            url: `${API}/products/${product_id}`,
+            data: {
+              "product_stock" : Number(productData.product_stock) + product_stock ,
+            },
             headers: {
               Authorization: `Bearer ${token}`,
               "Content-Type": `multipart/form-data`,
             },
           });
-          notify("Sukses Tambahkan Keranjang")
+          notify("Sukses Tambahkan Stok")
           setTimeout(() => {
-            stateChanger()
+            router.reload()
           }, 2500);
         } catch (error) {
           console.log(error.response);
         }
       }else{
-        notify("Masukan jumlah order")
+        notify("Masukan Stok")
       }
       
-    } else {
-      notify("Login terlebih dahulu")
-        setTimeout(() => {
-          router.replace("/account/login");
-        }, 2500);
-    }
+   
   };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setOrderData({ ...orderData, [name]: value });
+    setProductData({ ...productData, [name]: value });
   };
 
   return (
     <MainModalLayout
       onClick={onClick}
-      title={`Tambahakan Keranjang`}
-      description={`Masukan jumlah barang yang ingin kamu beli`}
+      title={`Tambahakan Stok`}
+      description={`Masukan jumlah stok barang`}
     >
       <div
         className="d-flex p-2 my-2 align-items-center"
@@ -103,18 +99,17 @@ export default function AddCartPopUp({
           <p className="m-0 p-0">Rp. {product_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")} /kg</p>
         </div>
       </div>
-      <p className="m-0">Min order {product_min_order} kg</p>
+      <p className="m-0">Stok sekarang {product_stock} kg</p>
 
       <form onSubmit={handleSubmit} className="d-flex flex-column">
         <div className="input-group my-2">
           <input 
             type="number" 
-            name="cart_qty"
+            name="product_stock"
             className="form-control" 
-            ariaLabel="Amount (to the nearest dollar)" 
-            placeholder={product_min_order}
-            min={product_min_order}
-            max={product_stock}
+            // ariaLabel="Amount (to the nearest dollar)" 
+            min={0}
+            placeholder={product_stock}
             onChange={(e) => handleChange(e)}  
           />
           <div className="input-group-append">
@@ -126,7 +121,6 @@ export default function AddCartPopUp({
           text={"Kirim"}
           rad={"8"}
           type="submit"
-          // onClick={notify}
         />
         <ToastContainer
           position="top-center"

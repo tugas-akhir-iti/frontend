@@ -5,10 +5,14 @@ import axios from "axios";
 import cookie from "js-cookie";
 import { GetToken } from "../utils/getToken";
 import FormData from "form-data";
+import { ToastContainer, toast } from "react-toastify";
+import { useRouter } from "next/router";
 
 const API = process.env.NEXT_PUBLIC_API_ENDPOINT;
 
-function InfoProfileLayout({ user, token }) {
+function InfoProfileLayout({ user, token, bank }) {
+  // console.log(bank);
+  const router = useRouter()
   const [provinces, setProvinces] = useState([]);
   const [regencies, setRegencies] = useState([]);
   const [userData, setUserData] = useState({
@@ -17,7 +21,20 @@ function InfoProfileLayout({ user, token }) {
     user_regency: user.user_regency,
     user_address: user.user_address,
     user_phone: user.user_phone,
+    bank_id: user.bank_id,
+    user_rekening: user.user_rekening,
     user_image: user.user_image,
+  });
+
+  const notify = (title) =>
+  toast.success(title, {
+    position: "top-center",
+    autoClose: 2500,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
   });
 
   const handleSubmit = async (e) => {
@@ -28,6 +45,8 @@ function InfoProfileLayout({ user, token }) {
     data.append("user_regency", userData.user_regency);
     data.append("user_address", userData.user_address);
     data.append("user_phone", userData.user_phone);
+    data.append("bank_id", userData.bank_id);
+    data.append("user_rekening", userData.user_rekening);
     data.append("user_image", userData.user_image);
 
     try {
@@ -40,8 +59,10 @@ function InfoProfileLayout({ user, token }) {
           "Content-Type": `multipart/form-data`,
         },
       });
-      alert("success Update Profile");
-      window.location.reload();
+      notify("Success Edit Profile")
+      setTimeout(() => {
+        router.reload()
+      }, 2500)
     } catch (error) {
       console.log(error.response);
     }
@@ -187,6 +208,7 @@ function InfoProfileLayout({ user, token }) {
               ))}
             </select>
           </div>
+
           <div className="col-12 mt-2">
             <label>Alamat</label>
             <textarea
@@ -205,31 +227,89 @@ function InfoProfileLayout({ user, token }) {
               onChange={(e) => handleChange(e)}
             ></textarea>
           </div>
+
           <div className="col-12 mt-2">
-            <div className="col-12 mt-2">
-              <label>No Handphone*</label>
-              <InputBox
-                type="number"
-                name="user_phone"
-                className="form-control mt-2"
-                placeholder="Contoh: +6283180217394"
-                value={userData.user_phone}
-                onChange={(e) => handleChange(e)}
-              />
-            </div>
-            <div className="col-12 mt-5 mb-5 fw-bold">
-              <div className="start-0 end-0 d-flex">
-                <CategoryCard
-                  className="p-3 flex-grow-1"
-                  text="Simpan"
-                  rad="16"
-                  type="submit"
-                />
-              </div>
+            <label>No Handphone*</label>
+            <InputBox
+              type="number"
+              name="user_phone"
+              className="form-control mt-2"
+              placeholder="Contoh: +6283180217394"
+              value={userData.user_phone}
+              onChange={(e) => handleChange(e)}
+            />
+          </div>
+
+          {user.user_id == 1 &&
+          <>
+          <div className="col-12 mt-2">
+            <label>Nama Bank*</label>
+            {/* <InputBox
+              type="number"
+              name="user_phone"
+              className="form-control mt-2"
+              placeholder="Contoh: +6283180217394"
+              value={userData.bank_id}
+              onChange={(e) => handleChange(e)}
+            /> */}
+
+            <select name="bank_id"
+              className="form-select mt-2"
+              aria-label="Default select example"
+              onChange={(e) => handleChange(e)}
+              style={{
+                padding: "12px 16px",
+                border: "1px solid #D0D0D0",
+                borderRadius: "16px",
+                display: "flex",
+              }}
+            >
+              <option value="">Pilih Bank</option>
+              {bank.map((bk)=>(
+                <option selected={bk.id == userData.bank_id} value={`${bk.id}`} key={bk.id}>{bk.bank_name}</option>
+              ))}
+            </select>
+          </div>
+
+          <div className="col-12 mt-2">
+            <label>No Rekening*</label>
+            <InputBox
+              type="number"
+              name="user_rekening"
+              className="form-control mt-2"
+              placeholder="Contoh: 7310252527"
+              value={userData.user_rekening}
+              onChange={(e) => handleChange(e)}
+            />
+          </div>
+          </>
+          }
+
+          <div className="col-12 mt-5 mb-5 fw-bold">
+            <div className="start-0 end-0 d-flex">
+              <CategoryCard
+                className="p-3 flex-grow-1"
+                text="Simpan"
+                rad="16"
+                type="submit"
+            />
             </div>
           </div>
+
         </div>
       </form>
+      <ToastContainer
+        position="top-center"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        toastStyle={{backgroundColor: "#7126B5", color: "white"}}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
     </div>
   );
 }

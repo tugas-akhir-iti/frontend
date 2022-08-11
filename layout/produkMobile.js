@@ -8,7 +8,7 @@ function ProdukMobileLayout(props) {
       </div>
       <div className="p-2 d-flex flex-column gap-4" style={{marginBottom:"110px"}}>
         {props.information}
-        {props.owner}
+        {props.isOwner}
         <div style={{whiteSpace: "pre-line"}}>
           {props.description}
         </div>

@@ -1,6 +1,6 @@
 import React from "react";
 
-function CategoryCard({ className, text, icon, rad, type, onClick }) {
+function CategoryCard({ className, text, icon, rad, type, onClick, value }) {
   return (
     <button
       className={className}
@@ -11,6 +11,7 @@ function CategoryCard({ className, text, icon, rad, type, onClick }) {
       }}
       type={type}
       onClick={onClick}
+      value={value}
     >
       <i className={`bi bi-${icon} mx-auto`} style={{ fontSize: "1.5rem" }}></i>
       <p className="m-0 text-center">{text}</p>

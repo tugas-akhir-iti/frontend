@@ -33,7 +33,6 @@ function QuestionSeller(props){
           }
         } else {
             alert("Tidak berhasil anwsare")
-            // router.reload();
         }
     };
 
