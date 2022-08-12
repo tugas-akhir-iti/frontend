@@ -8,6 +8,7 @@ import LoginregisterLayout from "../../layout/loginregisterLayout";
 import InputBox from "../../components/inputBox";
 import CategoryCard from "../../components/categoryCard";
 import Link from "next/link";
+import { ToastContainer, toast } from "react-toastify";
 
 export default function Login() {
   const router = useRouter();
@@ -19,36 +20,100 @@ export default function Login() {
     role_id: "",
   });
 
+  const notify = (title) =>
+  toast.error(title, {
+    position: "top-center",
+    autoClose: 2500,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+  });
+
+  const [warningPwd, setWarningPwd] = useState("");
+  const [passwordType, setPasswordType] = useState("password");
+  const viewPassword = () => {
+    if(passwordType == "password"){
+      setPasswordType("text")
+    }else{
+      setPasswordType("password")
+    }
+  }
+
+  const checkCombinationPassword = (pwd) => {
+    var strongRegex = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*_])(?=.{8,})");
+    var notLowerCaseRegex = new RegExp("^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*_])(?=.{8,})");
+    var notUpperCaseRegex = new RegExp("^(?=.*[a-z])(?=.*[0-9])(?=.*[!@#\$%\^&\*_])(?=.{8,})");
+    var notNumberRegex = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#\$%\^&\*_])(?=.{8,})");
+    var notCharacterRegex = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.{8,})");
+    var notEightPwdRegex = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*_])");
+    
+    if(strongRegex.test(pwd)){
+      setWarningPwd("")
+      return true
+    }
+    else if (notLowerCaseRegex.test(pwd)){
+      setWarningPwd("Minimal 1 huruf besar")
+    }else if(notUpperCaseRegex.test(pwd)){
+      setWarningPwd("Minimal 1 huruf kecil")
+    }else if(notNumberRegex.test(pwd)){
+      setWarningPwd("Minimal 1 Angka")
+    }else if(notCharacterRegex.test(pwd)){
+      setWarningPwd("Gunakan !@#\$%\^&\*_")
+    }else if(notEightPwdRegex.test(pwd)){
+      setWarningPwd("Minimal 8 Password")
+    }else{
+      setWarningPwd(" min 8 password, 1 angka, !@#\$%\^&\*_ , min 1 huruf besar dan kecil")
+    }
+  }
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const data = new FormData();
-    data.append("user_email", userData.user_email);
-    data.append("user_password", userData.user_password);
-    data.append("user_name", userData.user_name);
-    data.append("role_id", Number(userData.role_id));
-    try {
-      await axios({
-        method: "post",
-        url: `${API}/users`,
-        data: data,
-        headers: {
-          "Content-Type": `multipart/form-data`,
-        },
-      });
+    const check = checkCombinationPassword(userData.user_password)
 
-      const res = await axios({
-        method: "post",
-        url: `${API}/users/login`,
-        data: data,
-        headers: {
-          "Content-Type": `multipart/form-data`,
-        },
-      });
-      cookie.set("token", res.data.token)
-      router.replace("/");
-    } catch (error) {
-      console.log(error.response);
+    if(check == true 
+      && userData.user_email != ""
+      && userData.user_name != ""      
+      && userData.role_id != ""
+      ){
+      
+      const data = new FormData();
+      data.append("user_email", userData.user_email);
+      data.append("user_password", userData.user_password);
+      data.append("user_name", userData.user_name);
+      data.append("role_id", Number(userData.role_id));
+      try {
+        await axios({
+          method: "post",
+          url: `${API}/users`,
+          data: data,
+          headers: {
+            "Content-Type": `multipart/form-data`,
+          },
+        });
+
+        const res = await axios({
+          method: "post",
+          url: `${API}/users/login`,
+          data: data,
+          headers: {
+            "Content-Type": `multipart/form-data`,
+          },
+        });
+        cookie.set("token", res.data.token)
+        router.replace("/");
+      } catch (error) {
+        console.log(error.response);
+      }
+    }else if(
+    userData.user_email == ""
+    || userData.user_name == ""      
+    || userData.role_id == ""
+    || userData.user_password == ""){
+      notify("Isi lengkap semua data")
     }
+
   };
 
   const handleChange = (e) => {
@@ -70,7 +135,7 @@ export default function Login() {
         </h3>
         <form onSubmit={handleSubmit} style={{ maxWidth: "600px" }}>
           <div className="col-12 mt-2">
-            <label>Nama</label>
+            <label>Nama*</label>
             <InputBox
               type="text"
               name="user_name"
@@ -81,7 +146,7 @@ export default function Login() {
           </div>
 
           <div className="col-12 mt-2">
-            <label>Email</label>
+            <label>Email*</label>
             <InputBox
               type="email"
               name="user_email"
@@ -92,18 +157,20 @@ export default function Login() {
           </div>
 
           <div className="col-12 mt-2">
-            <label>Password</label>
+            <label>Password*</label>
+            <span style={{color:"red"}}> {warningPwd}</span>
             <InputBox
-              type="password"
+              type={passwordType}
               name="user_password"
               placeholder="Masukkan password"
-              className="form-control mt-2"
+              className="form-control mt-2 mb-2"
               onChange={(e) => handleChange(e)}
             />
+            <input id="viewPassword" type="checkbox" onClick={viewPassword} className="mb-2 ms-3 me-2"/><label for="" >Show Password</label>
           </div>
 
           <div className="col-12 mt-2">
-            <label>Role</label>
+            <label>Role*</label>
             <select
               name="role_id"
               className="form-select mt-2"
@@ -141,6 +208,19 @@ export default function Login() {
             </a>
           </Link>
         </h5>
+
+        <ToastContainer
+          position="top-center"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          toastStyle={{backgroundColor: "#7126B5", color: "white"}}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+        />
       </LoginregisterLayout>
     </>
   );

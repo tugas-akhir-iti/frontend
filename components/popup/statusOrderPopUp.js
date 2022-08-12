@@ -74,21 +74,21 @@ export default function AddStatusOrderPopUp({
     >
 
       <form onSubmit={handleSubmit} className="d-flex flex-column my-2">
-        <div class="form-check">
-            <input class="form-check-input" type="radio" name="flexRadioDefault" id="Diterima" value={2} onChange={handleChange}/>
-            <label class="form-check-label" for="Diterima">
+        <div className="form-check">
+            <input className="form-check-input" type="radio" name="flexRadioDefault" id="Diterima" value={2} onChange={handleChange}/>
+            <label className="form-check-label" for="Diterima">
                 Diterima
             </label>
         </div>
-        <div class="form-check">
-            <input class="form-check-input" type="radio" name="flexRadioDefault" id="Dikirim" value={3} onChange={handleChange}/>
-            <label class="form-check-label" for="Dikirim">
+        <div className="form-check">
+            <input className="form-check-input" type="radio" name="flexRadioDefault" id="Dikirim" value={3} onChange={handleChange}/>
+            <label className="form-check-label" for="Dikirim">
                 Dikirim
             </label>
         </div>
-        <div class="form-check">
-            <input class="form-check-input" type="radio" name="flexRadioDefault" id="Selesai" value={4} onChange={handleChange}/>
-            <label class="form-check-label" for="Selesai">
+        <div className="form-check">
+            <input className="form-check-input" type="radio" name="flexRadioDefault" id="Selesai" value={4} onChange={handleChange}/>
+            <label className="form-check-label" for="Selesai">
                 Selesai
             </label>
         </div>
