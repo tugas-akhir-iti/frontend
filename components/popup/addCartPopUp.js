@@ -126,7 +126,6 @@ export default function AddCartPopUp({
           text={"Kirim"}
           rad={"8"}
           type="submit"
-          // onClick={notify}
         />
         <ToastContainer
           position="top-center"

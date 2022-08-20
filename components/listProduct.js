@@ -17,7 +17,7 @@ function ListProduct(props) {
         />
         <div className="d-flex flex-column">
           <h6 className="m-0">{props.productName}</h6>
-          {props.cart_id && (<p className="m-0">Stok {props.productStock}</p>)}
+          {props.cart_id && props.productStock != null ? (<p className="m-0">Stok {props.productStock}</p>) : null}
           <p className="m-0">Rp.{props.productPrice} / kg</p>
         </div>
         <input type="number" style={{width:"60px", height: "35px"}} defaultValue={props.quantity} min={props.minOrder} max={props.productStock}/>
@@ -40,7 +40,7 @@ function ListProduct(props) {
           
           <div>
             <h6 className="m-0">{props.productName}</h6>
-            <p className="m-0">Stok {props.productStock}</p>
+            {props.productStock != null ? (<p className="m-0">Stok {props.productStock}</p>):null}
             <p className="m-0">Rp.{props.productPrice} / kg</p>
           </div>
           <div>

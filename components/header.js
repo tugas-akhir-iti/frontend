@@ -6,7 +6,7 @@ import { useRouter } from "next/router";
 import ButtonMasuk from "./buttonMasuk";
 import Link from "next/link";
 import cookie from "js-cookie";
-import moment from "moment";
+// import moment from "moment";
 
 function Header({ user, notifications }) {
   const router = useRouter();
@@ -78,7 +78,16 @@ function Header({ user, notifications }) {
             </li>
             </>
             }
-              
+              <li>
+                <Link href={"/cart"}>
+                  <a style={{ color: "black" }} title={"Keranjang"}>
+                    <i
+                      className={`bi bi-bell`}
+                      style={{ fontSize: "1.75rem" }}
+                      ></i>
+                  </a>
+                </Link>
+              </li>
               <li>
                 <Link href={"/info-profile"}>
                   <a style={{ color: "black" }} title={"Profil"}>

@@ -9,6 +9,7 @@ import CategoryLayoutMobile from "../layout/categoryLayoutMobile";
 import { useRouter } from "next/router";
 import { GetToken } from "../utils/getToken";
 import { useEffect } from "react";
+import MobileLayout from "../layout/mobileLayout";
 
 export async function getServerSideProps({ req, res }) {
   const API = process.env.NEXT_PUBLIC_API_ENDPOINT;
@@ -137,48 +138,22 @@ export default function Home({
           </div>
         </MainLayout>
       ) : (
-        <div className="d-flex flex-column">
-          <div className="banner">
+        <MobileLayout user={user}>
+          <div className="banner mb-4">
             <div className="container-fluid px-0 mb-0 mt-0">
-              <div className="d-flex flex-row gap-2">
-                <button
-                  className="navbar-toggler"
-                  type="button"
-                  data-bs-toggle="offcanvas"
-                  data-bs-target="#demo"
-                >
-                  <img className="navbar-toggler-icon fs-1" src="/toggle.png" />
-                </button>
-                <div
-                  className="input-group mt-2 me-2"
-                  style={{
-                    background: "#ffffff",
-                    borderRadius: "16px",
-                  }}
-                >
-                  <input
-                    type="text"
-                    className="form-control border-0"
-                    placeholder="Cari di sini..."
-                    style={{
-                      borderRadius: "16px",
-                      height: "48px",
-                    }}
-                  />
-                  <span className="input-group-text bg-transparent border-0 fs-4 px-4">
-                    <i className="bi bi-search"></i>
-                  </span>
-                </div>
-              </div>
-              <div className="row px-5 mt-3">
+              <div className="row pt-5 pb-2 ps-4">
                 <div className="col-7">
                   <p className="fs-2 fw-bold">
-                    Bulan Ramadhan <br />
+                    Bulan Kemerdekaan <br />
                     Banyak Diskon!
                   </p>
 
                   <h6>Diskon Hingga</h6>
-                  <p className="fs-2 text-danger p-3">60%</p>
+                  <div className="mb-4">
+                    <span className="fs-2 text-danger ms-2">60%</span>
+                    <span className="fs-2 text-danger ms-4"><img src="/hut77.png" style={{width:"50px"}}/></span>
+                  </div>
+                  
                 </div>
                 <div className="col-5">
                   <img src="/cart.png" />
@@ -187,7 +162,7 @@ export default function Home({
 
               <div className="offcanvas offcanvas-start" id="demo">
                 <div className="offcanvas-header">
-                  <strong className="offcanvas-title fs-4">Second Hand</strong>
+                  <strong className="offcanvas-title fs-4">Rumah Tani</strong>
                   <button
                     type="button"
                     className="btn-close"
@@ -195,7 +170,7 @@ export default function Home({
                   ></button>
                 </div>
                 <div className="offcanvas-body">
-                  <a href="/login" className="text-decoration-none">
+                  <a href="/account/login" className="text-decoration-none">
                     <ButtonMasuk />
                   </a>
                 </div>
@@ -203,12 +178,13 @@ export default function Home({
             </div>
           </div>
           <CategoryLayoutMobile
+            user={user}
             products={products}
             products_sayur={products_sayur}
             products_buah={products_buah}
             products_rempah={products_rempah}
           />
-        </div>
+        </MobileLayout>
       )}
     </>
   );

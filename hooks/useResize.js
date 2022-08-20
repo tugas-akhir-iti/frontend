@@ -33,7 +33,7 @@ const useResize = () => {
 	}, []);
 
 	const breakpoint = {
-    sm: size.width < 768,
+    	sm: size.width < 768,
 		md: size.width >= 768,
 		lg: size.width >= 992,
 		xl: size.width >= 1200,

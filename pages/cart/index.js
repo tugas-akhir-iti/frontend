@@ -10,8 +10,9 @@ import ListProduct from "../../components/listProduct";
 import { GetToken } from "../../utils/getToken";
 import axios from "axios";
 import { useRouter } from "next/router";
+import MobileLayout from "../../layout/mobileLayout";
 const API = process.env.NEXT_PUBLIC_API_ENDPOINT;
-// import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 
 
 export async function getServerSideProps(context) {
@@ -66,6 +67,16 @@ function Cart({token, user, carts}){
     }
   }
 
+  const notify = (title) =>
+  toast.success(title, {
+    position: "top-center",
+    autoClose: 2500,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+  });
   
   const handleCart = e => {
     const index = e.target.value; 
@@ -92,8 +103,10 @@ function Cart({token, user, carts}){
           Authorization: `Bearer ${token}`,
         },
       });
-      alert("Item being deleted. Please wait.");
-      router.reload()
+      notify("Item berhasil di hapus")
+      setTimeout(() => {
+        router.replace("/account/login");
+      }, 2500);
     } catch (error) {
       console.log(error);
   }
@@ -101,10 +114,11 @@ function Cart({token, user, carts}){
 
   let information = (
     <div
-      className="p-4 mb-2"
+      className="p-3 mb-2"
       style={{
         boxShadow: "0px 0px 6px rgba(0,0,0,0.15)",
         borderRadius: "1rem",
+        backgroundColor: "#fafafa",
       }}
     >
       {screen.md ? (
@@ -127,7 +141,7 @@ function Cart({token, user, carts}){
           <div className="d-flex flex justify-content-between">
             <h5 className="h5-0 mb-2">Total Harga</h5>
             <h5>Rp. {total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}</h5>
-            </div>
+          </div>
         </>
       )}
     </div>
@@ -201,38 +215,46 @@ function Cart({token, user, carts}){
                 <title>Keranjang</title>
                 <meta name="description" content="Daftar barang jual saya" />
                 <link rel="icon" href="/favicon.ico" />
+                <script
+                  src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+                  integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+                  crossOrigin="anonymous"
+                ></script>
+                <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
             </Head>
-
-            <MainLayout user={user}>
+              {screen.md ? (
+                <MainLayout user={user}>
                 <div className="max-width container-fluid p-0">
-                  {screen.md ? (
                   <CartLayoutDekstop
                     pageTitle={"Keranjang"}
                     information={information}
                     product={product}
                   />
+                  </div>
+                </MainLayout>
                   ) : (
+                <MobileLayout user={user}>
                   <CartLayoutMobile
                     pageTitle={"Keranjang"}
                     information={information}
                     product={product}
                     button={button}
                   />
-                  )}
-                </div>
-            </MainLayout>
-            {/* <ToastContainer
-              position="top-center"
-              autoClose={5000}
-              hideProgressBar={false}
-              newestOnTop={false}
-              closeOnClick
-              rtl={false}
-              toastStyle={{backgroundColor: "#7126B5", color: "white"}}
-              pauseOnFocusLoss
-              draggable
-              pauseOnHover
-            /> */}
+                </MobileLayout>
+                )}
+          <ToastContainer
+            position="top-center"
+            autoClose={5000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            toastStyle={{backgroundColor: "#7126B5", color: "white"}}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+          />
+
         </>
     )
 }

@@ -16,6 +16,10 @@ import QuestionBuyer from "../../components/questionBuyer";
 import QuestionSeller from "../../components/questionSeller";
 import Link from 'next/link';
 import styles from "../../styles/Home.module.css"
+import MobileLayout from "../../layout/mobileLayout";
+import { ToastContainer, toast } from "react-toastify";
+// import ButtonMasuk from "../../components/buttonMasuk";
+
 
 const API = process.env.NEXT_PUBLIC_API_ENDPOINT;
 
@@ -74,6 +78,17 @@ function Produk({ token, user, product, questions }) {
   const handleAddStock = () => setAddStockPopUp((addStockPopUp =! addStockPopUp));
   let isOwner = false;
 
+  const notify = (title) =>
+  toast.success(title, {
+    position: "top-center",
+    autoClose: 2500,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+  });
+
   // Sum questions
   let sum = 0;
   for(let i = 0; i < questions.length; i++){sum += 1}
@@ -97,7 +112,10 @@ function Produk({ token, user, product, questions }) {
           Authorization: `Bearer ${token}`,
         },
       });
-      alert("Item being deleted. Please wait.");
+      notify("Item berhasil di hapus")
+      setTimeout(() => {
+        router.replace("/account/login");
+      }, 2500);
     } catch (error) {
       console.log(error);
     }
@@ -128,8 +146,10 @@ function Produk({ token, user, product, questions }) {
         console.log(error.response);
       }
     } else {
-      alert("Please Login to continue");
-      router.replace("/account/login");
+      notify("Login terlebih dahulu")
+      setTimeout(() => {
+        router.replace("/account/login");
+      }, 2500);
     }
   };
 
@@ -144,13 +164,19 @@ function Produk({ token, user, product, questions }) {
   let button = (
     <>
       {isOwner ? (
-        <div className="d-flex flex-column gap-2" style={{ width: "100%" }}>
+        <div className="d-flex flex-row gap-2" style={{ width: "100%" }}>
           <MainButton
             className="p-3 flex-grow-1 text-center bg-white"
             text="Edit"
             rad="16"
             onClick={(e)=>handleEdit(e)}
           />
+           <CategoryCard
+              onClick={(e) => handleAddStock(e)}
+              className="p-3 flex-grow-1"
+              text="Tambah Stok"
+              rad="16"
+            />
           <button
             onClick={(e) => handleDelete(e)}
             className={"p-3 flex-grow-1"}
@@ -356,14 +382,21 @@ function Produk({ token, user, product, questions }) {
   return (
     <>
       <Head>
-        <title>Daftar Jual Saya</title>
-        <meta name="description" content="Daftar barang jual saya" />
+        <title>Produk</title>
+        <meta name="description" content="Produk Detail" />
         <link rel="icon" href="/favicon.ico" />
+        <script
+          src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+          crossOrigin="anonymous"
+        ></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
       </Head>
 
-      <MainLayout user={user}>
-        <div className="max-width container-fluid p-0">
+      
           {screen.md ? (
+          <MainLayout user={user}>
+            <div className="max-width container-fluid p-0">
             <ProdukDesktopLayout
               images={images}
               information={information}
@@ -373,19 +406,46 @@ function Produk({ token, user, product, questions }) {
               isOwner={isOwner}
               questionBuyer={questionBuyer}
             />
-          ) : (
-            <ProdukMobileLayout
-              images={images}
-              information={information}
-              owner={owner}
-              description={description}
-              button={button}
-              isOwner={isOwner}
-              questionBuyer={questionBuyer}
-            />
-            // <p>Hello</p>
+            </div>
+          </MainLayout>
+          ) : screen.sm ? (
+            <MobileLayout user={user}>
+              <ProdukMobileLayout
+                images={images}
+                information={information}
+                // owner={owner}
+                description={description}
+                button={button}
+                
+                questionBuyer={questionBuyer}
+              />
+            </MobileLayout>
+            // <MainLayout user={user}>
+            //   <ProdukMobileLayout
+            //     images={images}
+            //     information={information}
+            //     owner={owner}
+            //     description={description}
+            //     button={button}
+            //     isOwner={owner}
+            //     questionBuyer={questionBuyer}
+            //   />
+            // </MainLayout>
+          ) : screen.sm && role_id == 1 (
+            // <MobileLayout user={user}>
+            //   <ProdukMobileLayout
+            //     images={images}
+            //     information={information}
+            //     owner={owner}
+            //     description={description}
+            //     button={button}
+            //     isOwner={owner}
+            //     questionBuyer={questionBuyer}
+            //   />
+            // </MobileLayout>
+            null
           )}
-        </div>
+        
         {addCartPopup && (
           <AddCartPopUp
             token={token}
@@ -415,7 +475,19 @@ function Produk({ token, user, product, questions }) {
             user={user}
           />
         )}
-      </MainLayout>
+      
+      <ToastContainer
+          position="top-center"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          toastStyle={{backgroundColor: "#7126B5", color: "white"}}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+      />
     </>
   );
 }

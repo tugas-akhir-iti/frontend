@@ -9,7 +9,9 @@ import ListProduct from "../../components/listProduct";
 import { GetToken } from "../../utils/getToken";
 import axios from "axios";
 import TransactionDekstopLayout from "../../layout/transactionDekstopLayout";
+import TransactionMobileLayout from "../../layout/transactionMobileLayout";
 import { useRouter } from "next/router";
+import MobileLayout from "../../layout/mobileLayout";
 const API = process.env.NEXT_PUBLIC_API_ENDPOINT;
 
 export async function getServerSideProps(context) {
@@ -17,6 +19,7 @@ export async function getServerSideProps(context) {
   let allcookie = context.req.headers.cookie || "   ";
   let token = GetToken(allcookie);
   let orders = [];
+  
 
   const res_order = await axios({
       method: `get`,
@@ -48,6 +51,7 @@ export async function getServerSideProps(context) {
 function Transaction({token, user, orders}){
   const router = useRouter();
   const [orderId, setOrderId] = useState(null)
+  const screen = useResize()
 
   const getOrderId = (id) => {
     setOrderId(id);
@@ -107,21 +111,40 @@ function Transaction({token, user, orders}){
                 <title>Transaction</title>
                 <meta name="description" content="Daftar barang jual saya" />
                 <link rel="icon" href="/favicon.ico" />
+                <script
+                  src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+                  integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+                  crossOrigin="anonymous"
+                ></script>
+                <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
             </Head>
 
-            <MainLayout user={user}>
-            <div className="col-8 offset-2 mt-3 d-flex flex-column justify-content-center">
-              <i className="bi bi-arrow-left fs-3 pe-5 mb-3"></i>
-              <h4 className="ms-2 mb-4">Daftar Transaksi</h4>
-                <TransactionDekstopLayout 
+            {screen.md ? (
+               <MainLayout user={user}>
+               <div className="col-8 offset-2 mt-3 d-flex flex-column justify-content-center">
+                 <i className="bi bi-arrow-left fs-3 pe-5 mb-3"></i>
+                 <h4 className="ms-2 mb-4">Daftar Transaksi</h4>
+                   <TransactionDekstopLayout 
+                   orders={orders} 
+                   handleUploadTransaction={handleUploadTransaction} 
+                   getOrderId={getOrderId}
+                   handleCancle={handleCancle}
+                   user={user}
+                   />
+               </div> 
+               </MainLayout>
+            ):(
+              <MobileLayout user={user}>
+                <TransactionMobileLayout 
                 orders={orders} 
                 handleUploadTransaction={handleUploadTransaction} 
                 getOrderId={getOrderId}
                 handleCancle={handleCancle}
                 user={user}
                 />
-            </div> 
-            </MainLayout>
+              </MobileLayout>
+            )}
+           
             
         </>
     )

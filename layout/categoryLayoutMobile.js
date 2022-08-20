@@ -6,6 +6,7 @@ import styles from "../styles/Home.module.css";
 import Link from "next/link";
 
 function CategoryLayoutMobile({
+  user,
   products,
   products_sayur,
   products_buah,

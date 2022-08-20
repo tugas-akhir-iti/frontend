@@ -10,6 +10,7 @@ import styles from "../../../styles/Home.module.css";
 import { useRouter } from "next/router";
 import { GetToken } from "../../../utils/getToken";
 import { useEffect } from "react";
+import MobileLayout from "../../../layout/mobileLayout";
 
 export async function getServerSideProps(context) {
   const API = process.env.NEXT_PUBLIC_API_ENDPOINT;
@@ -93,8 +94,6 @@ export default function Home({
 
       {screen.md ? (
         <MainLayout user={user}>
-        
-
         <div className="row">
             <div className="col-10 offset-1">
                     <div
@@ -146,9 +145,58 @@ export default function Home({
         </div>
         </MainLayout>
       ) : (
-        <MainLayout user={user}>
-        Hallo
-        </ MainLayout >
+        <MobileLayout user={user}>
+        <div className="row">
+            <div className="col-10 offset-1">
+                    <div
+                    className="d-flex flex-row p-3 gap-3 mx-0 mt-4"
+                    style={{
+                    boxShadow: "0px 0px 6px rgba(0,0,0,0.15)",
+                    borderRadius: "1rem",
+                    }}
+                    >
+                        <img
+                        src={user_seller.user_image}
+                        alt="Gambar User Petani"
+                        style={{ height: "5rem", borderRadius: "1rem" }}
+                        />
+
+                        <div className="d-flex flex-column justify-content-center">
+                            <h4 className="m-0">{user_seller.user_name}</h4>
+                            <p className="m-0">{user_seller.user_regency}</p>
+                        </div>
+
+                        <div className="d-flex flex-column justify-content-center">
+                            <p className="m-0">{user_seller.user_address}</p>
+                            <p className="m-0">{user_seller.user_regency}, {user_seller.user_province}</p>
+                        </div>
+                    </div>
+                <div className="row d-flex px-1 mt-2">
+                    {products.map((product) => (
+                    <div className="col-6 mt-2 mx-0 p-1">
+                        <Link
+                        href={{
+                            pathname: "../../produk/[id]",
+                        }}
+                        as={`../../produk/${product.id}`}
+                        >
+                        <a className={styles.produk} key={product.id}>
+                            <ItemCard
+                            name={product.product_name}
+                            price={product.product_price}
+                            regency={product.user_regency}
+                            stock={product.product_stock}
+                            image={product.product_image}
+                            />
+                        </a>
+                        </Link>
+                    </div>
+                    ))}
+                </div>
+            </div>
+        </div>
+        
+        </ MobileLayout >
     )};
     </> 
   )

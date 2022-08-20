@@ -20,16 +20,17 @@ function Search() {
       <div
         className="input-group"
         style={{
-          background: "#EEEEEE",
+          background: "#ffffff",
           borderRadius: "16px",
+          boxShadow: "0px 0px 6px rgba(0,0,0,0.15)",
         }}
       >
         <input
           type="text"
           className="form-control border-0"
-          placeholder="Cari di sini..."
+          placeholder="Cari produk di sini..."
           style={{
-            background: "#EEEEEE",
+            background: "#ffffff",
             borderRadius: "16px",
             height: "48px",
           }}

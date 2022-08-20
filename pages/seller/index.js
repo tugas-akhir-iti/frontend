@@ -5,7 +5,7 @@ import CategoryCard from "../../components/categoryCard";
 import OwnerCard from "../../components/ownerCard";
 import MainLayout from "../../layout/mainLayout";
 import useResize from "../../hooks/useResize";
-import ListSeller from "../../components/sellerViewOption/listSeller";
+// import ListSeller from "../../components/sellerViewOption/listSeller";
 import GridSeller from "../../components/sellerViewOption/gridSeller";
 import { useRouter } from "next/router";
 import TransactionDekstopLayout from "../../layout/transactionDekstopLayout";
@@ -124,7 +124,7 @@ export default function DaftarJual({
 
       <MainLayout user={user} /*notifications={notifications}*/>
         <div className="max-width p-2 d-flex flex-column gap-2">
-          <h1>Daftar Jual Saya</h1>
+          <h2 className="mb-">Daftar Jual Saya</h2>
           {user && (
             <OwnerCard
               foto={user.user_image}
@@ -192,6 +192,7 @@ export default function DaftarJual({
                       key={index}
                       icon={data[0]}
                       text={data[1]}
+                      onClick={data[2]}
                       rad="8"
                     />
                   ))}

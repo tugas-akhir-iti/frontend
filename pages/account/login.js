@@ -78,10 +78,10 @@ export default function Login() {
       </Head>
 
       <LoginregisterLayout>
-        <h3 className="fw-bold mb-3 pb-3" style={{ letterSpacing: "1px" }}>
+        <h3 className="fw-bold mb-3 pb-3 px-4" style={{ letterSpacing: "1px" }}>
           Masuk
         </h3>
-        <form onSubmit={handleSubmit} style={{ maxWidth: "600px" }}>
+        <form onSubmit={handleSubmit} style={{ maxWidth: "600px"}} className="px-4">
           <div className="col-12 mt-2">
             <label>Email</label>
             <InputBox

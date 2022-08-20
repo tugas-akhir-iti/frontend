@@ -58,7 +58,7 @@ export default function InfoProfile({ user, token, bank }) {
 
       {screen.md ? (
         <Top>
-          <p className="fs-4">Lengkapi Info Akun</p>
+          <p className="fs-4">Info Akun</p>
         </Top>
       ) : (
         <div className="d-flex d-row gap-2 m-3 fw-bold fs-4 justify-content-center">
@@ -67,7 +67,7 @@ export default function InfoProfile({ user, token, bank }) {
             style={{ cursor: "pointer" }}
             className="bi bi-arrow-left pe-3"
           ></i>
-          <p className="">Lengkapi Info Akun</p>
+          <p className="">Info Akun</p>
         </div>
       )}
 
