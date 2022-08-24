@@ -54,8 +54,8 @@ function QuestionSeller(props){
                             style={{ height: "3rem", borderRadius: "1rem" }}
                         />
                         <div className="flex-fill d-flex flex-column justify-content-center">
-                            <h5 className="m-0">{props.user_name_question}</h5>
-                            <p className="m-0">{moment(props.createdAt).format('DD/MM/YYYY')}</p>
+                            <h5 className="m-0" style={{fontSize:"1rem"}}>{props.user_name_question}</h5>
+                            <p className="m-0" style={{fontSize:"1rem"}}>{moment(props.createdAt).format('DD/MM/YYYY')}</p>
                         </div>
                     </div>
                     <div 
@@ -83,8 +83,8 @@ function QuestionSeller(props){
                             style={{ height: "3rem", borderRadius: "1rem" }}
                         />
                         <div className="flex-fill d-flex flex-column justify-content-center">
-                            <h5 className="m-0">{props.user_name_product}</h5>
-                            <p className="m-0">{moment(props.updatedAt).format('DD/MM/YYYY')}</p>
+                            <h5 className="m-0" style={{fontSize:"1rem"}}>{props.user_name_product}</h5>
+                            <p className="m-0" style={{fontSize:"1rem"}}>{moment(props.updatedAt).format('DD/MM/YYYY')}</p>
                         </div>
                     </div>
                     <div 

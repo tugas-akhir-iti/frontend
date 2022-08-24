@@ -21,10 +21,20 @@ export async function getServerSideProps({ req, res }) {
   let products_sayur = [];
   let products_buah = [];
   let products_rempah = [];
+  let carts = [];
 
   try {
     const res_products = await axios.get(API +"/products");
     products = res_products.data.data;
+
+    const res_cart = await axios({
+      method: `get`,
+      url : `${API}/carts`,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+    carts = res_cart.data.cart;
 
     const res_products_sayur = await axios.get(API + "/products/categories/1");
     products_sayur = res_products_sayur.data.data;
@@ -61,25 +71,34 @@ export async function getServerSideProps({ req, res }) {
   return {
     props: {
       user,
+      token,
       products,
       products_sayur,
       products_buah,
       products_rempah,
+      carts
     },
   };
 }
 
 export default function Home({
   user,
+  token,
   products,
   products_sayur,
   products_buah,
   products_rempah,
+  carts
 }) {
   const screen = useResize();
   const router = useRouter();
-  console.log(products);
 
+  //hitung cart
+  let cartLength = 0;
+  carts.map((data)=>{
+    cartLength+=data.product_cart.length
+  })
+  
   useEffect(() => {
     if (user != null && user.role_id == 1) {
       router.replace("/seller");
@@ -102,7 +121,7 @@ export default function Home({
 
       {screen.md ? (
         // <MainLayout user={user} notifications={notifications}>
-        <MainLayout user={user}>
+        <MainLayout user={user} cartLength={cartLength}>
           <div className="row">
             <div className="col-10 offset-1 mt-5 d-none d-sm-block">
               <div
@@ -138,7 +157,7 @@ export default function Home({
           </div>
         </MainLayout>
       ) : (
-        <MobileLayout user={user}>
+        <MobileLayout user={user} cartLength={cartLength}>
           <div className="banner mb-4">
             <div className="container-fluid px-0 mb-0 mt-0">
               <div className="row pt-5 pb-2 ps-4">

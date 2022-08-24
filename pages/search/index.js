@@ -21,8 +21,19 @@ export async function getServerSideProps(context) {
     let token = GetToken(allcookie); 
     let query = context.query.keyword;
     let product = [];
+    let carts = [];
 
     try {
+      // carts
+      const res_cart = await axios({
+        method: `get`,
+        url : `${API}/carts`,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      carts = res_cart.data.cart;
+
       // Products
       const res = await axios.get(API + "/products/search/all?name="+query);
       product = res.data.data;
@@ -35,7 +46,7 @@ export async function getServerSideProps(context) {
           Authorization: `Bearer ${token}`,
         },
       });
-      user = res_user.data;
+      user = res_user.data.data;
     
     } catch (error) {
       console.log(error);
@@ -44,20 +55,27 @@ export async function getServerSideProps(context) {
     return {
       props: {
         user,
-        product
+        product,
+        carts
       },
     };
 }
 
-function SearchPage({user, product}){
-    
+function SearchPage({user, product, carts}){
+  
     const screen = useResize();
-    // console.log(product);
+    // console.log(user);
+
+    let cartLength = 0;
+    carts.map((data)=>{
+      cartLength+=data.product_cart.length
+    })
+
     return(
         <>
         {/* {product == [] ? (<p>Kosong</p>):(null)} */}
         <Head>
-          <title>Transaction</title>
+          <title>Search</title>
           <meta name="description" content="Daftar barang jual saya" />
           <link rel="icon" href="/favicon.ico" />
           <script
@@ -69,7 +87,7 @@ function SearchPage({user, product}){
           </Head>
           {/* {product == "" ? (<h1>Produk Null</h1>) : (<h1>Produk Ada</h1>)} */}
         {screen.md ? (
-        <MainLayout user={user}>
+        <MainLayout user={user} cartLength={cartLength}>
           <div className="row">
             {product != "" ? (
             <div className="col-10 offset-1">
@@ -99,20 +117,20 @@ function SearchPage({user, product}){
             <div className="text-center d-flex flex-column justify-items-center py-5 ">
               <img
                 className="mx-auto"
-                src="empty-seller.svg"
+                src="empty-product.png"
                 alt="No Item Available"
                 style={{ width: "20%" }}
               />
               <p className="m-0 pt-5" style={{color:"gray"}}>
-                Maaf Produk yang dicari tidak ditemukan.
+                Maaf produk yang dicari tidak ditemukan.
               </p>
             </div>
             )}
           </div>
         </MainLayout>
         ) : (
-        <MobileLayout user={user}>
-          {product !== "" ? (
+        <MobileLayout user={user} cartLength={cartLength}>
+          {product != "" ? (
           <div className="row d-flex px-3">
               {product.map((data) => (
                 <div className="col-6 col-md-4 mt-3">
@@ -138,9 +156,17 @@ function SearchPage({user, product}){
                 </div>
               ))}
           </div>
-          ):(
-            <div className="row d-flex px-3">
-              <h1>Kosong</h1>
+          ) : (
+            <div className="text-center d-flex flex-column justify-items-center py-5 ">
+              <img
+                className="mx-auto"
+                src="empty-product.png"
+                alt="No Item Available"
+                style={{ width: "50%" }}
+              />
+              <p className="m-0 pt-5" style={{color:"gray"}}>
+                Maaf produk yang dicari tidak ditemukan.
+              </p>
             </div>
           )}
         </ MobileLayout >

@@ -1,21 +1,23 @@
 /* eslint-disable @next/next/no-html-link-for-pages */
 /* eslint-disable react/no-unknown-property */
-import React, { useState } from "react";
+import React from "react";
 import Search from "./search";
 import { useRouter } from "next/router";
 import ButtonMasuk from "./buttonMasuk";
 import Link from "next/link";
 import cookie from "js-cookie";
-// import moment from "moment";
+const API = process.env.NEXT_PUBLIC_API_ENDPOINT;
 
-function Header({ user, notifications }) {
+function Header({ user, notifications, cartLength}) {
+  // console.log(cartLength);
   const router = useRouter();
   const path = router.pathname;
-  // console.log(path);
+
   // const [notifPopup, setNotifPopup] = useState(false);
   // const handleNotifPopup = () => {
   //   setNotifPopup((notifPopup = !notifPopup));
-  // };
+  // };  
+
   const handleLogout = async (e) => {
     e.preventDefault();
     try {
@@ -26,7 +28,7 @@ function Header({ user, notifications }) {
     router.replace("/");
   };
 
-  // console.log(notifications);
+
   return (
     <div
       className=" container-fluid p-0 sticky-top "
@@ -34,7 +36,8 @@ function Header({ user, notifications }) {
         boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.15)",
         backgroundColor: "white",
       }}
-    >
+    > 
+      
       <div className="max-width d-flex justify-content-between p-2 position-relative">
         <div className="d-flex gap-3">
           <div>
@@ -51,6 +54,9 @@ function Header({ user, notifications }) {
             }
           </div>
         </div>
+
+        {path != "/checkout/[id]" &&
+
         <div>
           {user ? (
             <ul className="m-0 p-0 d-flex gap-3 position-relative">
@@ -58,11 +64,14 @@ function Header({ user, notifications }) {
               <> 
               <li>
                 <Link href={"/cart"}>
-                  <a style={{ color: "black" }} title={"Keranjang"}>
-                    <i
+                  <a style={{ color: "black"}} title={"Keranjang"} className="text-decoration-none">
+                    <span
                       className={`bi bi-cart3`}
                       style={{ fontSize: "1.75rem" }}
-                      ></i>
+                    ></span>
+                    <span>
+                      <strong style={{color:"#fff", backgroundColor:"red", fontSize: "1rem", borderRadius:"1rem"}} className="px-1">{cartLength}</strong>
+                    </span>
                   </a>
                 </Link>
               </li>
@@ -79,7 +88,7 @@ function Header({ user, notifications }) {
             </>
             }
               <li>
-                <Link href={"/cart"}>
+                <Link href={""}>
                   <a style={{ color: "black" }} title={"Keranjang"}>
                     <i
                       className={`bi bi-bell`}
@@ -185,6 +194,7 @@ function Header({ user, notifications }) {
             </div>
           )}*/}
         </div> 
+        }
       </div>
     </div>
   );

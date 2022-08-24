@@ -13,17 +13,6 @@ function TransactionMobileLayout(props) {
     
   return (
         <>
-            {/* <div className="p-2 d-flex flex-column gap-4" style={{marginBottom:"110px"}}>
-                <h3 className="ms-2 mt-2 mb-0">{props.pageTitle}</h3>
-                {props.address}
-                {props.product}
-                {props.attention}
-            </div>
-            <div className="position-fixed bottom-0 d-flex flex-column start-0 end-0 p-0 p-2">
-                    {props.information}
-                    {props.button}
-            </div> */}
-
             {Object.keys(orders).map((key)=>(
             <div className="d-flex flex-column p-4 mt-4 mx-3"
                 style={{boxShadow: "0px 0px 6px rgba(0,0,0,0.15)",
@@ -31,7 +20,7 @@ function TransactionMobileLayout(props) {
             >
 
                 <div className="d-flex align-items-center">
-                    <p className=" me-4 my-2"><strong>Belanja : </strong>{moment(orders[key].createdAt).format('DD/MM/YYYY')}</p>
+                    <p className=" me-3 my-2"><strong>Belanja : </strong>{moment(orders[key].createdAt).format('DD/MM/YYYY')}</p>
                     {orders[key].order_status == "Dibatalkan" ? (
                         <ButtonStatus 
                         text={orders[key].order_status}
@@ -55,7 +44,7 @@ function TransactionMobileLayout(props) {
                     {orders[key].order_transfer_image == null 
                     && orders[key].order_status == "Diproses" 
                     && user.role_id == 2 ? (
-                        <div className="ms-auto">
+                        <div className="ms-2">
                             <ButtonStatus text="Batalkan" bgColor="#CF000C" value={orders[key].id} onClick={props.handleCancle}/>
                         </div>
                     ) : orders[key].order_transfer_image == null 
@@ -83,7 +72,7 @@ function TransactionMobileLayout(props) {
                     <div className="d-flex align-items-center">
                         <div>
                             <h5 className="m-0">{orders[key].order_name}</h5>
-                            <div className="mt-2" >
+                            <div className="mt-0" >
                                 <form action="https://wa.me/6289623176509?text=[message-url-encoded]">
                                     <ButtonStatus text="Hubungi" bgColor="#7126B5" formTarget={"_blank"}/>
                                 </form>
@@ -118,11 +107,11 @@ function TransactionMobileLayout(props) {
                     <div className="d-flex align-items-center">
                         <div className="d-flex flex-column">
                             <div>
-                                <h5 className="m-0">{orders[key].product_owner_name}</h5>
-                                <p style={{color:"grey"}} className="ms-0">{orders[key].product_owner_regency}</p>
+                                <h6 className="m-0">{orders[key].product_owner_name}</h6>
+                                <p style={{color:"grey", fontSize:"0.8rem"}} className="ms-0">{orders[key].product_owner_regency}</p>
                             </div>
                             <div className="">
-                                <h5 className="m-0">No. Rek: {orders[key].product_owner_rekening} </h5>
+                                <h6 className="m-0">No. Rek: {orders[key].product_owner_rekening} </h6>
                                 <p className="m-0">({orders[key].product_owner_bank} a.n Jaenulatif Pudin)</p>
                                 {orders[key].order_status == "Diproses" &&
                                     <div className="my-0">
@@ -192,9 +181,9 @@ function TransactionMobileLayout(props) {
                         className="my-2"
                     />
                     <h6 className="my-0">Total Pembayaran  </h6>
-                    <h5 className="my-0 mt-1" style={{textAlign:"right"}}>
+                    <h6 className="my-0 mt-1" style={{textAlign:"right"}}>
                     Rp. {orders[key].product_order.map(item => item.product_price * item.order_qty).reduce((prev, curr) => prev + curr, 0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}
-                    </h5>
+                    </h6>
                 </div>
             </div>
         ))}

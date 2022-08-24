@@ -11,6 +11,7 @@ import { GetToken } from "../../utils/getToken";
 import axios from "axios";
 import { useRouter } from "next/router";
 import MobileLayout from "../../layout/mobileLayout";
+import EditCartPopUp from "../../components/popup/editCartPopUp";
 const API = process.env.NEXT_PUBLIC_API_ENDPOINT;
 import { ToastContainer, toast } from "react-toastify";
 
@@ -58,8 +59,15 @@ function Cart({token, user, carts}){
   const screen = useResize();
   const router = useRouter()
   const [total, setTotal] = useState(0)
+  const [editCartPopUp, setEditCartPopUp] = useState(false);
+  const handleEditCart = () => setEditCartPopUp((editCartPopUp =! editCartPopUp));
   const [productOwnerId, setProductOwnerId] = useState(null)
 
+  // cart length
+  let cartLength = 0;
+  carts.map((data)=>{
+    cartLength+=data.product_cart.length
+  })
 
   const handleBuy = async(e) => {
     if(productOwnerId != null){
@@ -105,7 +113,7 @@ function Cart({token, user, carts}){
       });
       notify("Item berhasil di hapus")
       setTimeout(() => {
-        router.replace("/account/login");
+        router.reload();
       }, 2500);
     } catch (error) {
       console.log(error);
@@ -179,8 +187,10 @@ function Cart({token, user, carts}){
                     quantity={data.cart_qty}
                     handleDelete={handleDelete}
                     cart_id={data.cart_id}
+                    token={token}
+                    // editCartPopUp={handleEditCart}
                   />
-              </div>
+                </div>
               ))}
               <hr 
                   style={{
@@ -210,52 +220,52 @@ function Cart({token, user, carts}){
   );
 
   return(
-        <>
-            <Head>
-                <title>Keranjang</title>
-                <meta name="description" content="Daftar barang jual saya" />
-                <link rel="icon" href="/favicon.ico" />
-                <script
-                  src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
-                  integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
-                  crossOrigin="anonymous"
-                ></script>
-                <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-            </Head>
-              {screen.md ? (
-                <MainLayout user={user}>
-                <div className="max-width container-fluid p-0">
-                  <CartLayoutDekstop
-                    pageTitle={"Keranjang"}
-                    information={information}
-                    product={product}
-                  />
-                  </div>
-                </MainLayout>
-                  ) : (
-                <MobileLayout user={user}>
-                  <CartLayoutMobile
-                    pageTitle={"Keranjang"}
-                    information={information}
-                    product={product}
-                    button={button}
-                  />
-                </MobileLayout>
-                )}
-          <ToastContainer
-            position="top-center"
-            autoClose={5000}
-            hideProgressBar={false}
-            newestOnTop={false}
-            closeOnClick
-            rtl={false}
-            toastStyle={{backgroundColor: "#7126B5", color: "white"}}
-            pauseOnFocusLoss
-            draggable
-            pauseOnHover
+    <>
+      <Head>
+        <title>Keranjang</title>
+        <meta name="description" content="Daftar barang jual saya" />
+        <link rel="icon" href="/favicon.ico" />
+        <script
+          src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+          crossOrigin="anonymous"
+        ></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+      </Head>
+      {screen.md ? (
+        <MainLayout user={user} cartLength={cartLength}>
+          <div className="max-width container-fluid p-0">
+            <CartLayoutDekstop
+              pageTitle={"Keranjang"}
+              information={information}
+              product={product}
+            />
+          </div>
+        </MainLayout>
+      ) : (
+        <MobileLayout user={user} cartLength={cartLength}>
+          <CartLayoutMobile
+            pageTitle={"Keranjang"}
+            information={information}
+            product={product}
+            button={button}
           />
+        </MobileLayout>
+      )}
 
-        </>
+      <ToastContainer
+        position="top-center"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        toastStyle={{backgroundColor: "#7126B5", color: "white"}}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
+    </>
     )
 }
 

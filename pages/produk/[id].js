@@ -29,6 +29,7 @@ export async function getServerSideProps(context) {
   let token = GetToken(allcookie);
   let product = [];
   let questions = [];
+  let carts = [];
 
   const res_questions = await axios({
     method: "get",
@@ -37,6 +38,17 @@ export async function getServerSideProps(context) {
   questions = res_questions.data.data;
 
   try {
+    // carts
+    const res_cart = await axios({
+      method: `get`,
+      url : `${API}/carts`,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+    carts = res_cart.data.cart;
+
+
     // Products
     const res = await axios.get(API + "/products/" + context.query.id);
     product = res.data.data;
@@ -59,16 +71,15 @@ export async function getServerSideProps(context) {
       token,
       user,
       product,
-      questions
+      questions,
+      carts
     },
   };
 }
 
-function Produk({ token, user, product, questions }) {
+function Produk({ token, user, product, questions, carts }) {
   
-  
-
-  // console.log(sum);
+  // console.log(user.role_id);
   const screen = useResize();
   const router = useRouter();
   const [addCartPopup, setAddCartPopup] = useState(false);
@@ -88,6 +99,12 @@ function Produk({ token, user, product, questions }) {
     draggable: true,
     progress: undefined,
   });
+
+  // cart length
+  let cartLength = 0;
+  carts.map((data)=>{
+    cartLength+=data.product_cart.length
+  })
 
   // Sum questions
   let sum = 0;
@@ -395,7 +412,7 @@ function Produk({ token, user, product, questions }) {
 
       
           {screen.md ? (
-          <MainLayout user={user}>
+          <MainLayout user={user} cartLength={cartLength}>
             <div className="max-width container-fluid p-0">
             <ProdukDesktopLayout
               images={images}
@@ -403,54 +420,39 @@ function Produk({ token, user, product, questions }) {
               owner={owner}
               description={description}
               button={button}
-              isOwner={isOwner}
               questionBuyer={questionBuyer}
             />
             </div>
           </MainLayout>
-          ) : screen.sm ? (
-            <MobileLayout user={user}>
+          ) : screen.sm && user != null && user.role_id == 1 ? (
+            <MainLayout user={user}>
               <ProdukMobileLayout
                 images={images}
                 information={information}
-                // owner={owner}
                 description={description}
                 button={button}
-                
+                questionBuyer={questionBuyer}
+                // owner={owner}
+              />
+            </MainLayout>
+          ) : (
+            <MobileLayout user={user} cartLength={cartLength}>
+              <ProdukMobileLayout
+                images={images}
+                information={information}
+                owner={owner}
+                description={description}
+                button={button}
                 questionBuyer={questionBuyer}
               />
             </MobileLayout>
-            // <MainLayout user={user}>
-            //   <ProdukMobileLayout
-            //     images={images}
-            //     information={information}
-            //     owner={owner}
-            //     description={description}
-            //     button={button}
-            //     isOwner={owner}
-            //     questionBuyer={questionBuyer}
-            //   />
-            // </MainLayout>
-          ) : screen.sm && role_id == 1 (
-            // <MobileLayout user={user}>
-            //   <ProdukMobileLayout
-            //     images={images}
-            //     information={information}
-            //     owner={owner}
-            //     description={description}
-            //     button={button}
-            //     isOwner={owner}
-            //     questionBuyer={questionBuyer}
-            //   />
-            // </MobileLayout>
-            null
           )}
         
         {addCartPopup && (
           <AddCartPopUp
             token={token}
             onClick={handleAddCart}
-            stateChanger={handleAddCart}
+            // stateChanger={handleAddCart}
             product_name={product.product_name}
             product_image={product.product_image}
             product_price={product.product_price}

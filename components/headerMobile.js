@@ -8,9 +8,9 @@ import Link from "next/link";
 import cookie from "js-cookie";
 // import moment from "moment";
 
-function HeaderMobile({ user, notifications }) {
+function HeaderMobile({ user, notifications, cartLength }) {
   const router = useRouter();
-  const path = router.pathname;
+  // const path = router.pathname;
 
   const handleLogout = async (e) => {
     e.preventDefault();
@@ -64,9 +64,13 @@ function HeaderMobile({ user, notifications }) {
                             <Link href={"/cart"}>
                                 <a style={{ color: "black" }} title={"Keranjang"} className="text-decoration-none">
                                   <i
-                                    className={`bi bi-cart3 me-4`}
+                                    className={`bi bi-cart3 me-0`}
                                     style={{ fontSize: "1.75rem" }}
-                                  ></i> <span>Keranjang</span>
+                                  ></i>
+                                  <span className="ms-4 me-2">Keranjang</span>
+                                  <span >
+                                    <strong style={{color:"#fff", backgroundColor:"red", fontSize: "1rem", borderRadius:"1rem"}} className="px-1">{cartLength}</strong>
+                                  </span>
                                   <hr></hr>
                                 </a>
                             </Link>
@@ -82,7 +86,7 @@ function HeaderMobile({ user, notifications }) {
                             </>
                           }
                           <Link href={"/cart"}>
-                            <a style={{ color: "black" }} title={"Keranjang"} className="text-decoration-none">
+                            <a style={{ color: "black" }} title={"Notifikasi"} className="text-decoration-none">
                               <i
                                 className={`bi bi-bell me-4`}
                                 style={{ fontSize: "1.75rem" }}

@@ -5,7 +5,7 @@ import CategoryCard from "../../components/categoryCard";
 import MainLayout from "../../layout/mainLayout";
 import useResize from "../../hooks/useResize";
 // import CartLayout from "../../layout/cartLayout";
-import ListProduct from "../../components/listProduct";
+// import ListProduct from "../../components/listProduct";
 import { GetToken } from "../../utils/getToken";
 import axios from "axios";
 import TransactionDekstopLayout from "../../layout/transactionDekstopLayout";
@@ -19,7 +19,17 @@ export async function getServerSideProps(context) {
   let allcookie = context.req.headers.cookie || "   ";
   let token = GetToken(allcookie);
   let orders = [];
+  let carts = [];
   
+   // carts
+  const res_cart = await axios({
+    method: `get`,
+    url : `${API}/carts`,
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  })
+  carts = res_cart.data.cart;
 
   const res_order = await axios({
       method: `get`,
@@ -43,19 +53,28 @@ export async function getServerSideProps(context) {
       props: {
           token,
           user,
-          orders
+          orders,
+          carts
       },
   };
 }
 
-function Transaction({token, user, orders}){
+function Transaction({token, user, orders, carts}){
   const router = useRouter();
   const [orderId, setOrderId] = useState(null)
   const screen = useResize()
 
+  // cart length
+  let cartLength = 0;
+  carts.map((data)=>{
+    cartLength+=data.product_cart.length
+  })
+
   const getOrderId = (id) => {
     setOrderId(id);
   };
+
+  console.log(orderId)
 
   const handleCancle = async(e) => {
     console.log(e.target.value)
@@ -82,7 +101,8 @@ function Transaction({token, user, orders}){
   }
 
   const handleUploadTransaction = async(e) => {
-    console.log(e.target.value)
+    console.log(e.target.files[0])
+    
     // const ordTransferImage = e.target.files[0];
     // console.log(ordTransferImage);
     // // const orderId = e.target.value
@@ -120,13 +140,13 @@ function Transaction({token, user, orders}){
             </Head>
 
             {screen.md ? (
-               <MainLayout user={user}>
+               <MainLayout user={user} cartLength={cartLength}>
                <div className="col-8 offset-2 mt-3 d-flex flex-column justify-content-center">
                  <i className="bi bi-arrow-left fs-3 pe-5 mb-3"></i>
                  <h4 className="ms-2 mb-4">Daftar Transaksi</h4>
                    <TransactionDekstopLayout 
                    orders={orders} 
-                   handleUploadTransaction={handleUploadTransaction} 
+                   handleUploadTransaction={handleUploadTransaction}
                    getOrderId={getOrderId}
                    handleCancle={handleCancle}
                    user={user}
@@ -134,8 +154,8 @@ function Transaction({token, user, orders}){
                </div> 
                </MainLayout>
             ):(
-              <MobileLayout user={user}>
-                <TransactionMobileLayout 
+              <MobileLayout user={user} cartLength={cartLength}>
+              <TransactionMobileLayout 
                 orders={orders} 
                 handleUploadTransaction={handleUploadTransaction} 
                 getOrderId={getOrderId}

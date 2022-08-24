@@ -172,6 +172,7 @@ function Cart({token, user, carts, getPrice, id}){
       style={{
         boxShadow: "0px 0px 6px rgba(0,0,0,0.15)",
         borderRadius: "1rem",
+        backgroundColor: "#fafafa",
       }}
     >
       {screen.md ? (
@@ -189,7 +190,7 @@ function Cart({token, user, carts, getPrice, id}){
           />
         </div>
       </>
-      ): (
+      ) : (
         <>
           <div className="d-flex flex justify-content-between">
             <h5 className="h5-0 mb-2">Total Harga</h5>
@@ -271,7 +272,7 @@ function Cart({token, user, carts, getPrice, id}){
       <p className="mt-1 mb-1">
         {user.user_phone}
       </p>
-      <p style={{width: "25rem"}}>
+      <p style={{width: "23rem"}}>
         {user.user_address} ,{user.user_regency}, {user.user_province}
       </p>
     </div>
@@ -279,7 +280,7 @@ function Cart({token, user, carts, getPrice, id}){
 
   let attention = (
     <div
-      className="p-4 d-flex flex-column"
+      className="p-3 d-flex flex-column"
       style={{
         boxShadow: "0px 0px 6px rgba(0,0,0,0.15)",
         borderRadius: "1rem",
@@ -288,7 +289,7 @@ function Cart({token, user, carts, getPrice, id}){
     >
       <h5 style={{fontWeight: "700",}}>Perhatian</h5>
       <p 
-        className="p-0 mb-2" 
+        className="p-0 mb-0" 
         style={{fontSize:"1.1rem", fontWeight:"500"}}>
           Produk yang dibeli belum termasuk ongkos kirim. Untuk ongkos kirim hubungi penjual setelah menekan tombol bayar.
       </p>
@@ -318,18 +319,18 @@ function Cart({token, user, carts, getPrice, id}){
                 <div className="max-width container-fluid p-0">
                   {screen.md ? (
                   <>
-                  <i
-                    onClick={() => router.replace("/cart")}
-                    style={{ cursor: "pointer"}}
-                    className="bi bi-arrow-left fs-3 ms-3"
-                  ></i>
-                  <CartLayoutDekstop
-                    information={information}
-                    product={product}
-                    attention={attention}
-                    address={address}
-                    pageTitle={"Checkout"}
-                  />
+                    <i
+                      onClick={() => router.replace("/cart")}
+                      style={{ cursor: "pointer"}}
+                      className="bi bi-arrow-left fs-3 ms-3"
+                    ></i>
+                    <CartLayoutDekstop
+                      information={information}
+                      product={product}
+                      attention={attention}
+                      address={address}
+                      pageTitle={"Checkout"}
+                    />
                   </>
                   ) : (
                   <CartLayoutMobile

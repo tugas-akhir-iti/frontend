@@ -11,15 +11,15 @@ function QuestionBuyer(props){
                         borderRadius: "1rem",
                     }}
                 >
-                    <div className="d-flex p-2 gap-3 align-items-center">
+                    <div className="d-flex gap-3 align-items-center">
                         <img
                             src={props.user_image_question}
                             alt="ini alt"
                             style={{ height: "3rem", borderRadius: "1rem" }}
                         />
                         <div className="flex-fill d-flex flex-column justify-content-center">
-                            <h6 className="m-0">{props.user_name_question}</h6>
-                            <p className="m-0">{moment(props.createdAt).format('DD/MM/YYYY')}</p>
+                            <h6 className="m-0" style={{fontSize:"1rem"}}>{props.user_name_question}</h6>
+                            <p className="m-0" style={{fontSize:"1rem"}}>{moment(props.createdAt).format('DD/MM/YYYY')}</p>
                         </div>
                     </div>
                     <div 
@@ -49,8 +49,8 @@ function QuestionBuyer(props){
                             style={{ height: "3rem", borderRadius: "1rem" }}
                         />
                         <div className="flex-fill d-flex flex-column justify-content-center">
-                            <h6 className="m-0">{props.user_name_product}</h6>
-                            <p className="m-0">{moment(props.updatedAt).format('DD/MM/YYYY')}</p>
+                            <h6 className="m-0" style={{fontSize:"1rem"}}>{props.user_name_product}</h6>
+                            <p className="m-0" style={{fontSize:"1rem"}}>{moment(props.updatedAt).format('DD/MM/YYYY')}</p>
                         </div>
                     </div>
                     <div 

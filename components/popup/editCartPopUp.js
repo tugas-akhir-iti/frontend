@@ -10,7 +10,7 @@ const API = process.env.NEXT_PUBLIC_API_ENDPOINT;
 
 
 
-export default function AddCartPopUp({
+export default function EditCartPopUp({
   token,
   onClick,
   product_name,
@@ -18,11 +18,11 @@ export default function AddCartPopUp({
   product_price,
   product_min_order,
   product_stock,
-  product_id
+  cart_qty,
+  cart_id,
 }) {
   const router = useRouter();
   const [orderData, setOrderData] = useState({
-    product_id: null,
     cart_qty: "",
   });
 
@@ -41,20 +41,19 @@ export default function AddCartPopUp({
     e.preventDefault();
     const data = new FormData();
     data.append("cart_qty", Number(orderData.cart_qty));
-    data.append("product_id", product_id);
     if (token) {
       if(orderData.cart_qty != ""){
         try {
           await axios({
-            method: "post",
-            url: `${API}/carts`,
+            method: "put",
+            url: `${API}/carts/${cart_id}`,
             data: data,
             headers: {
               Authorization: `Bearer ${token}`,
               "Content-Type": `multipart/form-data`,
             },
           });
-          notify("Sukses Tambahkan Keranjang")
+          notify("Sukses Edit Quantity")
           setTimeout(() => {
             router.reload()
           }, 2500);
@@ -62,7 +61,7 @@ export default function AddCartPopUp({
           console.log(error.response);
         }
       }else{
-        notify("Masukan jumlah order")
+        notify("Perubahan belum di masukan")
       }
       
     } else {
@@ -81,7 +80,7 @@ export default function AddCartPopUp({
   return (
     <MainModalLayout
       onClick={onClick}
-      title={`Tambahakan Keranjang`}
+      title={`Edit Quantity`}
       description={`Masukan jumlah barang yang ingin kamu beli`}
     >
       <div
@@ -110,7 +109,7 @@ export default function AddCartPopUp({
             name="cart_qty"
             className="form-control" 
             ariaLabel="Amount (to the nearest dollar)" 
-            placeholder={product_min_order}
+            defaultValue={cart_qty}
             min={product_min_order}
             max={product_stock}
             onChange={(e) => handleChange(e)}  
@@ -121,7 +120,7 @@ export default function AddCartPopUp({
         </div>
         <CategoryCard
           className={"py-2"}
-          text={"Kirim"}
+          text={"Edit"}
           rad={"8"}
           type="submit"
         />

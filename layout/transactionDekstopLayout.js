@@ -5,8 +5,9 @@ import moment from "moment";
 import CategoryCard from "../components/categoryCard";
 
 function TransactionDekstopLayout(props) {
-    const [id, setId] = useState("")
-    // console.log("id:"+id);
+    // const [id, setId] = useState("")
+    // // console.log("id:"+id);
+    // if(id!=""){props.getOrderId(id)}
     let orders = props.orders;
     let user = props.user;
 
@@ -17,6 +18,7 @@ function TransactionDekstopLayout(props) {
             <div className="d-flex flex-column p-4 mt-4"
                 style={{boxShadow: "0px 0px 6px rgba(0,0,0,0.15)",
                 borderRadius: "1rem",}}
+                key={orders[key].id}
             >
 
                 <div className="d-flex align-items-center">
@@ -127,19 +129,20 @@ function TransactionDekstopLayout(props) {
                         </div>
         
                         {orders[key].order_transfer_image == null 
-                        && orders[key].order_status != "Diproses" ? (
-                        <div className="ms-auto align-items-center">
+                        && orders[key].order_status != "Diproses" 
+                        && orders[key].order_status != "Dibatalkan" ? (
+                        <div className="ms-auto align-items-center" onClick={()=>props.getOrderId(orders[key].id)}>
                             <div class="image-upload d-flex justify-content-center flex-column">
-                                <label for="">
+                                <label for="file-input">
                                     <div style={{width:"150px", height:"150px", backgroundColor:"#E2D4F0", borderRadius:"1rem"}} className="d-flex flex-column align-items-center justify-content-center">
                                         <i className="bi bi-camera"></i>
                                         <i>Upload</i>
                                         <i>Bukti Pembayaran</i>
                                     </div>
                                 </label>
-                                {/* <input > */}
-                                {/* <input id="" name="file-input" value={orders[key].id} onClick={props.handleUploadTransaction} /> */}
-                                {/* <CategoryCard text="Upload" onClick={props.handleUploadTransaction} value={orders[key].id} rad="4"/> */}
+                               
+                                {/* <input id="file-input" name="order_transfer_image" type="file" onChange={props.handleUploadTransaction} hidden/> */}
+                                {/* <input id="file-inp" name="" type="number" value={orders[key].id} readOnly/> */}
                             </div>
                         </div>
                         ):(

@@ -22,11 +22,22 @@ export async function getServerSideProps(context) {
   let allcookie = context.req.headers.cookie || "   ";
   let token = GetToken(allcookie);
   let products = [];
+  let carts = [];
 
   const res_user_seller = await axios.get(API+"/users/"+id)
     user_seller = res_user_seller.data.data;
 
   try {
+    // carts
+    const res_cart = await axios({
+      method: `get`,
+      url : `${API}/carts`,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+    carts = res_cart.data.cart;
+
     const res_products = await axios(API+"/products/seller/"+id);
     products = res_products.data.data;
 
@@ -57,7 +68,8 @@ export async function getServerSideProps(context) {
     props: {
       user,
       products,
-      user_seller
+      user_seller,
+      carts
     },
   };
 }
@@ -65,12 +77,19 @@ export async function getServerSideProps(context) {
 export default function Home({
   user,
   products,
-  user_seller
+  user_seller,
+  carts
 }){
 
   console.log("Seller", user_seller);
   const screen = useResize();
   const router = useRouter();
+
+  // cart length
+  let cartLength = 0;
+  carts.map((data)=>{
+    cartLength+=data.product_cart.length
+  })
 
   useEffect(() => {
     if (user != null && user.role_id == 1) {
@@ -93,7 +112,7 @@ export default function Home({
       </Head>
 
       {screen.md ? (
-        <MainLayout user={user}>
+        <MainLayout user={user} cartLength={cartLength}>
         <div className="row">
             <div className="col-10 offset-1">
                     <div
@@ -145,32 +164,35 @@ export default function Home({
         </div>
         </MainLayout>
       ) : (
-        <MobileLayout user={user}>
+        <MobileLayout user={user} cartLength={cartLength}>
         <div className="row">
             <div className="col-10 offset-1">
-                    <div
-                    className="d-flex flex-row p-3 gap-3 mx-0 mt-4"
-                    style={{
-                    boxShadow: "0px 0px 6px rgba(0,0,0,0.15)",
-                    borderRadius: "1rem",
-                    }}
-                    >
-                        <img
-                        src={user_seller.user_image}
-                        alt="Gambar User Petani"
-                        style={{ height: "5rem", borderRadius: "1rem" }}
-                        />
+              <div
+                className="d-flex flex-column p-3 mt-2"
+                style={{
+                boxShadow: "0px 0px 6px rgba(0,0,0,0.15)",
+                borderRadius: "1rem",
+                }}
+              >
+                <div className="d-flex gap-3 mx-0 mt-4">
+                  <img
+                    src={user_seller.user_image}
+                    alt="Gambar User Petani"
+                    style={{ height: "5rem", borderRadius: "1rem" }}
+                  />
 
-                        <div className="d-flex flex-column justify-content-center">
-                            <h4 className="m-0">{user_seller.user_name}</h4>
-                            <p className="m-0">{user_seller.user_regency}</p>
-                        </div>
-
-                        <div className="d-flex flex-column justify-content-center">
-                            <p className="m-0">{user_seller.user_address}</p>
-                            <p className="m-0">{user_seller.user_regency}, {user_seller.user_province}</p>
-                        </div>
-                    </div>
+                  <div className="d-flex flex-column justify-content-center">
+                    <h4 className="m-0">{user_seller.user_name}</h4>
+                    <p className="m-0">{user_seller.user_regency}</p>
+                  </div>
+                </div>
+                
+                <div className="d-flex flex-column justify-content-center mt-2">
+                  <p className="m-0" style={{fontSize:"0.9rem"}}>{user_seller.user_address}</p>
+                  <p className="m-0" style={{fontSize:"0.9rem"}}>{user_seller.user_regency}, {user_seller.user_province}</p>
+                </div>
+              </div>
+                 
                 <div className="row d-flex px-1 mt-2">
                     {products.map((product) => (
                     <div className="col-6 mt-2 mx-0 p-1">

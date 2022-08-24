@@ -1,9 +1,16 @@
-import React from "react";
+import { useRouter } from "next/router";
+import React, {useState} from "react";
 import useResize from "../hooks/useResize";
+import EditCartPopUp from "./popup/editCartPopUp";
 
 function ListProduct(props) {
+  const router = useRouter();
+  const path = router.pathname;
   const screen = useResize();
   const amount = props.productPrice * props.quantity;
+  const [editCartPopUp, setEditCartPopUp] = useState(false);
+  const handleEditCart = () => setEditCartPopUp((editCartPopUp =! editCartPopUp));
+
   return (
     <>
     {screen.md ? (
@@ -20,14 +27,19 @@ function ListProduct(props) {
           {props.cart_id && props.productStock != null ? (<p className="m-0">Stok {props.productStock}</p>) : null}
           <p className="m-0">Rp.{props.productPrice} / kg</p>
         </div>
-        <input type="number" style={{width:"60px", height: "35px"}} defaultValue={props.quantity} min={props.minOrder} max={props.productStock}/>
-        <h6 style={{height: "35px", fontWeight:"600"}} className="pt-2">Rp. {amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}</h6>
-        {props.cart_id && (<button className="ms-auto me-2 bi bi-trash3" style={{width:"20px"}} value={props.cart_id} onClick={props.handleDelete} name="button-delete"></button>)}
+        <p style={{height: "35px", fontWeight:"400"}} className="pt-3 me-2">({props.quantity})</p>
+        <h6 style={{height: "35px", fontWeight:"600"}} className="pt-3">Rp. {amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}</h6>
+        {props.cart_id 
+        && path != "/checkout/[id]" 
+        && (<>
+          <button className="ms-auto me-2 bi bi-trash3" style={{width:"20px"}} value={props.cart_id} onClick={props.handleDelete} name="button-delete"></button>
+          <button className="bi bi-pencil-fill" style={{width:"20px"}} value={props.cart_id} name="button-delete" onClick={handleEditCart}></button>
+          </>
+        )}
       </div>
     ) : (
       <div
         className="d-flex flex-column m-0 p-0 gap-0 "
-        // style={{backgroundColor:"Blue"}}
       >
         <div className="d-flex gap-2 align-items-center justify-content-between">
           <div>
@@ -37,18 +49,20 @@ function ListProduct(props) {
               style={{ height: "4rem", borderRadius: "1rem" }}
             />
           </div>
-          
           <div>
             <h6 className="m-0">{props.productName}</h6>
             {props.productStock != null ? (<p className="m-0">Stok {props.productStock}</p>):null}
             <p className="m-0">Rp.{props.productPrice} / kg</p>
           </div>
           <div>
-            <input type="number" style={{width:"50px", height: "35px"}} defaultValue={props.quantity} min={props.minOrder} max={props.productStock}/>
+            <p style={{height: "35px", fontWeight:"400"}} className="pt-3 me-2">({props.quantity})</p>
           </div>
-          {props.cart_id && (
+          {props.cart_id 
+          && path != "/checkout/[id]" 
+          && (
           <div>
-            <button className="bi bi-trash3" style={{width:"20px"}} value={props.cart_id} onClick={props.handleDelete} name="button-delete"></button>
+            <button className="bi bi-pencil-fill" style={{width:"20px"}} value={props.cart_id} name="button-delete" onClick={handleEditCart}></button>
+            <button className="bi bi-trash3  ms-2" style={{width:"20px"}} value={props.cart_id} onClick={props.handleDelete} name="button-delete"></button>
           </div>
           )}
         </div>
@@ -56,6 +70,19 @@ function ListProduct(props) {
       </div>
 
     )}
+    {editCartPopUp && (
+      <EditCartPopUp
+        token={props.token}
+        onClick={handleEditCart}
+        product_name={props.productName}
+        product_image={props.productImage}
+        product_price={props.productPrice}
+        product_min_order={props.minOrder}
+        product_stock={props.productStock}
+        cart_qty={props.quantity}
+        cart_id={props.cart_id}
+        />
+      )}
     </>
   );
 }

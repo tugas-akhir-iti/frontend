@@ -10,8 +10,8 @@ function CartMobileLayout(props) {
         {props.attention}
       </div>
       <div className="position-fixed bottom-0 d-flex flex-column start-0 end-0 p-0 p-2">
-            {props.information}
-            {props.button}
+          {props.information}
+          {props.button}
       </div>
     </>
   );
