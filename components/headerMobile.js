@@ -10,7 +10,7 @@ import cookie from "js-cookie";
 
 function HeaderMobile({ user, notifications, cartLength }) {
   const router = useRouter();
-  // const path = router.pathname;
+  const path = router.pathname;
 
   const handleLogout = async (e) => {
     e.preventDefault();
@@ -40,10 +40,11 @@ function HeaderMobile({ user, notifications, cartLength }) {
                     >
                       <img className="navbar-toggler-icon fs-1" src="/toggle.png" />
                     </button>
-                    <div className="mt-2 me-3">
-                      <Search />
-                    </div>
-                    
+                    {path != "/checkout/[id]" && (
+                      <div className="mt-2 me-3">
+                        <Search />
+                      </div>
+                    )}
                   </div>    
                   <div className="offcanvas offcanvas-start" id="demo">
                     <div className="offcanvas-header">
@@ -63,11 +64,24 @@ function HeaderMobile({ user, notifications, cartLength }) {
                           <>
                             <Link href={"/cart"}>
                                 <a style={{ color: "black" }} title={"Keranjang"} className="text-decoration-none">
-                                  <i
-                                    className={`bi bi-cart3 me-0`}
-                                    style={{ fontSize: "1.75rem" }}
-                                  ></i>
-                                  <span className="ms-4 me-2">Keranjang</span>
+                                  {path == "/cart" ? (
+                                    <>
+                                      <i
+                                      className={`bi bi-cart3 me-0`}
+                                      style={{ fontSize: "1.75rem", color:"var(--purple)" }}
+                                      ></i>
+                                      <span className="ms-4 me-2" style={{color:"var(--purple)"}}>Keranjang</span>
+                                    </>
+                                  ):(
+                                    <>
+                                      <i
+                                      className={`bi bi-cart3 me-0`}
+                                      style={{ fontSize: "1.75rem" }}
+                                      ></i>
+                                      <span className="ms-4 me-2">Keranjang</span>
+                                    </>
+                                  )}
+                                  
                                   <span >
                                     <strong style={{color:"#fff", backgroundColor:"red", fontSize: "1rem", borderRadius:"1rem"}} className="px-1">{cartLength}</strong>
                                   </span>
@@ -76,10 +90,24 @@ function HeaderMobile({ user, notifications, cartLength }) {
                             </Link>
                             <Link href={"/transaction"}>
                               <a style={{ color: "black" }} title={"Transaksi"} className="text-decoration-none">
-                                <i
-                                  className={`bi bi-clipboard2 me-4`}
-                                  style={{ fontSize: "1.75rem" }}
-                                ></i> <span>Transaksi</span>
+                                {path == "/transaction" ? (
+                                  <>
+                                    <i
+                                      className={`bi bi-clipboard2 me-4`}
+                                      style={{ fontSize: "1.75rem", color: "var(--purple)" }}
+                                    ></i>
+                                    <span style={{color: "var(--purple)"}}>Transaksi</span>
+                                  </>
+                                ):(
+                                  <>
+                                    <i
+                                      className={`bi bi-clipboard2 me-4`}
+                                      style={{ fontSize: "1.75rem"}}
+                                    ></i>
+                                    <span>Transaksi</span>
+                                  </>
+                                )}
+                                
                                 <hr></hr>
                               </a>
                             </Link>

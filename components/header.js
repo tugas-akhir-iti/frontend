@@ -65,10 +65,18 @@ function Header({ user, notifications, cartLength}) {
               <li>
                 <Link href={"/cart"}>
                   <a style={{ color: "black"}} title={"Keranjang"} className="text-decoration-none">
-                    <span
+                    {path == "/cart" ? (
+                      <span
                       className={`bi bi-cart3`}
-                      style={{ fontSize: "1.75rem" }}
-                    ></span>
+                      style={{ fontSize: "1.75rem", color: "var(--purple)" }}
+                      ></span>
+                    ):(
+                      <span
+                        className={`bi bi-cart3`}
+                        style={{ fontSize: "1.75rem", color: "black" }}
+                      ></span>
+                    )}
+                    
                     <span>
                       <strong style={{color:"#fff", backgroundColor:"red", fontSize: "1rem", borderRadius:"1rem"}} className="px-1">{cartLength}</strong>
                     </span>
@@ -78,10 +86,17 @@ function Header({ user, notifications, cartLength}) {
               <li>
               <Link href={"/transaction"}>
                 <a style={{ color: "black" }} title={"Transaksi"}>
-                  <i
-                    className={`bi bi-clipboard2`}
-                    style={{ fontSize: "1.75rem" }}
-                  ></i>
+                  {path == "/transaction" ? (
+                    <i
+                      className={`bi bi-clipboard2`}
+                      style={{ fontSize: "1.75rem", color:"var(--purple)" }}
+                    ></i>
+                  ):(
+                    <i
+                      className={`bi bi-clipboard2`}
+                      style={{ fontSize: "1.75rem", color:"black" }}
+                    ></i>
+                  )}
                 </a>
               </Link>
             </li>

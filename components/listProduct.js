@@ -41,7 +41,7 @@ function ListProduct(props) {
       <div
         className="d-flex flex-column m-0 p-0 gap-0 "
       >
-        <div className="d-flex gap-2 align-items-center justify-content-between">
+        <div className="d-flex  align-items-center justify-content-between">
           <div>
             <img
               src={props.productImage}
@@ -50,17 +50,17 @@ function ListProduct(props) {
             />
           </div>
           <div>
-            <h6 className="m-0">{props.productName}</h6>
-            {props.productStock != null ? (<p className="m-0">Stok {props.productStock}</p>):null}
-            <p className="m-0">Rp.{props.productPrice} / kg</p>
+            <h6 className="m-0 ms-1">{props.productName}</h6>
+            {props.productStock != null ? (<p className="m-0 ms-1">Stok {props.productStock}</p>):null}
+            <p className="m-0 ms-1">Rp.{props.productPrice} / kg</p>
           </div>
           <div>
-            <p style={{height: "35px", fontWeight:"400"}} className="pt-3 me-2">({props.quantity})</p>
+            <p style={{height: "35px", fontWeight:"400"}} className="pt-3 me-4">({props.quantity})</p>
           </div>
           {props.cart_id 
           && path != "/checkout/[id]" 
           && (
-          <div>
+          <div className="d-flex">
             <button className="bi bi-pencil-fill" style={{width:"20px"}} value={props.cart_id} name="button-delete" onClick={handleEditCart}></button>
             <button className="bi bi-trash3  ms-2" style={{width:"20px"}} value={props.cart_id} onClick={props.handleDelete} name="button-delete"></button>
           </div>

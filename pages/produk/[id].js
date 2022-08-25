@@ -38,17 +38,7 @@ export async function getServerSideProps(context) {
   questions = res_questions.data.data;
 
   try {
-    // carts
-    const res_cart = await axios({
-      method: `get`,
-      url : `${API}/carts`,
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
-    carts = res_cart.data.cart;
-
-
+    
     // Products
     const res = await axios.get(API + "/products/" + context.query.id);
     product = res.data.data;
@@ -62,7 +52,17 @@ export async function getServerSideProps(context) {
       },
     });
     user = res_user.data.data;
-  
+
+    // carts
+    const res_cart = await axios({
+      method: `get`,
+      url : `${API}/carts`,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    carts = res_cart.data.cart;
+
   } catch (error) {
     console.log(error);
   }

@@ -130,14 +130,15 @@ function TransactionMobileLayout(props) {
                         </div>
                              
                         {orders[key].order_transfer_image == null 
-                        && orders[key].order_status != "Diproses" ? (
+                        && orders[key].order_status != "Diproses" 
+                        && orders[key].order_status != "Dibatalkan" ? (
                         <div className="ms-auto align-items-center">
                             <div class="image-upload d-flex justify-content-center flex-column">
                                 <label for="">
-                                    <div style={{width:"150px", height:"150px", backgroundColor:"#E2D4F0", borderRadius:"1rem"}} className="d-flex flex-column align-items-center justify-content-center">
+                                    <div style={{width:"120px", height:"120px", backgroundColor:"#E2D4F0", borderRadius:"1rem"}} className="d-flex flex-column align-items-center justify-content-center">
                                         <i className="bi bi-camera"></i>
-                                        <i>Upload</i>
-                                        <i>Bukti Pembayaran</i>
+                                        <i style={{fontSize:"0.8rem"}}>Upload</i>
+                                        <i  style={{fontSize:"0.8rem"}}>Bukti Pembayaran</i>
                                     </div>
                                 </label>
                                 {/* <input > */}

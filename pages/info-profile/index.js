@@ -58,7 +58,7 @@ export default function InfoProfile({ user, token, bank }) {
 
       {screen.md ? (
         <Top>
-          <p className="fs-4">Info Akun</p>
+          {/* <p className="fs-4">Info Akun</p> */}
         </Top>
       ) : (
         <div className="d-flex d-row gap-2 m-3 fw-bold fs-4 justify-content-center">

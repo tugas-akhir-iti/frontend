@@ -28,16 +28,6 @@ export async function getServerSideProps(context) {
     user_seller = res_user_seller.data.data;
 
   try {
-    // carts
-    const res_cart = await axios({
-      method: `get`,
-      url : `${API}/carts`,
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
-    carts = res_cart.data.cart;
-
     const res_products = await axios(API+"/products/seller/"+id);
     products = res_products.data.data;
 
@@ -49,6 +39,16 @@ export async function getServerSideProps(context) {
       },
     });
     user = res_user.data.data;
+
+    // carts
+    const res_cart = await axios({
+      method: `get`,
+      url : `${API}/carts`,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+    carts = res_cart.data.cart;
     
     
 

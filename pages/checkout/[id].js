@@ -12,6 +12,7 @@ import axios from "axios";
 import { useRouter } from "next/router";
 const API = process.env.NEXT_PUBLIC_API_ENDPOINT;
 import { ToastContainer, toast } from "react-toastify";
+import MobileLayout from "../../layout/mobileLayout";
 
 
 export async function getServerSideProps(context) {
@@ -66,9 +67,15 @@ export async function getServerSideProps(context) {
   }
 
 function Cart({token, user, carts, getPrice, id}){
-  console.log(id)
+  // console.log(id)
   const screen = useResize();
   const router = useRouter()
+
+  // cart length
+  let cartLength = 0;
+  carts.map((data)=>{
+    cartLength+=data.product_cart.length
+  })
 
   const notify = (title) =>
       toast.success(title, {
@@ -315,35 +322,37 @@ function Cart({token, user, carts, getPrice, id}){
                 <link rel="icon" href="/favicon.ico" />
             </Head>
 
+            {screen.md ? (
             <MainLayout user={user}>
-                <div className="max-width container-fluid p-0">
-                  {screen.md ? (
-                  <>
-                    <i
-                      onClick={() => router.replace("/cart")}
-                      style={{ cursor: "pointer"}}
-                      className="bi bi-arrow-left fs-3 ms-3"
-                    ></i>
-                    <CartLayoutDekstop
-                      information={information}
-                      product={product}
-                      attention={attention}
-                      address={address}
-                      pageTitle={"Checkout"}
-                    />
-                  </>
-                  ) : (
-                  <CartLayoutMobile
-                    information={information}
-                    product={product}
-                    button={button}
-                    attention={attention}
-                    address={address}
-                    pageTitle={"Checkout"}
-                  />
-                  )}
-                </div>
+              <div className="max-width container-fluid p-0">
+                <i
+                  onClick={() => router.replace("/cart")}
+                  style={{ cursor: "pointer"}}
+                  className="bi bi-arrow-left fs-3 ms-3"
+                ></i>
+                <CartLayoutDekstop
+                  information={information}
+                  product={product}
+                  attention={attention}
+                  address={address}
+                  pageTitle={"Checkout"}
+                />
+              </div>
             </MainLayout>
+              ) : (
+            <MobileLayout user={user} cartLength={cartLength}>
+              <CartLayoutMobile
+                information={information}
+                product={product}
+                button={button}
+                attention={attention}
+                address={address}
+                pageTitle={"Checkout"}
+              />
+            </MobileLayout>
+            )}
+              
+            
             <ToastContainer
               position="top-center"
               autoClose={5000}

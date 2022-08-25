@@ -27,15 +27,6 @@ export async function getServerSideProps({ req, res }) {
     const res_products = await axios.get(API +"/products");
     products = res_products.data.data;
 
-    const res_cart = await axios({
-      method: `get`,
-      url : `${API}/carts`,
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
-    carts = res_cart.data.cart;
-
     const res_products_sayur = await axios.get(API + "/products/categories/1");
     products_sayur = res_products_sayur.data.data;
 
@@ -56,6 +47,14 @@ export async function getServerSideProps({ req, res }) {
     });
     user = res_user.data.data;
 
+    const res_cart = await axios({
+      method: `get`,
+      url : `${API}/carts`,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    carts = res_cart.data.cart;
     // const res_notifications = await axios({
     //   method: `get`,
     //   url: `${API}/users/notifications`,
@@ -64,6 +63,8 @@ export async function getServerSideProps({ req, res }) {
     //   },
     // });
     // notifications = res_notifications.data.data;
+
+    
   } catch (error) {
     console.log(error.response);
   }
@@ -93,6 +94,7 @@ export default function Home({
   const screen = useResize();
   const router = useRouter();
 
+  // console.log(products_sayur);
   //hitung cart
   let cartLength = 0;
   carts.map((data)=>{

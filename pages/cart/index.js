@@ -11,7 +11,6 @@ import { GetToken } from "../../utils/getToken";
 import axios from "axios";
 import { useRouter } from "next/router";
 import MobileLayout from "../../layout/mobileLayout";
-import EditCartPopUp from "../../components/popup/editCartPopUp";
 const API = process.env.NEXT_PUBLIC_API_ENDPOINT;
 import { ToastContainer, toast } from "react-toastify";
 
@@ -59,8 +58,6 @@ function Cart({token, user, carts}){
   const screen = useResize();
   const router = useRouter()
   const [total, setTotal] = useState(0)
-  const [editCartPopUp, setEditCartPopUp] = useState(false);
-  const handleEditCart = () => setEditCartPopUp((editCartPopUp =! editCartPopUp));
   const [productOwnerId, setProductOwnerId] = useState(null)
 
   // cart length
