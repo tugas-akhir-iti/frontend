@@ -251,7 +251,7 @@ function Cart({token, user, carts, notifications}){
           </div>
         </MainLayout>
       ) : (
-        <MobileLayout user={user} cartLength={cartLength}>
+        <MobileLayout user={user} cartLength={cartLength} notifications={notifications}>
           <CartLayoutMobile
             pageTitle={"Keranjang"}
             information={information}

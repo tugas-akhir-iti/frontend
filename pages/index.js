@@ -162,7 +162,7 @@ export default function Home({
           </div>
         </MainLayout>
       ) : (
-        <MobileLayout user={user} cartLength={cartLength}>
+        <MobileLayout user={user} cartLength={cartLength} notifications={notifications}>
           <div className="banner mb-4">
             <div className="container-fluid px-0 mb-0 mt-0">
               <div className="row pt-5 pb-2 ps-4">

@@ -20,6 +20,7 @@ export async function getServerSideProps(context) {
   let token = GetToken(allcookie);
   let orders = [];
   let carts = [];
+  let notifications = []
   
    // carts
   const res_cart = await axios({
@@ -49,17 +50,26 @@ export async function getServerSideProps(context) {
   });
   user = res_user.data.data;
 
+  const res_notifications = await axios({
+    method: `get`,
+    url: `${API}/orders/notification`,
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  notifications = res_notifications.data.notif;
   return {
       props: {
           token,
           user,
           orders,
-          carts
+          carts,
+          notifications
       },
   };
 }
 
-function Transaction({token, user, orders, carts}){
+function Transaction({token, user, orders, carts, notifications}){
   const router = useRouter();
   const [orderId, setOrderId] = useState(null)
   const screen = useResize()
@@ -145,7 +155,7 @@ function Transaction({token, user, orders, carts}){
             </Head>
 
             {screen.md ? (
-               <MainLayout user={user} cartLength={cartLength}>
+               <MainLayout user={user} cartLength={cartLength} notifications={notifications}>
                <div className="col-8 offset-2 mt-3 d-flex flex-column justify-content-center">
                  <h4 className="ms-2 mb-4">Daftar Transaksi</h4>
                    <TransactionDekstopLayout 
@@ -158,7 +168,7 @@ function Transaction({token, user, orders, carts}){
                </div> 
                </MainLayout>
             ):(
-              <MobileLayout user={user} cartLength={cartLength}>
+              <MobileLayout user={user} cartLength={cartLength} notifications={notifications}>
               <TransactionMobileLayout 
                 orders={orders} 
                 handleUploadTransaction={handleUploadTransaction} 

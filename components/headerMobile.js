@@ -12,6 +12,16 @@ function HeaderMobile({ user, notifications, cartLength }) {
   const router = useRouter();
   const path = router.pathname;
 
+  let mark_as_read = []
+  if(notifications != null){
+    notifications.map((notification) => {
+      mark_as_read.push({
+        "id":notification.id,
+        "read":notification.mark_as_read,
+      })
+    }) 
+  }
+
   const handleLogout = async (e) => {
     e.preventDefault();
     try {
@@ -113,13 +123,32 @@ function HeaderMobile({ user, notifications, cartLength }) {
                             </Link>
                             </>
                           }
-                          <Link href={"/cart"}>
+                          <Link href={"/notifications"}>
                             <a style={{ color: "black" }} title={"Notifikasi"} className="text-decoration-none">
-                              <i
-                                className={`bi bi-bell me-4`}
-                                style={{ fontSize: "1.75rem" }}
-                                ></i> <span>Notifikasi</span>
-                                <hr></hr>
+                            {path == "/notifications" ? (
+                              <>
+                                <i
+                                  className={`bi bi-bell me-4`}
+                                  style={{ fontSize: "1.75rem", color: "var(--purple)"}}
+                                ></i> 
+                                <span style={{color: "var(--purple)"}}>Notifikasi</span>
+                                {mark_as_read.length>0 && 
+                                  <span className="dot ms-2 mb-2"></span>
+                                }
+                              </>                           
+                            ) : (
+                              <>
+                                <i
+                                  className={`bi bi-bell me-4`}
+                                  style={{ fontSize: "1.75rem" }}
+                                ></i> 
+                                <span>Notifikasi</span>
+                                {mark_as_read.length>0 && 
+                                  <span className="dot ms-2 mb-2"></span>
+                                }
+                              </>
+                            )}
+                            <hr></hr>
                             </a>
                           </Link>
                         

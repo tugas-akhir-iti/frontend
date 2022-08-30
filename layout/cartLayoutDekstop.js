@@ -9,7 +9,7 @@ function cartLayoutDekstop(props) {
         {props.product}
       </div>
       <div className="col-5">
-        <div className="sticky-top d-flex flex-column gap-4" style={{top:"70px"}}>
+        <div className="d-flex flex-column gap-4" style={{top:"70px"}}>
           {props.information}
           {props.attention}
         </div>

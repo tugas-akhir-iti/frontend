@@ -436,7 +436,7 @@ function Produk({ token, user, product, questions, carts, notifications }) {
             </div>
           </MainLayout>
           ) : screen.sm && user != null && user.role_id == 1 ? (
-            <MainLayout user={user}>
+            <MainLayout user={user} notifications={notifications}>
               <ProdukMobileLayout
                 images={images}
                 information={information}
@@ -447,7 +447,7 @@ function Produk({ token, user, product, questions, carts, notifications }) {
               />
             </MainLayout>
           ) : (
-            <MobileLayout user={user} cartLength={cartLength}>
+            <MobileLayout user={user} cartLength={cartLength} notifications={notifications}>
               <ProdukMobileLayout
                 images={images}
                 information={information}

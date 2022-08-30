@@ -53,10 +53,10 @@ function Header({ user, notifications, cartLength}) {
 
   return (
     <div
-      className=" container-fluid p-0 sticky-top "
+      className=" container-fluid p-0 sticky-top"
       style={{
         boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.15)",
-        backgroundColor: "white",
+        backgroundColor: "white"
       }}
     > 
       
@@ -175,9 +175,10 @@ function Header({ user, notifications, cartLength}) {
                 transform: "translate(-60%,0%)",
                 boxShadow: "0px 0px 6px rgba(0,0,0,0.15)",
                 borderRadius: "1rem",
-                backgroundColor: "white"
+                backgroundColor: "white",
+                zIndex: "9000",
               }}
-              zIndex={15000}
+
             >
               <div
                 className="d-flex flex-column gap-1"
@@ -193,7 +194,7 @@ function Header({ user, notifications, cartLength}) {
                       <>
 
                       {notification.mark_as_read == false ? (
-                      <div className="d-flex  gap-2 me-2 p-2" key={index} style={{backgroundColor:"#f1d7fc"}} >
+                      <div className="d-flex gap-2 me-2 p-2" key={index} style={{backgroundColor:"#f1d7fc"}} >
                         <Link href={"#"}>
                         <a  className="text-decoration-none" style={{color: "black"}}>
                         <div style={{width:"100%"}}>
