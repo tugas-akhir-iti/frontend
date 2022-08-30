@@ -18,7 +18,6 @@ import Link from 'next/link';
 import styles from "../../styles/Home.module.css"
 import MobileLayout from "../../layout/mobileLayout";
 import { ToastContainer, toast } from "react-toastify";
-// import ButtonMasuk from "../../components/buttonMasuk";
 
 
 const API = process.env.NEXT_PUBLIC_API_ENDPOINT;
@@ -30,6 +29,7 @@ export async function getServerSideProps(context) {
   let product = [];
   let questions = [];
   let carts = [];
+  let notifications=[]
 
   const res_questions = await axios({
     method: "get",
@@ -63,6 +63,16 @@ export async function getServerSideProps(context) {
     });
     carts = res_cart.data.cart;
 
+    //notif
+    const res_notifications = await axios({
+      method: `get`,
+      url: `${API}/orders/notification`,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    notifications = res_notifications.data.notif;
+    
   } catch (error) {
     console.log(error);
   }
@@ -72,14 +82,15 @@ export async function getServerSideProps(context) {
       user,
       product,
       questions,
-      carts
+      carts,
+      notifications,
     },
   };
 }
 
-function Produk({ token, user, product, questions, carts }) {
+function Produk({ token, user, product, questions, carts, notifications }) {
   
-  // console.log(user.role_id);
+  console.log(notifications);
   const screen = useResize();
   const router = useRouter();
   const [addCartPopup, setAddCartPopup] = useState(false);
@@ -412,7 +423,7 @@ function Produk({ token, user, product, questions, carts }) {
 
       
           {screen.md ? (
-          <MainLayout user={user} cartLength={cartLength}>
+          <MainLayout user={user} cartLength={cartLength} notifications={notifications}>
             <div className="max-width container-fluid p-0">
             <ProdukDesktopLayout
               images={images}

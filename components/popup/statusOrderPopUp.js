@@ -14,7 +14,8 @@ export default function AddStatusOrderPopUp({
   token,
   setCategoryState,
   onClick,
-  idOrder
+  idOrder,
+  pasarId
 }) {
   const router = useRouter();
   const [orderStatusId, setOrderStatusId] = useState(null);
@@ -41,6 +42,7 @@ export default function AddStatusOrderPopUp({
           url: `${API}/orders/${idOrder}`,
           data: {
             "status_id": orderStatusId,
+            "user_id": pasarId
           },
           headers: {
             Authorization: `Bearer ${token}`,

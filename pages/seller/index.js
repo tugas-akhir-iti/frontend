@@ -10,6 +10,7 @@ import GridSeller from "../../components/sellerViewOption/gridSeller";
 import { useRouter } from "next/router";
 import TransactionDekstopLayout from "../../layout/transactionDekstopLayout";
 import AddStatusOrderPopUp from "../../components/popup/statusOrderPopUp";
+import AddDeliveryPricePopUp from "../../components/popup/addDeliveryPrice";
 
 export async function getServerSideProps({ req, res }) {
   const API = process.env.NEXT_PUBLIC_API_ENDPOINT;
@@ -99,14 +100,28 @@ export default function DaftarJual({
   const router = useRouter();
   const [categoryState, setCategoryState] = useState(1);
   const [addStatusOrderPopUp, setAddStatusOrderPopUp] = useState(false);
+  const [addDeliveryPricePopUp, setAddDeliveryPricePopUp] = useState(false);
   const handleStatusOrder = () => setAddStatusOrderPopUp((addStatusOrderPopUp = !addStatusOrderPopUp));
+  const handleDeliveryPrice = () => setAddDeliveryPricePopUp((addDeliveryPricePopUp = !addDeliveryPricePopUp));
   const [chooseOrderId, setChooseOrderId] = useState(null)
+  const [chooseOrderIdDelivery, setOrderIdDelivery] = useState(null)
+  const [choosePasarId, setChoosePasarId] = useState(null)
 
   const handleChangeOrderId = async(e) => {
+    const val = e.target.value;
+    const splitVal = val.split(",")
+    // console.log(splitVal[1])
+    setChooseOrderId(splitVal[0]);
+    setChoosePasarId(splitVal[1]);
     handleStatusOrder()
-    // console.log(e.target.value);
-    setChooseOrderId(e.target.value);
   }
+
+  const handleChangeOrderIdDelivery = async(e) => {
+    const val = e.target.value;
+    setOrderIdDelivery(val)
+    handleDeliveryPrice()
+  }
+
   // console.log("Orders", orders);
 
   useEffect(() => {
@@ -213,6 +228,7 @@ export default function DaftarJual({
                 // handleStatusOrder={handleStatusOrder}
                 setCategoryState={()=>setCategoryState(2)}
                 handleChangeOrderId={handleChangeOrderId}
+                handleChangeDeliveryPrice={handleChangeOrderIdDelivery}
                 />
               )}
             </div>
@@ -223,6 +239,15 @@ export default function DaftarJual({
             token={token}
             onClick={handleStatusOrder}
             idOrder={chooseOrderId}
+            pasarId={choosePasarId}
+          />
+        )}
+        {addDeliveryPricePopUp && (
+          <AddDeliveryPricePopUp
+            token={token}
+            onClick={handleDeliveryPrice}
+            idOrder={chooseOrderIdDelivery}
+            // pasarId={choosePasarId}
           />
         )}
       </MainLayout>

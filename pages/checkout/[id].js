@@ -1,6 +1,6 @@
 //copy by checkout
 import Head from "next/head";
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import CategoryCard from "../../components/categoryCard";
 import MainLayout from "../../layout/mainLayout";
 import useResize from "../../hooks/useResize";
@@ -70,6 +70,18 @@ function Cart({token, user, carts, getPrice, id}){
   // console.log(id)
   const screen = useResize();
   const router = useRouter()
+  const [delivery, setDelivery] = useState("Metode Pengiriman")
+  // console.log(delivery)
+
+  useEffect(() => {
+    import('bootstrap')
+  }, [])
+
+  // handle delivey
+  // const handleDelivery = (e) => {
+  //   console.log(e.target.value);
+  // }
+
 
   // cart length
   let cartLength = 0;
@@ -90,63 +102,78 @@ function Cart({token, user, carts, getPrice, id}){
 
   const handleCheckout = async(e) => {
     e.preventDefault();
-
-    if(user.user_phone != null 
-      && user.user_province != null
-      && user.user_regency != null
-      && user.user_address !=null
-      && user.user_image != null){
-      const order = await axios({
-        method: "post",
-        url: `${API}/orders`,
-        data: {"order_price":getPrice},
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": `multipart/form-data`,
-        },
-      });
-
-      if(id != null){
-        carts[0].product_cart.map(async(data)=>(
-        await axios({
-          method: "post",
-          url: `${API}/orders/order-detail`,
-          data: {
-            "order_detail_qty": data.cart_qty,
-            "product_id":  data.product_id,
-            "order_id":  order.data.id
-          },
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": `multipart/form-data`,
-          },
-        }),
-
-        await axios({
-          method: "delete",
-          url: `${API}/carts/${data.cart_id}`,
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": `multipart/form-data`,
-          },
-        })
-      ))
-          
-        notify("Sukses Order")
-        setTimeout(() => {
-          router.replace("/transaction")
-        }, 2500)
-
-        console.log(order.data.id)
-      
-      }else{
-        notify("Sukses Order")
-      }
+    
+    if(delivery=="Metode Pengiriman" || delivery == undefined){
+      notify("Pilih Metode Pengiriman")
     }else{
-      notify("Lengkapi Profile")
-      setTimeout(() => {
-        router.replace("/info-profile")
-      }, 2500)
+
+      const statusDelivery = null
+      if(delivery == "Diantar"){
+        statusDelivery = 1
+      }else if(delivery == "Dijemput"){
+        statusDelivery = 2
+      }
+
+      if(user.user_phone != null 
+        && user.user_province != null
+        && user.user_regency != null
+        && user.user_address !=null
+        && user.user_image != null){
+        const order = await axios({
+          method: "post",
+          url: `${API}/orders`,
+          data: {
+            "order_delivery_price": 0,
+            "order_price":getPrice,
+            "product_user_id":id,
+            "delivery_id": statusDelivery,
+          },
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": `multipart/form-data`,
+          },
+        });
+
+        if(id != null){
+          carts[0].product_cart.map(async(data)=>(
+          await axios({
+            method: "post",
+            url: `${API}/orders/order-detail`,
+            data: {
+              "order_detail_qty": data.cart_qty,
+              "product_id":  data.product_id,
+              "order_id":  order.data.id
+            },
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": `multipart/form-data`,
+            },
+          }),
+
+          await axios({
+            method: "delete",
+            url: `${API}/carts/${data.cart_id}`,
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": `multipart/form-data`,
+            },
+          })
+        ))
+            
+          notify("Sukses Order")
+          setTimeout(() => {
+            router.replace("/transaction")
+          }, 2500)
+        
+        }else{
+          notify("Sukses Order")
+        }
+      }else{
+        notify("Lengkapi Profile")
+        setTimeout(() => {
+          router.replace("/info-profile")
+        }, 2500)
+      }
     }
   }
 
@@ -266,7 +293,31 @@ function Cart({token, user, carts, getPrice, id}){
         borderRadius: "1rem",
       }}
     >
-      <h4>Alamat Pengiriman</h4>
+      <div className="d-flex">
+        <h5>Alamat Pengiriman</h5>
+      <div class="btn-group ms-auto dropstart">
+        <button class="btn btn-success dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" style={{fontSize:"0.85rem"}}>
+          {delivery}
+        </button>
+        <ul className="dropdown-menu">
+          <li>
+            <button className="dropdown-item" style={{width:"140px"}} type="button" value={"Diantar"} onClick={(e)=>(setDelivery(e.target.value))}>
+              <strong>Diantar</strong>
+              <div style={{fontSize:"0.8rem"}}>Petani akan menghitung</div>
+              <div style={{fontSize:"0.8rem"}}>biaya pengiriman setelah</div>
+              <div style={{fontSize:"0.8rem"}}>menekan tombol bayar</div>
+            </button>
+          </li>
+          <li>
+            <button className="dropdown-item" style={{width:"140px"}} type="button" value={"Dijemput"} onClick={(e)=>(setDelivery(e.target.value))}>
+              <strong>Dijemput</strong>
+              <div style={{fontSize:"0.8rem"}}>Tidak dikenakan biaya</div>
+              <div style={{fontSize:"0.8rem"}}>pengiriman</div>
+            </button>
+          </li>
+        </ul>
+      </div>
+      </div>
       <hr 
         style={{
           height:"3px",
@@ -286,21 +337,22 @@ function Cart({token, user, carts, getPrice, id}){
   );
 
   let attention = (
-    <div
-      className="p-3 d-flex flex-column"
-      style={{
-        boxShadow: "0px 0px 6px rgba(0,0,0,0.15)",
-        borderRadius: "1rem",
-        backgroundColor: "#FFB802",
-      }}
-    >
-      <h5 style={{fontWeight: "700",}}>Perhatian</h5>
-      <p 
-        className="p-0 mb-0" 
-        style={{fontSize:"1.1rem", fontWeight:"500"}}>
-          Produk yang dibeli belum termasuk ongkos kirim. Untuk ongkos kirim hubungi penjual setelah menekan tombol bayar.
-      </p>
-    </div>
+    <></>
+    // <div
+    //   className="p-3 d-flex flex-column"
+    //   style={{
+    //     boxShadow: "0px 0px 6px rgba(0,0,0,0.15)",
+    //     borderRadius: "1rem",
+    //     backgroundColor: "#FFB802",
+    //   }}
+    // >
+    //   <h5 style={{fontWeight: "700",}}>Perhatian</h5>
+    //   <p 
+    //     className="p-0 mb-0" 
+    //     style={{fontSize:"1.1rem", fontWeight:"500"}}>
+    //       Produk yang dibeli belum termasuk ongkos kirim. Untuk ongkos kirim hubungi penjual setelah menekan tombol bayar.
+    //   </p>
+    // </div>
   );
 
   let button = (
@@ -317,9 +369,15 @@ function Cart({token, user, carts, getPrice, id}){
   return(
         <>
             <Head>
-                <title>Checkout</title>
-                <meta name="description" content="Daftar barang jual saya" />
-                <link rel="icon" href="/favicon.ico" />
+              <title>Checkout</title>
+              <meta name="description" content="Daftar barang jual saya" />
+              <link rel="icon" href="/favicon.ico" />
+              <script
+                src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+                integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+                crossOrigin="anonymous"
+              ></script>
+              <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
             </Head>
 
             {screen.md ? (

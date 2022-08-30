@@ -22,6 +22,7 @@ export async function getServerSideProps({ req, res }) {
   let products_buah = [];
   let products_rempah = [];
   let carts = [];
+  let notifications = []
 
   try {
     const res_products = await axios.get(API +"/products");
@@ -55,14 +56,15 @@ export async function getServerSideProps({ req, res }) {
       },
     });
     carts = res_cart.data.cart;
-    // const res_notifications = await axios({
-    //   method: `get`,
-    //   url: `${API}/users/notifications`,
-    //   headers: {
-    //     Authorization: `Bearer ${token}`,
-    //   },
-    // });
-    // notifications = res_notifications.data.data;
+
+    const res_notifications = await axios({
+      method: `get`,
+      url: `${API}/orders/notification`,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    notifications = res_notifications.data.notif;
 
     
   } catch (error) {
@@ -77,7 +79,8 @@ export async function getServerSideProps({ req, res }) {
       products_sayur,
       products_buah,
       products_rempah,
-      carts
+      carts,
+      notifications,
     },
   };
 }
@@ -89,12 +92,13 @@ export default function Home({
   products_sayur,
   products_buah,
   products_rempah,
-  carts
+  carts,
+  notifications,
 }) {
   const screen = useResize();
   const router = useRouter();
 
-  // console.log(products_sayur);
+  // console.log(notifications);
   //hitung cart
   let cartLength = 0;
   carts.map((data)=>{
@@ -122,8 +126,7 @@ export default function Home({
       </Head>
 
       {screen.md ? (
-        // <MainLayout user={user} notifications={notifications}>
-        <MainLayout user={user} cartLength={cartLength}>
+        <MainLayout user={user} cartLength={cartLength} notifications={notifications}>
           <div className="row">
             <div className="col-10 offset-1 mt-5 d-none d-sm-block">
               <div

@@ -1,22 +1,44 @@
 /* eslint-disable @next/next/no-html-link-for-pages */
 /* eslint-disable react/no-unknown-property */
-import React from "react";
+import React, {useState} from "react";
 import Search from "./search";
 import { useRouter } from "next/router";
 import ButtonMasuk from "./buttonMasuk";
 import Link from "next/link";
 import cookie from "js-cookie";
+import moment from "moment";
+import axios from "axios";
 const API = process.env.NEXT_PUBLIC_API_ENDPOINT;
 
 function Header({ user, notifications, cartLength}) {
   // console.log(cartLength);
   const router = useRouter();
   const path = router.pathname;
+  
+  let mark_as_read = []
+  if(notifications != null){
+    notifications.map((notification) => {
+      mark_as_read.push({
+        "id":notification.id,
+        "read":notification.mark_as_read,
+      })
+    }) 
+  }
+  
+  const [notifPopup, setNotifPopup] = useState(false);
+  const handleNotifPopup = () => {
+    setNotifPopup((notifPopup = !notifPopup));
+  };
 
-  // const [notifPopup, setNotifPopup] = useState(false);
-  // const handleNotifPopup = () => {
-  //   setNotifPopup((notifPopup = !notifPopup));
-  // };  
+  // const handleUpdateNotif = async (e) => {
+  //   e.preventDefault();
+  //   console.log(e.target.data("myValue"));
+  //   try{
+  //     await axios.put(API+"/notifications/"+e.target.value)
+  //   }catch(error){
+  //     console.log(error);
+  //   }
+  // }
 
   const handleLogout = async (e) => {
     e.preventDefault();
@@ -104,11 +126,15 @@ function Header({ user, notifications, cartLength}) {
             }
               <li>
                 <Link href={""}>
-                  <a style={{ color: "black" }} title={"Keranjang"}>
-                    <i
+                  <a style={{ color: "black",}} title={"Notifications"} onClick={handleNotifPopup}>
+                    <span
                       className={`bi bi-bell`}
                       style={{ fontSize: "1.75rem" }}
-                      ></i>
+                    ></span>
+                    {mark_as_read.length>0 && 
+                      <span className="dot mb-3">
+                      </span>
+                    }
                   </a>
                 </Link>
               </li>
@@ -141,65 +167,80 @@ function Header({ user, notifications, cartLength}) {
             </Link>
           )}
           
-          {/* {notifPopup && (
+          {notifPopup && (
             <div
               className="position-absolute p-3"
               style={{
                 top: "55px",
-                transform: "translate(-80%,0%)",
+                transform: "translate(-60%,0%)",
                 boxShadow: "0px 0px 6px rgba(0,0,0,0.15)",
                 borderRadius: "1rem",
-                backgroundColor: "white",
+                backgroundColor: "white"
               }}
+              zIndex={15000}
             >
               <div
-                className="d-flex flex-column gap-2"
+                className="d-flex flex-column gap-1"
                 style={{
-                  maxHeight: "200px",
-                  width: "300px",
+                  maxHeight: "300px",
+                  width: "400px",
                   overflow: "auto",
                 }}
               >
                {Object.keys(notifications).length > 0 ? (
                   <>
                     {notifications.map((notification, index) => (
-                      <div className="d-flex gap-2" key={index}>
-                        <img
-                          src={notification.Product.product_image}
-                          style={{
-                            height: "100%",
-                            width: "50px",
-                            borderRadius: "12px",
-                          }}
-                        ></img>
+                      <>
+
+                      {notification.mark_as_read == false ? (
+                      <div className="d-flex  gap-2 me-2 p-2" key={index} style={{backgroundColor:"#f1d7fc"}} >
+                        <Link href={"#"}>
+                        <a  className="text-decoration-none" style={{color: "black"}}>
                         <div style={{width:"100%"}}>
-                          <div className="d-flex justify-content-between" style={{ fontSize: "0.75rem", color: "gray" }}>
-                            {notification.Order.order_status == 0 ? (
-                              <div>Penawaran Produk</div>
-                            ) : (
-                              <div>Berhasil Diterbitkan</div>
-                            )}
-                            <p className="m-0">
+                          <div className="d-flex" style={{ fontSize: "0.8rem", color: "black", fontWeight: "700" }}>
+                            <i class="bi bi-cart-check"></i>
+                            <div className="ms-2">Order Produk</div>
+                            <p className="ms-auto">
                               {moment(notification.createdAt).format(
                                 "DD MMM, hh.mm"
                               )}
                             </p>
                           </div>
-                          <h5>{notification.Product.product_name}</h5>
-                          <p className="m-0">
-                            Rp.{" "}
-                            {notification.Product.product_price
-                              .toString()
-                              .replace(/\B(?=(\d{3})+(?!\d))/g, ".")}
-                          </p>
-                          <p className="m-0">
-                            Ditawar Rp.{" "}
-                            {notification.Order.order_price
-                              .toString()
-                              .replace(/\B(?=(\d{3})+(?!\d))/g, ".")}
-                          </p>
+                          <div>
+                            <h6 className="m-0">{notification.notification_title}</h6>
+                            <p className="m-0 mt-1">{notification.notification_desc}</p>
+                            <hr className="m-0 mt-3"/>
+                          </div>
                         </div>
+                        </a>
+                        </Link>
                       </div>
+                      ):(
+                      <div className="d-flex  gap-2 me-2 p-2" key={index}>
+                        <Link href={`${notification.notification_link}`}>
+                        <a  className="text-decoration-none" style={{color: "black"}}>
+                        <div style={{width:"100%"}}>
+                          <div className="d-flex" style={{ fontSize: "0.8rem", color: "black", fontWeight: "700" }}>
+                            <i class="bi bi-cart-check"></i>
+                            <div className="ms-2">Order Produk</div>
+                            <p className="ms-auto">
+                              {moment(notification.createdAt).format(
+                                "DD MMM, hh.mm"
+                              )}
+                            </p>
+                          </div>
+                          <div>
+                            <h6 className="m-0">{notification.notification_title}</h6>
+                            <p className="m-0 mt-1">{notification.notification_desc}</p>
+                            <hr className="m-0 mt-3"/>
+                          </div>
+                        </div>
+                        </a>
+                        </Link>
+                      </div>
+                      )}
+
+                      </>
                     ))}
                   </>
                 ) : (
@@ -207,7 +248,7 @@ function Header({ user, notifications, cartLength}) {
                 )}
               </div>
             </div>
-          )}*/}
+          )}
         </div> 
         }
       </div>

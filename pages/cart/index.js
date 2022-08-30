@@ -21,7 +21,8 @@ export async function getServerSideProps(context) {
     let allcookie = context.req.headers.cookie || "   ";
     let token = GetToken(allcookie);
     let carts = [];
-  
+    let notifications = []
+
     const res_cart = await axios({
       method: `get`,
       url : `${API}/carts`,
@@ -41,7 +42,16 @@ export async function getServerSideProps(context) {
         },
       });
       user = res_user.data.data;
-    
+
+      const res_notifications = await axios({
+        method: `get`,
+        url: `${API}/orders/notification`,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      notifications = res_notifications.data.notif;
+
     } catch (error) {
       console.log(error);
     }
@@ -49,12 +59,13 @@ export async function getServerSideProps(context) {
       props: {
         token,
         user,
-        carts
+        carts,
+        notifications
       },
     };
   }
 
-function Cart({token, user, carts}){
+function Cart({token, user, carts, notifications}){
   const screen = useResize();
   const router = useRouter()
   const [total, setTotal] = useState(0)
@@ -127,7 +138,7 @@ function Cart({token, user, carts}){
       }}
     >
       {screen.md ? (
-      <>
+      <div>
       <h4>Ringkasan Belanja</h4>
       <p className="p-0 mb-2">Total Harga</p>
       <h4>Rp. {total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}</h4>
@@ -140,7 +151,7 @@ function Cart({token, user, carts}){
             onClick={handleBuy}
           />
         </div>
-      </>
+      </div>
       ): (
         <>
           <div className="d-flex flex justify-content-between">
@@ -230,7 +241,7 @@ function Cart({token, user, carts}){
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
       </Head>
       {screen.md ? (
-        <MainLayout user={user} cartLength={cartLength}>
+        <MainLayout user={user} cartLength={cartLength} notifications={notifications}>
           <div className="max-width container-fluid p-0">
             <CartLayoutDekstop
               pageTitle={"Keranjang"}

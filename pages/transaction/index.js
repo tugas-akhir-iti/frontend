@@ -77,9 +77,13 @@ function Transaction({token, user, orders, carts}){
   console.log(orderId)
 
   const handleCancle = async(e) => {
-    console.log(e.target.value)
+    // console.log(e.target.value)
+    const val = e.target.value;
+    const splitVal = val.split(",")
+    console.log(splitVal[0])
+
     const id = null
-    id = e.target.value
+    id = splitVal[0]
     if(id != null ){
     try {
         await axios({
@@ -87,6 +91,7 @@ function Transaction({token, user, orders, carts}){
           url: `${API}/orders/${id}`,
           data: {
             "status_id": 5,
+            "user_id": splitVal[1],
           },
           headers: {
             Authorization: `Bearer ${token}`,
@@ -142,7 +147,6 @@ function Transaction({token, user, orders, carts}){
             {screen.md ? (
                <MainLayout user={user} cartLength={cartLength}>
                <div className="col-8 offset-2 mt-3 d-flex flex-column justify-content-center">
-                 <i className="bi bi-arrow-left fs-3 pe-5 mb-3"></i>
                  <h4 className="ms-2 mb-4">Daftar Transaksi</h4>
                    <TransactionDekstopLayout 
                    orders={orders} 
