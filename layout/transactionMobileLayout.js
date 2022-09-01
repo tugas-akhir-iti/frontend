@@ -32,21 +32,21 @@ function TransactionMobileLayout(props) {
                         text={orders[key].order_status}
                         disable="true" 
                         bgColor="#CF000C"
-                        fontSize="0.7rem"
+                        fontSize="0.6rem"
                         />
                     ) : orders[key].order_status == "Selesai" ? (
                         <ButtonStatus 
                         text={orders[key].order_status}
                         disable="true" 
                         bgColor="#00b300"
-                        fontSize="0.7rem"
+                        fontSize="0.6rem"
                         />
                     ) : (
                         <ButtonStatus 
                         text={orders[key].order_status}
                         disable="true" 
                         bgColor="#FFB802"
-                        fontSize="0.7rem"
+                        fontSize="0.6rem"
                         />  
                     )}
 
@@ -54,17 +54,28 @@ function TransactionMobileLayout(props) {
                     && orders[key].order_status == "Diproses" 
                     && user.role_id == 2 ? (
                         <div className="ms-2">
-                            <ButtonStatus text="Batalkan" bgColor="#CF000C" value={orders[key].id} onClick={props.handleCancle}/>
+                            <ButtonStatus text="Batalkan" bgColor="#CF000C" value={`${orders[key].id},${orders[key].petani_id}`} onClick={props.handleCancle}/>
                         </div>
-                    ) : orders[key].order_transfer_image == null 
-                        && orders[key].order_status != "Dibatalkan" 
-                        && user.role_id == 1 && 
-                        orders[key].order_status != "Selesai"? (
+                    ) : orders[key].order_status == "Dikirim" 
+                    && user.role_id == 2 ? (
+                        <div className="ms-2">
+                            <ButtonStatus text="Selesai" bgColor="#00b300" value={`${orders[key].id},${orders[key].petani_id}`} onClick={props.handleDoneOrder}/>
+                        </div>
+                    ): orders[key].order_transfer_image == null 
+                    && user.role_id == 1 
+                    && orders[key].delivery_id == 1 
+                    && orders[key].order_delivery_price == 0 
+                    ?
+                    (null
+                    ): orders[key].order_status != "Dibatalkan" 
+                        && user.role_id == 1 
+                        && orders[key].order_status != "Selesai"
+                        &&
+                        (
                         <div className="ms-auto">
-                            {/* <ButtonStatus text="Status" bgColor="#7126B5" value={orders[key].id} onClick={props.handleChangeOrderId}/> */}
-                            <ButtonStatus text="Status" bgColor="#7126B5" value={`${orders[key].id},${orders[key].pasar_id}`} onClick={props.handleChangeOrderId}/>
+                            <ButtonStatus fontSize="0.7rem" text="Input Status" bgColor="#7126B5" value={`${orders[key].id},${orders[key].pasar_id}`} onClick={props.handleChangeOrderId}/>
                         </div>
-                    ): (null)}
+                    )}
                 </div>
                 <hr 
                     style={{
@@ -116,12 +127,12 @@ function TransactionMobileLayout(props) {
                                 </div>
                             </div>
                             )}
-                            <div className="mt-2">
+                            <div className="mt-2 ms-2">
                             {orders[key].delivery_id == 1 
                                 && orders[key].order_status == "Diproses"
                                 && orders[key].order_delivery_price == 0
                                 &&
-                                <ButtonStatus fontSize="0.8rem" text="Tambah Ongkir" bgColor="#2b6e5a" formTarget={"_blank"} value={orders[key].id} onClick={props.handleChangeDeliveryPrice}/>
+                                <ButtonStatus fontSize="0.8rem" text="Input Ongkir" bgColor="#2b6e5a" formTarget={"_blank"} value={orders[key].id} onClick={props.handleChangeDeliveryPrice}/>
                             }
                             </div>
                         </div>

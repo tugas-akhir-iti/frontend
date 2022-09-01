@@ -111,6 +111,34 @@ function Transaction({token, user, orders, carts, notifications}){
     }
   }
 
+  const handleDoneOrder = async(e) => {
+    // console.log(e.target.value)
+    const val = e.target.value;
+    const splitVal = val.split(",")
+
+    const id = null
+    id = splitVal[0]
+    if(id != null ){
+    try {
+        await axios({
+          method: "put",
+          url: `${API}/orders/${id}`,
+          data: {
+            "status_id": 4,
+            "user_id": splitVal[1],
+          },
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": `multipart/form-data`,
+          },
+        });
+        router.reload();
+      } catch (error) {
+        console.log(error.response);
+      }
+    }
+  }
+
   const handleUploadTransaction = async(e) => {
     console.log(e.target.files[0])
     console.log(e.target.id)
@@ -159,6 +187,7 @@ function Transaction({token, user, orders, carts, notifications}){
                    orders={orders} 
                    handleUploadTransaction={handleUploadTransaction}
                    handleCancle={handleCancle}
+                   handleDoneOrder={handleDoneOrder}
                    user={user}
                    />
                </div> 
@@ -187,6 +216,7 @@ function Transaction({token, user, orders, carts, notifications}){
                 handleUploadTransaction={handleUploadTransaction} 
                 handleCancle={handleCancle}
                 user={user}
+                handleDoneOrder={handleDoneOrder}
                 />
               ):(
               <div className="text-center d-flex flex-column justify-items-center py-5 ">

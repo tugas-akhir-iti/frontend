@@ -57,23 +57,27 @@ function TransactionDekstopLayout(props) {
                         <div className="ms-auto">
                             <ButtonStatus text="Batalkan" bgColor="#CF000C" value={`${orders[key].id},${orders[key].petani_id}`} onClick={props.handleCancle}/>
                         </div>
+                    ) :orders[key].order_status == "Dikirim" 
+                    && user.role_id == 2? 
+                    (
+                        <div className="ms-auto">
+                            <ButtonStatus text="Selesai" bgColor="#00b300" value={`${orders[key].id},${orders[key].petani_id}`} onClick={props.handleDoneOrder}/>
+                        </div>
                     ) : orders[key].order_transfer_image == null 
                         // && orders[key].order_status != "Dibatalkan" 
                         && user.role_id == 1 
                         && orders[key].delivery_id == 1 
-                        && orders[key].order_delivery_price != 0 
+                        && orders[key].order_delivery_price == 0 
                         ?
-                        (<div className="ms-auto">
-                            <ButtonStatus text="Ubah Status Order" bgColor="#7126B5" value={`${orders[key].id},${orders[key].pasar_id}`} onClick={props.handleChangeOrderId}/>
-                        </div>
-                    ) : orders[key].order_transfer_image == null 
+                        (null
+                    // ) : orders[key].order_transfer_image == null 
                         // && orders[key].order_status != "Dibatalkan" 
-                        && user.role_id == 1 
-                        && orders[key].delivery_id == 2
-                        ?    
-                        (<div className="ms-auto">
-                            <ButtonStatus text="Ubah Status Order" bgColor="#7126B5" value={`${orders[key].id},${orders[key].pasar_id}`} onClick={props.handleChangeOrderId}/>
-                        </div>
+                        // && user.role_id == 1 
+                        // && orders[key].delivery_id == 2
+                        // ?    
+                        // (<div className="ms-auto">
+                            // <ButtonStatus text="Ubah Status Order" bgColor="#7126B5" value={`${orders[key].id},${orders[key].pasar_id}`} onClick={props.handleChangeOrderId}/>
+                        // </div>
                     ) :  
                         orders[key].order_status != "Selesai"
                         && orders[key].order_status != "Dibatalkan"
@@ -132,7 +136,7 @@ function TransactionDekstopLayout(props) {
                             && orders[key].order_status == "Diproses"
                             && orders[key].order_delivery_price == 0
                             &&
-                                <ButtonStatus text="Ongkos Kirim" bgColor="#2b6e5a" formTarget={"_blank"} value={orders[key].id} onClick={props.handleChangeDeliveryPrice}/>
+                                <ButtonStatus text="Input Ongkir" bgColor="#2b6e5a" formTarget={"_blank"} value={orders[key].id} onClick={props.handleChangeDeliveryPrice}/>
                             }
                         </div>
                     </div>
@@ -156,7 +160,7 @@ function TransactionDekstopLayout(props) {
                             <div className="m-0">
                                 <p className="m-0"><b>Pengiriman : </b> {orders[key].delivery_id == 1 ? "Diantarkan" : "Dijemput"}</p>
                             </div>
-                            <p>({orders[key].id} ID)</p>
+                            {/* <p>({orders[key].id} ID)</p> */}
                         </div>
                         <div className="ms-5 mb-4" >
                             <form action={`https://wa.me/${orders[key].order_phone}?text=[message-url-encoded]`}>

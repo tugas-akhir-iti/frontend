@@ -11,6 +11,14 @@ function ListProduct(props) {
   const [editCartPopUp, setEditCartPopUp] = useState(false);
   const handleEditCart = () => setEditCartPopUp((editCartPopUp =! editCartPopUp));
 
+  const rupiah = (number)=>{
+    return new Intl.NumberFormat("id-ID", {
+      style: "currency",
+      currency: "IDR",
+      minimumFractionDigits: 0,
+    }).format(number);
+  }
+
   return (
     <>
     {screen.md ? (
@@ -25,10 +33,10 @@ function ListProduct(props) {
         <div className="d-flex flex-column">
           <h6 className="m-0">{props.productName}</h6>
           {props.cart_id && props.productStock != null ? (<p className="m-0">Stok {props.productStock}</p>) : null}
-          <p className="m-0">Rp.{props.productPrice} / kg</p>
+          <p className="m-0">{rupiah(props.productPrice)} / kg</p>
         </div>
         <p style={{height: "35px", fontWeight:"400"}} className="pt-3 me-2">({props.quantity})</p>
-        <h6 style={{height: "35px", fontWeight:"600"}} className="pt-3 ms-auto">Rp. {amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}</h6>
+        <h6 style={{height: "35px", fontWeight:"600"}} className="pt-3 ms-auto">{rupiah(amount)}</h6>
         {props.cart_id 
         && path != "/checkout/[id]" 
         && (<>
@@ -52,7 +60,7 @@ function ListProduct(props) {
           <div className="ms-2" >
             <h6 className="m-0 font-mobile">{props.productName}</h6>
             {props.productStock != null ? (<p className="m-0 font-mobile">Stok {props.productStock}</p>):null}
-            <p className="m-0 font-mobile">Rp.{props.productPrice} / kg</p>
+            <p className="m-0 font-mobile">{rupiah(props.productPrice)} / kg</p>
           </div>
           <div className="ms-auto" >
             <p style={{fontWeight:"400"}} className="pt-3 font-mobile">({props.quantity})</p>
@@ -66,7 +74,7 @@ function ListProduct(props) {
           </div>
           )}
         </div>
-        <h6 style={{fontWeight:"600"}} className="align-self-end font-mobile">Rp. {amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}</h6>
+        <h6 style={{fontWeight:"600"}} className="align-self-end font-mobile">{rupiah(amount)}</h6>
       </div>
 
     )}
