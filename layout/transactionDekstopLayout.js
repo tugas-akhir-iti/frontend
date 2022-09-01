@@ -10,6 +10,14 @@ function TransactionDekstopLayout(props) {
     // if(id!=""){props.getOrderId(id)}
     let orders = props.orders;
     let user = props.user;
+    
+    const rupiah = (number)=>{
+        return new Intl.NumberFormat("id-ID", {
+          style: "currency",
+          currency: "IDR",
+          minimumFractionDigits: 0,
+        }).format(number);
+    }
 
     
   return (
@@ -50,7 +58,7 @@ function TransactionDekstopLayout(props) {
                             <ButtonStatus text="Batalkan" bgColor="#CF000C" value={`${orders[key].id},${orders[key].petani_id}`} onClick={props.handleCancle}/>
                         </div>
                     ) : orders[key].order_transfer_image == null 
-                        && orders[key].order_status != "Dibatalkan" 
+                        // && orders[key].order_status != "Dibatalkan" 
                         && user.role_id == 1 
                         && orders[key].delivery_id == 1 
                         && orders[key].order_delivery_price != 0 
@@ -59,10 +67,18 @@ function TransactionDekstopLayout(props) {
                             <ButtonStatus text="Ubah Status Order" bgColor="#7126B5" value={`${orders[key].id},${orders[key].pasar_id}`} onClick={props.handleChangeOrderId}/>
                         </div>
                     ) : orders[key].order_transfer_image == null 
-                        && orders[key].order_status != "Dibatalkan" 
+                        // && orders[key].order_status != "Dibatalkan" 
                         && user.role_id == 1 
                         && orders[key].delivery_id == 2
-                        &&  
+                        ?    
+                        (<div className="ms-auto">
+                            <ButtonStatus text="Ubah Status Order" bgColor="#7126B5" value={`${orders[key].id},${orders[key].pasar_id}`} onClick={props.handleChangeOrderId}/>
+                        </div>
+                    ) :  
+                        orders[key].order_status != "Selesai"
+                        && orders[key].order_status != "Dibatalkan"
+                        && user.role_id == 1 
+                        &&
                         (<div className="ms-auto">
                             <ButtonStatus text="Ubah Status Order" bgColor="#7126B5" value={`${orders[key].id},${orders[key].pasar_id}`} onClick={props.handleChangeOrderId}/>
                         </div>
@@ -140,7 +156,7 @@ function TransactionDekstopLayout(props) {
                             <div className="m-0">
                                 <p className="m-0"><b>Pengiriman : </b> {orders[key].delivery_id == 1 ? "Diantarkan" : "Dijemput"}</p>
                             </div>
-                            {/* <p>({orders[key].id} ID)</p> */}
+                            <p>({orders[key].id} ID)</p>
                         </div>
                         <div className="ms-5 mb-4" >
                             <form action={`https://wa.me/${orders[key].order_phone}?text=[message-url-encoded]`}>
@@ -151,17 +167,16 @@ function TransactionDekstopLayout(props) {
                         {orders[key].order_transfer_image == null 
                         && orders[key].order_status != "Diproses" 
                         && orders[key].order_status != "Dibatalkan" ? (
-                        <div className="ms-auto align-items-center" onClick={()=>props.getOrderId(orders[key].id)}>
+                        <div className="ms-auto align-items-center" >
                             <div class="image-upload d-flex justify-content-center flex-column">
-                                <label for="file-input">
-                                    <div style={{width:"150px", height:"150px", backgroundColor:"#E2D4F0", borderRadius:"1rem"}} className="d-flex flex-column align-items-center justify-content-center">
+                                <label for={orders[key].id}>
+                                    <div style={{width:"150px", height:"150px", backgroundColor:"#E2D4F0", borderRadius:"1rem"}} className="d-flex flex-column align-items-center justify-content-center ">
                                         <i className="bi bi-camera"></i>
                                         <i>Upload</i>
                                         <i>Bukti Pembayaran</i>
                                     </div>
                                 </label>
-                               
-                                {/* <input id="file-input" name="order_transfer_image" type="file" onChange={props.handleUploadTransaction} hidden/> */}
+                                <input id={orders[key].id} name={"image-transfer"} type="file" onChange={props.handleUploadTransaction} hidden/>
                                 {/* <input id="file-inp" name="" type="number" value={orders[key].id} readOnly/> */}
                             </div>
                         </div>
@@ -177,8 +192,6 @@ function TransactionDekstopLayout(props) {
 
                 ) : null}
                 
-                
-                
                 <div className="mt-0">
                     {orders[key].product_order.map((data)=>(
                     <ListProduct 
@@ -190,27 +203,27 @@ function TransactionDekstopLayout(props) {
                     ))}
                 </div>
                 
-                <div className="ms-auto me-4 my-0 mb-4">
+                <div className="ms-auto me-2 my-0 mb-4">
                     <h6 className="my-0 mb-2"  style={{textAlign:"right"}}>Ringkasan Belanja </h6>
                     <p  className="m-0" style={{textAlign:"right"}}>
                     Rp. {orders[key].product_order.map(item => item.product_price * item.order_qty).reduce((prev, curr) => prev + curr, 0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}
-                    <span style={{fontSize:"0.85rem"}}> <strong>(Total)</strong></span></p>
+                    <span> <strong>(Total)</strong></span></p>
 
                     {orders[key].order_delivery_price == 0 &&
                     orders[key].delivery_id == 1
                     ? (
                         <p  className="m-0" style={{textAlign:"right"}}>
-                        <span style={{fontSize:"0.85rem"}}><i>Ongkos kirim sedang dihitung</i></span>
+                        <span><i>Ongkos kirim sedang dihitung</i></span>
                         </p>
                     ) : orders[key].order_delivery_price == 0 &&
                         orders[key].delivery_id == 2 ? (
                             <p  className="m-0" style={{textAlign:"right"}}>
-                            <span style={{fontSize:"0.85rem"}}><i>Pengiriman Dijemput</i></span>
+                            <span><i>Pengiriman Dijemput</i></span>
                             </p>
                     ): (
                         <p  className="m-0" style={{textAlign:"right"}}>
-                        Rp. {`${orders[key].order_delivery_price}`}
-                        <span style={{fontSize:"0.8rem"}}><strong> (Ongkir)</strong></span>
+                        {rupiah(orders[key].order_delivery_price)}
+                        <span><strong> (Ongkir)</strong></span>
                         </p>
                     )}
                     
@@ -225,8 +238,7 @@ function TransactionDekstopLayout(props) {
                     />
                     <h6 className="my-0 mt-2"  style={{textAlign:"right"}}>Total Belanja</h6>
                     <h5 className="my-0 mt-1" style={{textAlign:"right"}}>
-                    {/* Rp. {orders[key].product_order.map(item => item.product_price * item.order_qty).reduce((prev, curr) => prev + curr, 0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")} */}
-                    Rp. {(orders[key].order_delivery_price) + orders[key].product_order.map(item => item.product_price * item.order_qty)}
+                    {rupiah(orders[key].total_order_price)}
                     </h5>
                 </div>
             </div>

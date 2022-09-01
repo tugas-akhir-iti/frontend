@@ -28,7 +28,7 @@ function ListProduct(props) {
           <p className="m-0">Rp.{props.productPrice} / kg</p>
         </div>
         <p style={{height: "35px", fontWeight:"400"}} className="pt-3 me-2">({props.quantity})</p>
-        <h6 style={{height: "35px", fontWeight:"600"}} className="pt-3">Rp. {amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}</h6>
+        <h6 style={{height: "35px", fontWeight:"600"}} className="pt-3 ms-auto">Rp. {amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}</h6>
         {props.cart_id 
         && path != "/checkout/[id]" 
         && (<>
@@ -41,7 +41,7 @@ function ListProduct(props) {
       <div
         className="d-flex flex-column m-0 p-0 gap-0 "
       >
-        <div className="d-flex  align-items-center justify-content-between">
+        <div className="d-flex  align-items-center">
           <div>
             <img
               src={props.productImage}
@@ -49,24 +49,24 @@ function ListProduct(props) {
               style={{ height: "4rem", borderRadius: "1rem" }}
             />
           </div>
-          <div>
-            <h6 className="m-0 ms-1">{props.productName}</h6>
-            {props.productStock != null ? (<p className="m-0 ms-1">Stok {props.productStock}</p>):null}
-            <p className="m-0 ms-1">Rp.{props.productPrice} / kg</p>
+          <div className="ms-2" >
+            <h6 className="m-0 font-mobile">{props.productName}</h6>
+            {props.productStock != null ? (<p className="m-0 font-mobile">Stok {props.productStock}</p>):null}
+            <p className="m-0 font-mobile">Rp.{props.productPrice} / kg</p>
           </div>
-          <div>
-            <p style={{height: "35px", fontWeight:"400"}} className="pt-3 me-4">({props.quantity})</p>
+          <div className="ms-auto" >
+            <p style={{fontWeight:"400"}} className="pt-3 font-mobile">({props.quantity})</p>
           </div>
           {props.cart_id 
           && path != "/checkout/[id]" 
           && (
-          <div className="d-flex">
+          <div className="d-flex ms-auto">
             <button className="bi bi-pencil-fill" style={{width:"20px"}} value={props.cart_id} name="button-delete" onClick={handleEditCart}></button>
             <button className="bi bi-trash3  ms-2" style={{width:"20px"}} value={props.cart_id} onClick={props.handleDelete} name="button-delete"></button>
           </div>
           )}
         </div>
-        <h6 style={{height: "35px", fontWeight:"600"}} className="align-self-end">Rp. {amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}</h6>
+        <h6 style={{fontWeight:"600"}} className="align-self-end font-mobile">Rp. {amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}</h6>
       </div>
 
     )}

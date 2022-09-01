@@ -9,11 +9,13 @@ import cookie from "js-cookie";
 import moment from "moment";
 import axios from "axios";
 const API = process.env.NEXT_PUBLIC_API_ENDPOINT;
+import useResize from "../hooks/useResize";
 
 function Header({ user, notifications, cartLength}) {
   // console.log(cartLength);
   const router = useRouter();
   const path = router.pathname;
+  const screen = useResize();
   
   let mark_as_read = []
   if(notifications != null){
@@ -121,9 +123,27 @@ function Header({ user, notifications, cartLength}) {
                   )}
                 </a>
               </Link>
-            </li>
-            </>
-            }
+              </li>
+              </>
+              }
+              {user.role_id == 1 && screen.sm == true ? (
+                <>
+                  <li>
+                    <Link href={"/notifications"}>
+                      <a style={{ color: "black",}} title={"Notifications"}>
+                        <span
+                          className={`bi bi-bell`}
+                          style={{ fontSize: "1.75rem" }}
+                        ></span>
+                        {mark_as_read.length>0 && 
+                          <span className="dot mb-3">
+                          </span>
+                        }
+                      </a>
+                    </Link>
+                  </li>
+                </>
+              ):(
               <li>
                 <Link href={""}>
                   <a style={{ color: "black",}} title={"Notifications"} onClick={handleNotifPopup}>
@@ -138,12 +158,14 @@ function Header({ user, notifications, cartLength}) {
                   </a>
                 </Link>
               </li>
+              )}
+
               <li>
                 <Link href={"/info-profile"}>
                   <a style={{ color: "black" }} title={"Profil"}>
                     <i
-                      className={`bi bi-person`}
-                      style={{ fontSize: "1.75rem" }}
+                    className={`bi bi-person`}
+                    style={{ fontSize: "1.75rem" }}
                     ></i>
                   </a>
                 </Link>

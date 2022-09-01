@@ -22,6 +22,7 @@ export async function getServerSideProps(context) {
     let query = context.query.keyword;
     let product = [];
     let carts = [];
+    let notifications = []
 
     try {
       // Products
@@ -47,6 +48,15 @@ export async function getServerSideProps(context) {
         },
       })
       carts = res_cart.data.cart;
+
+      const res_notifications = await axios({
+        method: `get`,
+        url: `${API}/orders/notification`,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      notifications = res_notifications.data.notif;
     
     } catch (error) {
       console.log(error);
@@ -56,12 +66,13 @@ export async function getServerSideProps(context) {
       props: {
         user,
         product,
-        carts
+        carts,
+        notifications
       },
     };
 }
 
-function SearchPage({user, product, carts}){
+function SearchPage({user, product, carts, notifications}){
   
     const screen = useResize();
     // console.log(user);
@@ -87,7 +98,7 @@ function SearchPage({user, product, carts}){
           </Head>
           {/* {product == "" ? (<h1>Produk Null</h1>) : (<h1>Produk Ada</h1>)} */}
         {screen.md ? (
-        <MainLayout user={user} cartLength={cartLength}>
+        <MainLayout user={user} cartLength={cartLength} notifications={notifications}>
           <div className="row">
             {product != "" ? (
             <div className="col-10 offset-1">
@@ -129,7 +140,7 @@ function SearchPage({user, product, carts}){
           </div>
         </MainLayout>
         ) : (
-        <MobileLayout user={user} cartLength={cartLength}>
+        <MobileLayout user={user} cartLength={cartLength} notifications={notifications}>
           {product != "" ? (
           <div className="row d-flex px-3">
               {product.map((data) => (

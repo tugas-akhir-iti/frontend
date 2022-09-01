@@ -23,6 +23,7 @@ export async function getServerSideProps(context) {
   let token = GetToken(allcookie);
   let products = [];
   let carts = [];
+  let notifications = [];
 
   const res_user_seller = await axios.get(API+"/users/"+id)
     user_seller = res_user_seller.data.data;
@@ -49,17 +50,16 @@ export async function getServerSideProps(context) {
       },
     })
     carts = res_cart.data.cart;
-    
-    
 
-    // const res_notifications = await axios({
-    //   method: `get`,
-    //   url: `${API}/users/notifications`,
-    //   headers: {
-    //     Authorization: `Bearer ${token}`,
-    //   },
-    // });
-    // notifications = res_notifications.data.data;
+    const res_notifications = await axios({
+      method: `get`,
+      url: `${API}/orders/notification`,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    notifications = res_notifications.data.notif;
+    
   } catch (error) {
     console.log(error.response);
   }
@@ -69,7 +69,8 @@ export async function getServerSideProps(context) {
       user,
       products,
       user_seller,
-      carts
+      carts,
+      notifications,
     },
   };
 }
@@ -78,7 +79,8 @@ export default function Home({
   user,
   products,
   user_seller,
-  carts
+  carts,
+  notifications
 }){
 
   console.log("Seller", user_seller);
@@ -112,7 +114,7 @@ export default function Home({
       </Head>
 
       {screen.md ? (
-        <MainLayout user={user} cartLength={cartLength}>
+        <MainLayout user={user} cartLength={cartLength} notifications={notifications}>
         <div className="row">
             <div className="col-10 offset-1">
                     <div
@@ -164,7 +166,7 @@ export default function Home({
         </div>
         </MainLayout>
       ) : (
-        <MobileLayout user={user} cartLength={cartLength}>
+        <MobileLayout user={user} cartLength={cartLength} notifications={notifications}>
         <div className="row">
             <div className="col-10 offset-1">
               <div

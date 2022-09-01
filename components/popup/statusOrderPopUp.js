@@ -20,8 +20,8 @@ export default function AddStatusOrderPopUp({
   const router = useRouter();
   const [orderStatusId, setOrderStatusId] = useState(null);
 
-  const notify = () =>
-  toast.success("Sukses Ubah Status Order", {
+  const notify = (title) =>
+  toast.success(title, {
     position: "top-center",
     autoClose: 2500,
     hideProgressBar: false,
@@ -50,7 +50,7 @@ export default function AddStatusOrderPopUp({
           },
         });
 
-        notify()
+        notify("Sukses Ubah Status Order")
         setTimeout(() => {
           router.reload()
         }, 2500);
@@ -59,7 +59,7 @@ export default function AddStatusOrderPopUp({
         console.log(error.response);
       }
     } else {
-      alert("Pilih Order Status Terlebih Dahulu");
+      notify("Pilih status order terlebih dahulu")
     }
   };
 

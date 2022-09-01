@@ -9,6 +9,7 @@ import useResize from "../../hooks/useResize";
 import GridSeller from "../../components/sellerViewOption/gridSeller";
 import { useRouter } from "next/router";
 import TransactionDekstopLayout from "../../layout/transactionDekstopLayout";
+import TransactionMobileLayout from "../../layout/transactionMobileLayout";
 import AddStatusOrderPopUp from "../../components/popup/statusOrderPopUp";
 import AddDeliveryPricePopUp from "../../components/popup/addDeliveryPrice";
 
@@ -18,6 +19,7 @@ export async function getServerSideProps({ req, res }) {
   let allcookie = req.headers.cookie || "   ";
   let cookielist = allcookie.split("; ");
   let token = "";
+  let notifications = []
   cookielist.forEach((element) => {
     if (element.startsWith("token=")) {
       token = element.substring(6, element.length);
@@ -54,6 +56,15 @@ export async function getServerSideProps({ req, res }) {
     });
     products = res_products.data.data;
 
+    const res_notifications = await axios({
+      method: `get`,
+      url: `${API}/orders/notification`,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    notifications = res_notifications.data.notif;
+
     // const res_order = await axios({
     //   method: `get`,
     //   url: `${API}/orders/seller`,
@@ -80,8 +91,8 @@ export async function getServerSideProps({ req, res }) {
       user,
       products,
       orders,
-      token
-      // notifications,
+      token,
+      notifications,
     },
   };
 }
@@ -90,7 +101,8 @@ export default function DaftarJual({
   user,
   products,
   orders,
-  token
+  token,
+  notifications,
 }) {
   const category = [
     ["box", "Semua Produk", () => setCategoryState(1), 1],
@@ -109,8 +121,8 @@ export default function DaftarJual({
 
   const handleChangeOrderId = async(e) => {
     const val = e.target.value;
+    console.log(val);
     const splitVal = val.split(",")
-    // console.log(splitVal[1])
     setChooseOrderId(splitVal[0]);
     setChoosePasarId(splitVal[1]);
     handleStatusOrder()
@@ -137,7 +149,7 @@ export default function DaftarJual({
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <MainLayout user={user} /*notifications={notifications}*/>
+      <MainLayout user={user} notifications={notifications}>
         <div className="max-width p-2 d-flex flex-column gap-2">
           <h2 className="mb-">Daftar Jual Saya</h2>
           {user && (
@@ -221,11 +233,21 @@ export default function DaftarJual({
             >
               {categoryState == 1 ? (
                 <GridSeller products={products} user={user} />
-              ) : (
+              ) : categoryState == 2 &&
+                screen.sm == true ?
+              (
+                <TransactionMobileLayout 
+                orders={orders} 
+                user={user} 
+                setCategoryState={()=>setCategoryState(2)}
+                handleChangeOrderId={handleChangeOrderId}
+                handleChangeDeliveryPrice={handleChangeOrderIdDelivery}
+                />
+              ) : 
+              (
                 <TransactionDekstopLayout 
                 orders={orders} 
                 user={user} 
-                // handleStatusOrder={handleStatusOrder}
                 setCategoryState={()=>setCategoryState(2)}
                 handleChangeOrderId={handleChangeOrderId}
                 handleChangeDeliveryPrice={handleChangeOrderIdDelivery}
@@ -247,7 +269,6 @@ export default function DaftarJual({
             token={token}
             onClick={handleDeliveryPrice}
             idOrder={chooseOrderIdDelivery}
-            // pasarId={choosePasarId}
           />
         )}
       </MainLayout>

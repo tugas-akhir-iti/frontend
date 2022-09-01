@@ -65,3 +65,7 @@ li {
   border-radius: 50%;
   display: inline-block;
 }
+
+.font-mobile {
+  font-size: 0.9rem;
+}

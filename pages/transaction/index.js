@@ -71,7 +71,6 @@ export async function getServerSideProps(context) {
 
 function Transaction({token, user, orders, carts, notifications}){
   const router = useRouter();
-  const [orderId, setOrderId] = useState(null)
   const screen = useResize()
 
   // cart length
@@ -80,17 +79,14 @@ function Transaction({token, user, orders, carts, notifications}){
     cartLength+=data.product_cart.length
   })
 
-  const getOrderId = (id) => {
-    setOrderId(id);
-  };
-
-  console.log(orderId)
+  
+  // console.log(orderId)
+  
 
   const handleCancle = async(e) => {
     // console.log(e.target.value)
     const val = e.target.value;
     const splitVal = val.split(",")
-    console.log(splitVal[0])
 
     const id = null
     id = splitVal[0]
@@ -117,27 +113,27 @@ function Transaction({token, user, orders, carts, notifications}){
 
   const handleUploadTransaction = async(e) => {
     console.log(e.target.files[0])
+    console.log(e.target.id)
+
+    const ordTransferImage = e.target.files[0]
+    const orderId = e.target.id
     
-    // const ordTransferImage = e.target.files[0];
-    // console.log(ordTransferImage);
-    // // const orderId = e.target.value
-    // console.log(`Id : ${orderId}`)
-    // try {
-    //   await axios({
-    //     method: "put",
-    //     url: `${API}/orders/order-transfer/${orderId}`,
-    //     data: {
-    //       "order_transfer_image": ord_transfer_image,
-    //     },
-    //     headers: {
-    //       Authorization: `Bearer ${token}`,
-    //       "Content-Type": `multipart/form-data`,
-    //     },
-    //   });
-    //   router.reload();
-    // } catch (error) {
-    //   console.log(error.response);
-    // }
+    try {
+      await axios({
+        method: "put",
+        url: `${API}/orders/order-transfer/${orderId}`,
+        data: {
+          "order_transfer_image": ordTransferImage,
+        },
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": `multipart/form-data`,
+        },
+      });
+      router.reload();
+    } catch (error) {
+      console.log(error.response);
+    }
   }
 
     return(
@@ -156,27 +152,59 @@ function Transaction({token, user, orders, carts, notifications}){
 
             {screen.md ? (
                <MainLayout user={user} cartLength={cartLength} notifications={notifications}>
+              {orders != "" ? (
                <div className="col-8 offset-2 mt-3 d-flex flex-column justify-content-center">
                  <h4 className="ms-2 mb-4">Daftar Transaksi</h4>
                    <TransactionDekstopLayout 
                    orders={orders} 
                    handleUploadTransaction={handleUploadTransaction}
-                   getOrderId={getOrderId}
                    handleCancle={handleCancle}
                    user={user}
                    />
                </div> 
+              ) : (
+              <div className="text-center d-flex flex-column justify-items-center py-5 ">
+                <img
+                  className="mx-auto"
+                  src="list-not-found.png"
+                  alt="No Item Available"
+                  style={{ width: "20%" }}
+                />
+                <p className="m-0 pt-5" style={{color:"gray"}}>
+                  Pesanan mu masih kosong,
+                </p>
+                <p className="m-0" style={{color:"gray"}}>
+                  ayo tambahkan sekarang.
+                </p>
+              </div>
+              )}
                </MainLayout>
             ):(
               <MobileLayout user={user} cartLength={cartLength} notifications={notifications}>
+              {orders != "" ? (
               <TransactionMobileLayout 
                 orders={orders} 
                 handleUploadTransaction={handleUploadTransaction} 
-                getOrderId={getOrderId}
                 handleCancle={handleCancle}
                 user={user}
                 />
-              </MobileLayout>
+              ):(
+              <div className="text-center d-flex flex-column justify-items-center py-5 ">
+                <img
+                  className="mx-auto"
+                  src="list-not-found.png"
+                  alt="No Item Available"
+                  style={{ width: "50%" }}
+                />
+                <p className="m-0 pt-5" style={{color:"gray"}}>
+                  Keranjang mu masih kosong,
+                </p>
+                <p className="m-0" style={{color:"gray"}}>
+                  ayo tambahkan barang.
+                </p>
+              </div>
+              )}
+            </MobileLayout>
             )}
            
             

@@ -2,6 +2,7 @@ import React, {useState} from "react";
 import { GetToken } from "../../utils/getToken";
 import axios from "axios";
 import MobileLayout from "../../layout/mobileLayout";
+import MainLayout from "../../layout/mainLayout";
 import Link from "next/link";
 import moment from "moment";
 import Head from "next/head";
@@ -78,6 +79,60 @@ function Notifications({carts, notifications, user, token}) {
             <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
         </Head>
 
+        {user.role_id == 1 ? (
+        <MainLayout user={user} cartLength={cartLength} notifications={notifications}>
+        <h5 className="ms-4 mt-2">Notifications</h5>
+        {notifications.map((notification, index) => (
+        <div className="px-2 py-1">
+            {notification.mark_as_read == false ? (
+                <div className="d-flex gap-2 p-2" key={index} style={{backgroundColor:"#f1d7fc"}} >
+                    <Link href={`${notification.notification_link}`}>
+                        <a  className="text-decoration-none" style={{color: "black"}}>
+                        <div style={{width:"100%"}}>
+                            <div className="d-flex" style={{ fontSize: "0.8rem", color: "black", fontWeight: "700" }}>
+                                <i className="bi bi-cart-check"></i>
+                                <div className="ms-2">Order Produk</div>
+                                <p className="ms-auto">
+                                    {moment(notification.createdAt).format("DD MMM, hh.mm")}
+                                </p>    
+                            </div>
+                            <div>
+                                <h6 className="m-0">{notification.notification_title}</h6>
+                                <p className="m-0 mt-1">{notification.notification_desc}</p>
+                                <hr className="m-0 mt-3"/>
+                            </div>
+                        </div>
+                        </a>
+                    </Link>
+                </div>
+            ):(
+                <div className="d-flex  gap-2 me-2 p-2" key={index}>
+                    <Link href={`${notification.notification_link}`}>
+                        <a  className="text-decoration-none" style={{color: "black"}}>
+                            <div style={{width:"100%"}}>
+                                <div className="d-flex" style={{ fontSize: "0.8rem", color: "black", fontWeight: "700" }}>
+                                    <i class="bi bi-cart-check"></i>
+                                    <div className="ms-2">Order Produk</div>
+                                        <p className="ms-auto">
+                                        {moment(notification.createdAt).format(
+                                            "DD MMM, hh.mm"
+                                        )}
+                                        </p>
+                                    </div>
+                                <div>
+                                    <h6 className="m-0">{notification.notification_title}</h6>
+                                    <p className="m-0 mt-1">{notification.notification_desc}</p>
+                                    <hr className="m-0 mt-3"/>
+                                </div>
+                            </div>
+                        </a>
+                    </Link>
+                </div>
+            )}
+        </div>
+        ))}
+        </MainLayout>
+        ) : (
         <MobileLayout user={user} cartLength={cartLength} notifications={notifications}>
         <h5 className="ms-4 mt-2">Notifications</h5>
         {notifications.map((notification, index) => (
@@ -130,6 +185,7 @@ function Notifications({carts, notifications, user, token}) {
         </div>
         ))}
         </MobileLayout>
+        )}
     </>
     );
 }

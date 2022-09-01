@@ -202,7 +202,7 @@ function Cart({token, user, carts, notifications}){
               ))}
               <hr 
                   style={{
-                  height:"4px",
+                  height:"2px",
                   borderWidth:"0",
                   color:"gray",
                   backgroundColor:"gray",
@@ -242,22 +242,56 @@ function Cart({token, user, carts, notifications}){
       </Head>
       {screen.md ? (
         <MainLayout user={user} cartLength={cartLength} notifications={notifications}>
-          <div className="max-width container-fluid p-0">
-            <CartLayoutDekstop
-              pageTitle={"Keranjang"}
-              information={information}
-              product={product}
-            />
-          </div>
+          {carts != "" ? (
+            <div className="max-width container-fluid p-0">
+              <CartLayoutDekstop
+                pageTitle={"Keranjang"}
+                information={information}
+                product={product}
+              />
+            </div>
+          ):(
+            <div className="text-center d-flex flex-column justify-items-center py-5 ">
+              <img
+                className="mx-auto"
+                src="list-not-found.png"
+                alt="No Item Available"
+                style={{ width: "20%" }}
+              />
+              <p className="m-0 pt-5" style={{color:"gray"}}>
+                Keranjang mu masih kosong,
+              </p>
+              <p className="m-0" style={{color:"gray"}}>
+                ayo tambahkan barang.
+              </p>
+            </div>
+          )}
         </MainLayout>
       ) : (
         <MobileLayout user={user} cartLength={cartLength} notifications={notifications}>
-          <CartLayoutMobile
-            pageTitle={"Keranjang"}
-            information={information}
-            product={product}
-            button={button}
-          />
+          {carts != "" ? (
+            <CartLayoutMobile
+              pageTitle={"Keranjang"}
+              information={information}
+              product={product}
+              button={button}
+            />
+          ) : (
+            <div className="text-center d-flex flex-column justify-items-center py-5 ">
+              <img
+                className="mx-auto"
+                src="list-not-found.png"
+                alt="No Item Available"
+                style={{ width: "50%" }}
+              />
+              <p className="m-0 pt-5" style={{color:"gray"}}>
+                Keranjang mu masih kosong,
+              </p>
+              <p className="m-0" style={{color:"gray"}}>
+                ayo tambahkan barang.
+              </p>
+            </div>
+          )}
         </MobileLayout>
       )}
 

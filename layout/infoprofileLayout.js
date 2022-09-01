@@ -23,6 +23,7 @@ function InfoProfileLayout({ user, token, bank }) {
     user_phone: user.user_phone,
     bank_id: user.bank_id,
     user_rekening: user.user_rekening,
+    user_rekening_name: user.user_rekening_name,
     user_image: user.user_image,
   });
 
@@ -244,15 +245,6 @@ function InfoProfileLayout({ user, token, bank }) {
           <>
           <div className="col-12 mt-2">
             <label>Nama Bank*</label>
-            {/* <InputBox
-              type="number"
-              name="user_phone"
-              className="form-control mt-2"
-              placeholder="Contoh: +6283180217394"
-              value={userData.bank_id}
-              onChange={(e) => handleChange(e)}
-            /> */}
-
             <select name="bank_id"
               className="form-select mt-2"
               aria-label="Default select example"
@@ -279,6 +271,18 @@ function InfoProfileLayout({ user, token, bank }) {
               className="form-control mt-2"
               placeholder="Contoh: 7310252527"
               value={userData.user_rekening}
+              onChange={(e) => handleChange(e)}
+            />
+          </div>
+
+          <div className="col-12 mt-2">
+            <label>Nama Rekening*</label>
+            <InputBox
+              type="text"
+              name="user_rekening_name"
+              className="form-control mt-2"
+              placeholder="Contoh: Jaenulatif Pudin"
+              value={userData.user_rekening_name}
               onChange={(e) => handleChange(e)}
             />
           </div>
