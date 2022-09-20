@@ -1,13 +1,12 @@
 Rumah Tani App
 
 ## Author
-Name : Jaenulatif Pudin
-NRP  : 1151800036
+Jaenulatif Pudin
 
 ## Getting Started
 
 Before run, install package:
-``bash
+```bash
 yarn install
 ```
 
@@ -17,4 +16,4 @@ yarn dev
 ```
 
 ## Learn More
-Aplikasi ini dibuat untuk memperoleh gelar sarjana
+Aplikasi ini dibuat untuk memperoleh gelar sarjana komputer
