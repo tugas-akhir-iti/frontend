@@ -8,7 +8,7 @@ import Link from "next/link";
 function CategoryLayoutMobile({
   user,
   products,
-  products_sayur,
+  products_sayur, 
   products_buah,
   products_rempah,
 }) {

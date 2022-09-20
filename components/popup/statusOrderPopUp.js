@@ -35,7 +35,7 @@ export default function AddStatusOrderPopUp({
     e.preventDefault();
 
     if (orderStatusId != null) {
-        console.log(orderStatusId);
+        // console.log(orderStatusId);
       try {
         await axios({
           method: "put",

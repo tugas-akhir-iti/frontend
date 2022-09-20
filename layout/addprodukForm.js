@@ -135,7 +135,7 @@ function AddProdukLayout({ user, token, categories}) {
               className="form-control mt-2"
               name="product_description"
               rows="2"
-              placeholder="Contoh: Jalan Ikan Hiu 33"
+              placeholder="Produk sehat dan bergizi"
               style={{
                 padding: "12px 16px",
                 border: "1px solid #D0D0D0",

@@ -11,7 +11,7 @@ function ProdukDesktopLayout(props) {
         {props.questionBuyer}
       </div>
       <div className="col-5">
-        <div className="d-flex flex-column gap-4" style={{top:"70px"}}>
+        <div className="d-flex flex-column gap-4 sticky-top" style={{top:"70px"}}>
           {props.information}
           {props.owner}
         </div>

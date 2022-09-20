@@ -54,7 +54,7 @@ function TransactionMobileLayout(props) {
                     && orders[key].order_status == "Diproses" 
                     && user.role_id == 2 ? (
                         <div className="ms-2">
-                            <ButtonStatus text="Batalkan" bgColor="#CF000C" value={`${orders[key].id},${orders[key].petani_id}`} onClick={props.handleCancle}/>
+                            <ButtonStatus text="Batalkan" bgColor="#CF000C" fontSize="0.7rem" value={`${orders[key].id},${orders[key].petani_id}`} onClick={props.handleCancle}/>
                         </div>
                     ) : orders[key].order_status == "Dikirim" 
                     && user.role_id == 2 ? (
